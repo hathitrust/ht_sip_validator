@@ -15,7 +15,7 @@ module HathiTrust
         line.strip.match(/^([a-fA-F0-9]{32})(\s+\*?)(\S.*)/) do |m|
           (checksum, _, filename) = m.captures
           # Handle windows-style paths
-          filename.gsub!('\\','/')
+          filename.tr!('\\', '/')
           @checksums[File.basename(filename).downcase] = checksum
         end
       end

@@ -1,5 +1,9 @@
 require 'spec_helper'
 require 'ht_sip_validator/htsip'
+require 'pry'
+
+SAMPLE_FILES = %w(00000001.tif 00000001.txt 00000002.jp2
+                  00000002.txt checksum.md5 meta.yml ).freeze
 
 # specs for HathiTrust submission package
 module HathiTrust
@@ -12,10 +16,7 @@ module HathiTrust
 
     describe '#files' do
       it 'returns a list of files inside the zip' do
-        expect(sample_sip.files.sort).to eq(
-          %w(00000001.tif 00000001.txt 00000002.jp2
-             00000002.txt checksum.md5 meta.yml )
-        )
+        expect(sample_sip.files.sort).to eq(SAMPLE_FILES)
       end
     end
 
@@ -39,6 +40,23 @@ module HathiTrust
     describe '#checksums' do
       it 'returns a hash of filenames to checksums' do
         expect(sample_sip.checksums).to be_a Checksums
+      end
+    end
+
+    describe '#extract' do
+      it 'extracts the files to a temp directory' do
+        sample_sip.extract do |dir|
+          SAMPLE_FILES.each do |file_name|
+            expect(File.exist?(File.join(dir, file_name))).to be_truthy
+          end
+        end
+      end
+
+      it 'cleans up the directory after extraction' do
+        dir_saved = nil
+        sample_sip.extract { |dir| dir_saved = dir }
+        expect(dir_saved).not_to be_empty
+        expect(File.exist?(dir_saved)).to be_falsey
       end
     end
 
