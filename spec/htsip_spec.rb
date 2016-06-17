@@ -41,10 +41,9 @@ module HathiTrust
         expect(sample_sip.checksums).to be_a Checksums
       end
     end
-    
+
     def sample_sip(zip = 'default.zip')
       SubmissionPackage.new(sample_zip(zip))
     end
   end
-
 end

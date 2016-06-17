@@ -93,7 +93,6 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 
-
 def sample_zip(zip = 'default.zip')
   File.dirname(__FILE__) + "/fixtures/#{zip}"
 end
