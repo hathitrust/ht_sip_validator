@@ -1,13 +1,18 @@
 require 'zip'
 require 'yaml'
+require 'ht_sip_validator/checksums'
 
 module HathiTrust
-  # A HathiTrust simple SIP file, packaged as z ip
+  # A HathiTrust simple SIP file, packaged as zip
   class SubmissionPackage
+    # Initialize a SubmissionPackage given an existing file
+    #
+    # @param [String] zip_file_name The path to the SIP package
     def initialize(zip_file_name)
       @zip_file_name = zip_file_name
     end
 
+    # @return [Array] a list of file names in the SIP
     def files
       open_zip do |zip_file|
         zip_file.select { |e| !e.name_is_directory? }
@@ -16,24 +21,18 @@ module HathiTrust
       end
     end
 
+    # @return [Hash] the parsed meta.yml from the SIP
     def meta_yml
       open_zip do |zip_file|
         YAML.load(zip_file.glob('**/meta.yml').first.get_input_stream.read)
       end
     end
 
+    # @return [Checksums] the checksums from checksum.md5 in the SIP
     def checksums
-      checksums = {}
       open_zip do |zip_file|
-        zip_file.glob('**/checksum.md5').first.get_input_stream
-                .each_line do |line|
-          line.match(/^([a-fA-F0-9]{32})(\s+\*?)(\S.*)/) do |m|
-            (checksum, _, file) = m.captures
-            checksums[file] = checksum
-          end
-        end
+        Checksums.new(zip_file.glob('**/checksum.md5').first.get_input_stream)
       end
-      checksums
     end
 
     private

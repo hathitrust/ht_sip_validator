@@ -92,3 +92,8 @@ RSpec.configure do |config|
   #   # value as the one that triggered the failure.
   #   Kernel.srand config.seed
 end
+
+
+def sample_zip(zip = 'default.zip')
+  File.dirname(__FILE__) + "/fixtures/#{zip}"
+end

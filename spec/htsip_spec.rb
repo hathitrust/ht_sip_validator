@@ -38,18 +38,13 @@ module HathiTrust
 
     describe '#checksums' do
       it 'returns a hash of filenames to checksums' do
-        expect(sample_sip.checksums).to eq(
-          '00000001.tif' => '93497fe31dba53314b47dc370bad9fc2',
-          '00000001.txt' => '3c604c2f0e7634200784d1cfbb45c65d',
-          '00000002.jp2' => 'bf5eac4b5bcd248b4d2ad7ad605527f1',
-          '00000002.txt' => 'b5ef42830dea2c1867fb635dd32fcade',
-          'meta.yml'     => '22e72420434af1b511c629ef42889298'
-        )
+        expect(sample_sip.checksums).to be_a Checksums
       end
     end
-
+    
     def sample_sip(zip = 'default.zip')
-      SubmissionPackage.new(File.dirname(__FILE__) + "/fixtures/#{zip}")
+      SubmissionPackage.new(sample_zip(zip))
     end
   end
+
 end
