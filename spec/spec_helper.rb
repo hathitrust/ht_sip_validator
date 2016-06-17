@@ -94,5 +94,9 @@ RSpec.configure do |config|
 end
 
 def sample_zip(zip = 'default.zip')
-  File.dirname(__FILE__) + "/fixtures/#{zip}"
+  File.dirname(__FILE__) + "/fixtures/sips/#{zip}"
+end
+
+def config_path
+  File.dirname(__FILE__) + "/fixtures/config"
 end

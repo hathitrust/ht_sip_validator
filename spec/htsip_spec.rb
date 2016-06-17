@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'ht_sip_validator/htsip'
-require 'pry'
 
 SAMPLE_FILES = %w(00000001.tif 00000001.txt 00000002.jp2
                   00000002.txt checksum.md5 meta.yml ).freeze
