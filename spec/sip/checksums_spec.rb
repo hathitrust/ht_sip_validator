@@ -10,10 +10,6 @@ module HathiTrust
       let(:bar_result) { {"bar" => bar_md5} }
       let(:foobar_result) { foo_result.merge(bar_result) }
 
-      let(:zip) {
-
-      }
-
       describe "#initialize" do
         let(:sample) { "#{foo_md5} foo\n#{bar_md5} bar\n"}
         let(:commented_sample) { "# this is a comment\n#{sample}" }
