@@ -98,5 +98,5 @@ def sample_zip(zip = 'default.zip')
 end
 
 def config_path
-  File.dirname(__FILE__) + "/fixtures/config"
+  File.dirname(__FILE__) + '/fixtures/config'
 end
