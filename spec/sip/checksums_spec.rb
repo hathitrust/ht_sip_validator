@@ -42,7 +42,7 @@ module HathiTrust
           expect(described_class.new(uppercase_sample).checksums).to eql(foo_result)
         end
         it "accepts an input stream from a zip file" do
-          expect(described_class.new(zip_stream).checksums).to eql(zip_result)
+          expect(described_class.new(zip_stream).checksums).to eql(zip_checksums)
         end
       end
 

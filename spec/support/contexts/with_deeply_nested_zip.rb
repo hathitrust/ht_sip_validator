@@ -1,7 +1,7 @@
 require "spec_helper"
 
-shared_context "with default zip" do
-  let(:zip_file) { File.join fixtures_path, "sips", "default.zip" }
+shared_context "with deeply_nested zip" do
+  let(:zip_file) { File.join fixtures_path, "sips", "deeply_nested.zip" }
   let(:zip_checksums) {
     {
       "00000001.tif" => "93497fe31dba53314b47dc370bad9fc2",
