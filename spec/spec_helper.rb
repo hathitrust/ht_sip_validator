@@ -94,7 +94,7 @@ RSpec.configure do |config|
 end
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each {|f| require f}
-
+require 'ht_sip_validator'
 
 def fixtures_path
   File.join File.dirname(__FILE__), "fixtures"
