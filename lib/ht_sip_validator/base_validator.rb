@@ -7,10 +7,23 @@ module HathiTrust
       @sip = sip
       @errors = []
       @warnings = []
+      @has_run = false
     end
 
     def valid?
-      true
+      return_value = validate
+      @has_run = true
+      return_value
+    end
+
+    def errors
+      raise "Can't get errors before validator has run" unless @has_run
+      @errors
+    end
+
+    def warnings
+      raise "Can't get warnings before validator has run" unless @has_run
+      @warnings
     end
 
     private
@@ -22,6 +35,10 @@ module HathiTrust
 
     def record_warning_message(message)
       @warnings.push(message)
+      true
+    end
+
+    def validate
       true
     end
   end
