@@ -93,6 +93,13 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each {|f| require f}
+
+
+def fixtures_path
+  File.join File.dirname(__FILE__), "fixtures"
+end
+
 def sample_zip(zip = 'default.zip')
   File.dirname(__FILE__) + "/fixtures/sips/#{zip}"
 end

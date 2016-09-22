@@ -2,77 +2,62 @@ require 'spec_helper'
 require 'zip'
 require 'ht_sip_validator/checksums'
 
-FOO_CHECKSUM = '66d3b6e55fd94f1752bc8654335d8ff4'.freeze
-BAR_CHECKSUM = 'c2223b5c324e395fd9f9bb249934ac87'.freeze
-
-# specs for checksums
 module HathiTrust
   describe Checksums do
-    describe '#initialize' do
-      it 'accepts a string' do
-        sample = <<eot
-#{FOO_CHECKSUM}  foo
-#{BAR_CHECKSUM}  bar
-eot
-        expect(Checksums.new(sample).checksums).to eq('foo' => FOO_CHECKSUM,
-                                                      'bar' => BAR_CHECKSUM)
-      end
+    let(:foo_md5) { "66d3b6e55fd94f1752bc8654335d8ff4" }
+    let(:bar_md5) { "c2223b5c324e395fd9f9bb249934ac87" }
+    let(:foo_result) { {"foo" => foo_md5} }
+    let(:bar_result) { {"bar" => bar_md5} }
+    let(:foobar_result) { foo_result.merge(bar_result) }
 
-      it 'accepts an input stream from a zip file' do
-        Zip::File.new(sample_zip) do |zip_file|
-          zip_file.glob('**/checksum.md5').first
-                  .get_input_stream do |file_stream|
-            expect(Checksums.new(file_stream).checksums).to
-            eq('00000001.tif' => '93497fe31dba53314b47dc370bad9fc2',
-               '00000001.txt' => '3c604c2f0e7634200784d1cfbb45c65d',
-               '00000002.jp2' => 'bf5eac4b5bcd248b4d2ad7ad605527f1',
-               '00000002.txt' => 'b5ef42830dea2c1867fb635dd32fcade',
-               'meta.yml'     => '22e72420434af1b511c629ef42889298')
-          end
-        end
-      end
+    let(:zip) {
 
-      it 'ignores comments' do
-        sample = <<eot
-# this is a comment
-#{FOO_CHECKSUM}  foo
-eot
-        expect_foo_from_sample(sample)
-      end
+    }
 
-      it 'ignores trailing whitespace' do
-        sample = "#{FOO_CHECKSUM}  foo "
-        expect_foo_from_sample(sample)
-      end
+    describe "#initialize" do
+      let(:sample) { "#{foo_md5} foo\n#{bar_md5} bar\n"}
+      let(:commented_sample) { "# this is a comment\n#{sample}" }
+      let(:trailing_whitespace_sample) { "#{foo_md5} foo  " }
+      let(:path_sample) { "#{foo_md5} /home/foo/bar/some/long/path/foo" }
+      let(:windows_sample) { foo_md5 + ' *C:\Users\My Name\with\spaces \path\foo' }
+      let(:uppercase_sample) { "#{foo_md5} Foo" }
 
-      it 'strips paths' do
-        sample = "#{FOO_CHECKSUM}  /home/foo/bar/some/long/path/foo"
-        expect_foo_from_sample(sample)
-      end
+      include_context "with default zip"
+      let(:zip_stream) {
+        Zip::File.new(zip_file).glob("**/checksum.md5").first.get_input_stream
+      }
 
-      it 'handles windows-style checksums' do
-        sample = FOO_CHECKSUM + ' *C:\Users\My Name\with\spaces \path\foo'
-        expect_foo_from_sample(sample)
+      it "accepts a string" do
+        expect(described_class.new(sample).checksums).to eql(foobar_result)
       end
-
-      it 'lower-cases file names' do
-        sample = FOO_CHECKSUM + '  Foo'
-        expect_foo_from_sample(sample)
+      it "ignores comments" do
+        expect(described_class.new(commented_sample).checksums).to eql(foobar_result)
       end
-
-      def expect_foo_from_sample(sample)
-        expect(Checksums.new(sample).checksums).to eq('foo' => FOO_CHECKSUM)
+      it "ignores trailing whitespace" do
+        expect(described_class.new(trailing_whitespace_sample).checksums).to eql(foo_result)
+      end
+      it "strips paths" do
+        expect(described_class.new(path_sample).checksums).to eql(foo_result)
+      end
+      it "handles windows-style checksums" do
+        expect(described_class.new(windows_sample).checksums).to eql(foo_result)
+      end
+      it "lower-cases file names" do
+        expect(described_class.new(uppercase_sample).checksums).to eql(foo_result)
+      end
+      it "accepts an input stream from a zip file" do
+        expect(described_class.new(zip_stream).checksums).to eql(zip_result)
       end
     end
 
-    describe '#checksum_for' do
-      it 'returns the checksum for a given file' do
-        sample = <<eot
-#{FOO_CHECKSUM}  foo
-#{BAR_CHECKSUM}  bar
-eot
-        expect(Checksums.new(sample).checksum_for('foo')).to eq(FOO_CHECKSUM)
+    describe "#checksum_for" do
+      let(:sample) { "#{foo_md5} foo\n#{bar_md5} bar\n"}
+      let(:subject) { described_class.new(sample) }
+      it "returns the checksum for a given file" do
+        expect(subject.checksum_for('foo')).to eql(foo_md5)
       end
     end
+
   end
 end
+
