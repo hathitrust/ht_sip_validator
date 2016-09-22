@@ -1,10 +1,10 @@
 module HathiTrust
-  class BaseValidation
+  class BaseValidator
     def initialize(sip)
       @sip = sip
     end
 
-    def run
+    def valid?
       true
     end
 

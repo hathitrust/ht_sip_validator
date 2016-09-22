@@ -1,4 +1,4 @@
-require 'ht_sip_validator/validations'
+require 'ht_sip_validator/base_validator'
 
 module HathiTrust
   class SIPValidator
@@ -23,7 +23,7 @@ module HathiTrust
       @config['package_checks'].each do |validation_name| 
         validation = HathiTrust.const_get(validation_name).new(sip)
         print "Running #{validation_name}: "
-        if validation.run
+        if validation.valid?
           puts "PASSED"
         else
           puts "FAILED"
