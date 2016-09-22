@@ -1,4 +1,5 @@
 module HathiTrust
+  # Base class with utility methods for all validators.
   class BaseValidator
     attr_accessor :errors
     attr_accessor :warnings
@@ -27,7 +28,7 @@ module HathiTrust
     end
 
     private
-      
+
     def record_and_return_error_message(message)
       @errors.push(message)
       false
