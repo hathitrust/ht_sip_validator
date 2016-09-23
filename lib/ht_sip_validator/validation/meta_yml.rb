@@ -20,6 +20,22 @@ module HathiTrust
           super
         end
       end
+
+      class WellFormed < Validation::Base
+        def validate
+          begin
+            @sip.meta_yml
+          rescue RuntimeError => e
+            record_message(level: :error, file: 'meta.yml',
+                           type: :bad_file,
+                           detail: "Couldn't parse meta.yml",
+                           root_cause: e.message)
+          end
+
+          super
+
+        end
+      end
     end
   end
 end
