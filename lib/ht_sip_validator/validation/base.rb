@@ -1,23 +1,22 @@
+require 'ht_sip_validator/validation/messages'
+
 module HathiTrust
   module Validation
-
     class Base
       def initialize(sip)
         @sip = sip
+        @messages = Validation::Messages.new
       end
 
-      def run
-        true
+      def validate
+        @messages
       end
 
-      def errors
-        []
-      end
+      protected
 
-      def warnings
-        []
+      def record_message(message)
+        @messages.push(message)
       end
     end
-
   end
 end

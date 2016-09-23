@@ -1,8 +1,6 @@
 module HathiTrust
   module Validation
-
     class SIPValidator
-
       # Creates a new validator service using the specified configuration
       #
       # @param config [String] path to a YAML file with the validator configuration
@@ -23,21 +21,19 @@ module HathiTrust
         @config['package_checks'].each do |validation_name|
           validation = HathiTrust.const_get(validation_name).new(sip)
           print "Running #{validation_name}: "
-          if validation.run
-            puts "PASSED"
+
+          messages = validation.validate
+          if messages.any_errors?
+            puts 'FAILED'
           else
-            puts "FAILED"
+            puts 'PASSED'
           end
-          validation.warnings.each do |warning|
-            puts "  Warning: #{warning}"
-          end
-          validation.errors.each do |error|
-            puts "  Error: #{error}"
+
+          messages.each do |message|
+            puts "  #{message}"
           end
         end
       end
-
     end
-
   end
 end

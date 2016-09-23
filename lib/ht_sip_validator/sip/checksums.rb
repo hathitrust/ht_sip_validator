@@ -1,6 +1,5 @@
 module HathiTrust
   module SIP
-
     # Handles MD5 checksums in a checksum.md5 or similar format
     class Checksums
       # @return [Hash] all checksums in the given collection
@@ -27,6 +26,5 @@ module HathiTrust
         @checksums[filename]
       end
     end
-
   end
 end
