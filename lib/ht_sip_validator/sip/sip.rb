@@ -27,15 +27,15 @@ module HathiTrust
 
       # @return [Hash] the parsed meta.yml from the SIP
       def meta_yml
-        @meta_yml ||= open_zip do |zip_file|
-          YAML.load(zip_file.glob("**/#{META_FILE}").first.get_input_stream.read)
+        @meta_yml ||= file_in_zip(META_FILE) do |file|
+          YAML.load(file.read)
         end
       end
 
       # @return [Checksums] the checksums from checksum.md5 in the SIP
       def checksums
-        @checksums ||= open_zip do |zip_file|
-          Checksums.new(zip_file.glob("**/#{META_FILE}").first.get_input_stream)
+        @checksums ||= file_in_zip(CHECKSUM_FILE) do |file| 
+          Checksums.new(file)
         end
       end
 
@@ -58,6 +58,12 @@ module HathiTrust
       end
 
       private
+
+      def file_in_zip(file_name)
+        open_zip do |zip_file|
+          yield zip_file.glob("**/#{file_name}").first.get_input_stream
+        end
+      end
 
       def open_zip(&block)
         Zip::File.open(@zip_file_name, &block)
