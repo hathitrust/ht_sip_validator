@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'ht_sip_validator/validation/messages'
 
 module HathiTrust
   module Validation
@@ -7,6 +6,7 @@ module HathiTrust
       describe '#any_errors?' do
         it 'is true if there are errors' do
           msgs = described_class.new
+          msgs.push Message.new(validator: :x, validation: :y, level: Message::ERROR, human_message: "z")
           msgs.push(level: :error, detail: 'it is an error')
           expect(msgs.any_errors?).to be_truthy
         end
