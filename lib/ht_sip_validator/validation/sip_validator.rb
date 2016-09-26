@@ -1,5 +1,8 @@
+# frozen_string_literal: true
 module HathiTrust
   module Validation
+
+    # Service reponsible for validating a sip
     class SIPValidator
       # Creates a new validator service using the specified configuration
       #
@@ -18,15 +21,15 @@ module HathiTrust
       private
 
       def do_package_checks(sip)
-        @config['package_checks'].each do |validation_name|
+        @config["package_checks"].each do |validation_name|
           validation = HathiTrust.const_get(validation_name).new(sip)
           print "Running #{validation_name}: "
 
           messages = validation.validate
           if messages.any_errors?
-            puts 'FAILED'
+            puts "FAILED"
           else
-            puts 'PASSED'
+            puts "PASSED"
           end
 
           messages.each do |message|
@@ -35,5 +38,6 @@ module HathiTrust
         end
       end
     end
+
   end
 end

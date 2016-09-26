@@ -1,2 +1,3 @@
-require 'ht_sip_validator/sip'
-require 'ht_sip_validator/validation'
+# frozen_string_literal: true
+require "ht_sip_validator/sip"
+require "ht_sip_validator/validation"

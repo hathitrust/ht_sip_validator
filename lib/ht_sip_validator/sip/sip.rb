@@ -1,10 +1,11 @@
-require 'zip'
-require 'yaml'
+# frozen_string_literal: true
+require "zip"
+require "yaml"
 
 module HathiTrust
   module SIP
-    CHECKSUM_FILE = 'checksum.md5'.freeze
-    META_FILE = 'meta.yml'.freeze
+    CHECKSUM_FILE = "checksum.md5"
+    META_FILE = "meta.yml"
 
     # A HathiTrust simple SIP file, packaged as zip
     class SIP
@@ -18,9 +19,9 @@ module HathiTrust
       # @return [Array] a list of file names in the SIP
       def files
         @files ||= open_zip do |zip_file|
-          zip_file.select { |e| !e.name_is_directory? }
-                  .map(&:name)
-                  .map { |e| File.basename(e) }
+          zip_file.select {|e| !e.name_is_directory? }
+            .map(&:name)
+            .map {|e| File.basename(e) }
         end
       end
 

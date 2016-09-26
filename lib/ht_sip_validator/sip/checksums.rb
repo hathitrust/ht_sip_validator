@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module HathiTrust
   module SIP
     # Handles MD5 checksums in a checksum.md5 or similar format
@@ -16,7 +17,7 @@ module HathiTrust
           line.strip.match(/^([a-fA-F0-9]{32})(\s+\*?)(\S.*)/) do |m|
             (checksum, _, filename) = m.captures
             # Handle windows-style paths
-            filename.tr!('\\', '/')
+            filename.tr!('\\', "/")
             @checksums[File.basename(filename).downcase] = checksum
           end
         end
