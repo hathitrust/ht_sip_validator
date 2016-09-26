@@ -20,7 +20,7 @@ module HathiTrust
             before(:each) { allow(mocked_sip).to receive(:files).and_return([]) }
 
             it "returns an appropriate error" do
-              expect(validator.validate.details).to include(a_string_matching(/missing meta.yml/))
+              expect(validator.validate.human_messages).to include(a_string_matching(/missing meta.yml/))
             end
           end
         end
