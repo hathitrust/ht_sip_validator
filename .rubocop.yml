@@ -5,6 +5,13 @@ AllCops:
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
+Metrics/LineLength:
+  Max: 100
+  AllowHeredoc: true
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
 
 Style/AlignParameters:
   # Alignment of parameters in multi-line method calls.
@@ -49,7 +56,7 @@ Style/FileName:
   # with a name which matches the file name (converted to ... case).
   # It further expects it to be nested inside modules which match the names
   # of subdirectories in its path.
-  ExpectMatchingDefinition: true
+  ExpectMatchingDefinition: false
 
 Style/IfUnlessModifier:
   MaxLineLength: 100
