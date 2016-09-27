@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require "spec_helper"
-require "ht_sip_validator/validation/meta_yml"
 
 module HathiTrust
   module Validation
