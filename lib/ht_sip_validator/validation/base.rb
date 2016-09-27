@@ -7,17 +7,11 @@ module HathiTrust
     class Base
       def initialize(sip)
         @sip = sip
-        @messages = Validation::Messages.new
+        @messages = []
       end
 
       def validate
         @messages
-      end
-
-      protected
-
-      def record_message(message)
-        @messages.push(message)
       end
     end
 

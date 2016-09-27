@@ -108,3 +108,11 @@ end
 def config_path
   File.dirname(__FILE__) + "/fixtures/config"
 end
+
+def any_errors?(messages)
+  messages.any? { |message| message.error? }
+end
+
+def human_messages(messages)
+  messages.map { |message| message.human_message }
+end
