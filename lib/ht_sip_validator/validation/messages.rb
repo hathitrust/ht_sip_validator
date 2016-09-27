@@ -2,14 +2,13 @@
 module HathiTrust
   module Validation
 
-    # A collection of messages
     class Messages < Array
       def any_errors?
-        any? {|message| message[:level] == :error }
+        any? { |message| message.error? }
       end
 
-      def details
-        map {|message| message[:detail] }
+      def human_messages
+        map { |message| message.human_message }
       end
     end
 

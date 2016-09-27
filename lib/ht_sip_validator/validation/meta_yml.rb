@@ -8,9 +8,13 @@ module HathiTrust
       class Exists < Validation::Base
         def validate
           unless @sip.files.include?("meta.yml")
-            record_message(level: :error, file: "meta.yml",
-                           type: :file_missing,
-                           detail: "SIP is missing meta.yml")
+            @messages << Message.new(
+              validator: self.class,
+              validation: :exists,
+              level: Message::ERROR,
+              human_message: 'SIP is missing meta.yml',
+              extras: {filename: 'meta.yml'}
+            )
           end
 
           super

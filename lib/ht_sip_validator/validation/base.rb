@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/messages"
 
 module HathiTrust
   module Validation
