@@ -13,14 +13,14 @@ module HathiTrust
             before(:each) { allow(mocked_sip).to receive(:files).and_return(["meta.yml"]) }
 
             it "does not return errors" do
-              expect(validator.validate.any_errors?).to be_falsey
+              expect(any_errors?(validator.validate)).to be_falsey
             end
           end
           context "when meta.yml does not exist in the package" do
             before(:each) { allow(mocked_sip).to receive(:files).and_return([]) }
 
             it "returns an appropriate error" do
-              expect(validator.validate.human_messages).to include(a_string_matching(/missing meta.yml/))
+              expect(human_messages(validator.validate)).to include(a_string_matching(/missing meta.yml/))
             end
           end
         end

@@ -26,11 +26,6 @@ module HathiTrust
           print "Running #{validation_name}: "
 
           messages = validation.validate
-          if messages.any_errors?
-            puts "FAILED"
-          else
-            puts "PASSED"
-          end
 
           messages.each do |message|
             puts "  #{message}"
