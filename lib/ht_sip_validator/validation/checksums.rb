@@ -38,5 +38,6 @@ module HathiTrust
           super
         end
       end
+    end
   end
 end

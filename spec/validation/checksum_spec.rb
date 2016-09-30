@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 require "spec_helper"
-require_relative "../../lib/ht_sip_validator/sip/sip"
-require_relative "../../lib/ht_sip_validator/validation/checksums"
 
 describe HathiTrust::Validation::Checksums::Exists do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
