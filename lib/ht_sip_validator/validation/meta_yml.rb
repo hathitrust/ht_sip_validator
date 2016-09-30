@@ -4,7 +4,7 @@ require "ht_sip_validator/validation/base"
 module HathiTrust
   module Validation
     module MetaYml
-      # validates that package contains meta.yml
+      # Validates that package contains meta.yml
       class Exists < Validation::Base
         def validate
           unless @sip.files.include?("meta.yml")
@@ -12,8 +12,8 @@ module HathiTrust
               validator: self.class,
               validation: :exists,
               level: Message::ERROR,
-              human_message: 'SIP is missing meta.yml',
-              extras: {filename: 'meta.yml'}
+              human_message: "SIP is missing meta.yml",
+              extras: { filename: "meta.yml" }
             )
           end
 
@@ -21,19 +21,23 @@ module HathiTrust
         end
       end
 
+      # Validates that meta.yml is loadable & parseable
       class WellFormed < Validation::Base
         def validate
           begin
             @sip.meta_yml
           rescue RuntimeError => e
-            record_message(level: :error, file: 'meta.yml',
-                           type: :bad_file,
-                           detail: "Couldn't parse meta.yml",
-                           root_cause: e.message)
+            @messages << Message.new(
+              validator: self.class,
+              validation: :well_formed,
+              level: Message::ERROR,
+              human_message: "Couldn't parse meta.yml",
+              extras: { filename: "meta.yml",
+                        root_cause: e.message }
+            )
           end
 
           super
-
         end
       end
     end

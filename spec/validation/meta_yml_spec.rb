@@ -6,7 +6,7 @@ module HathiTrust
 
     shared_examples_for "a validator with a valid package" do
       it "does not return errors" do
-        expect(any_errors?(validator.validate).to be_falsey
+        expect(any_errors?(validator.validate)).to be_falsey
       end
     end
 
@@ -56,12 +56,13 @@ module HathiTrust
             it_behaves_like "a validator with an invalid package"
 
             it "returns an appropriate error" do
-              expect(validator.validate.human_messages)
+              expect(human_messages(validator.validate))
                 .to include(a_string_matching(/Couldn't parse meta.yml/))
             end
 
             it "has underlying details of the problem" do
-              expect(validator.validate.first[:root_cause]).to match(/ tab /)
+              expect( validator.validate.map(&:root_cause) )
+                .to include(a_string_matching(/ tab /))
             end
           end
         end
