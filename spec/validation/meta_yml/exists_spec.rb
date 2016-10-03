@@ -21,7 +21,7 @@ module HathiTrust
 
             it_behaves_like "a validator with an invalid package"
 
-            it "returns an appropriate error" do
+            it "returns an appropriate message" do
               expect(human_messages(validator.validate))
                 .to include(a_string_matching(/missing meta.yml/))
             end
