@@ -13,6 +13,21 @@ module HathiTrust
       def validate
         @messages
       end
+
+      protected
+
+      def record_message(params = {})
+        @messages << Message.new(params.merge(validator: self.class))
+      end
+
+      def record_error(params = {})
+        record_message(params.merge(level: Message::ERROR))
+      end
+
+      def record_warning(params = {})
+        record_message(params.merge(level: Message::WARNING))
+      end
+
     end
 
   end
