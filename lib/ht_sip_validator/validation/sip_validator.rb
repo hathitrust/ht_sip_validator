@@ -5,33 +5,23 @@ module HathiTrust
     # Service reponsible for validating a sip
     class SIPValidator
       # Creates a new validator service using the specified configuration
-      #
-      # @param config [String] path to a YAML file with the validator configuration
-      def initialize(config)
-        @config = YAML.load(config)
+      def initialize(validators, logger)
+        @validators = validators
+        @logger = logger
       end
 
       # Validates the given volume and reports any errors
       #
       # @param sip [SubmissionPackage] The volume to validate
       def validate(sip)
-        do_package_checks(sip)
-      end
-
-      private
-
-      def do_package_checks(sip)
-        @config["package_checks"].each do |validation_name|
-          validation = HathiTrust.const_get(validation_name).new(sip)
-          print "Running #{validation_name}: "
-
-          messages = validation.validate
-
-          messages.each do |message|
-            puts "  #{message}"
-          end
+        messages = @validators.map do |validation_class|
+          @logger.info "Running #{validation_class} "
+          errors = validation_class.new(sip).validate
+          errors.each {|error| @logger.info "\t" + error.to_s.gsub("\n", "\n\t") }
         end
+        messages.reduce(:+)
       end
+
     end
 
   end
