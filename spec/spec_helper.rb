@@ -116,3 +116,4 @@ end
 def human_messages(messages)
   messages.map { |message| message.human_message }
 end
+
