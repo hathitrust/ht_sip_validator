@@ -7,16 +7,14 @@ module HathiTrust
 
       # Validates that package contains meta.yml
       class Exists < Validation::Base
-        def validate
+        def perform_validation
           unless @sip.files.include?("meta.yml")
-            record_error(
+            create_error(
               validation: :exists,
               human_message: "SIP is missing meta.yml",
               extras: { filename: "meta.yml" }
             )
           end
-
-          super
         end
       end
 
