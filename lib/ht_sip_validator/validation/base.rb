@@ -5,6 +5,7 @@ module HathiTrust
 
     # Interface of validators
     class Base
+      attr_reader :sip
 
       # @param [SIP::SIP] sip
       def initialize(sip)
@@ -26,8 +27,6 @@ module HathiTrust
         raise NotImplementedError
       end
 
-      protected
-      attr_reader :sip
 
       def create_message(params)
         Message.new(params.merge(validator: self.class))
