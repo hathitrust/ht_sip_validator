@@ -5,7 +5,7 @@ require "spec_helper"
 module HathiTrust
   module Validation
 
-    class TestValidator
+    class TestLogger
       attr_accessor :logs
       def info(message)
         self.logs ||= []
@@ -21,7 +21,7 @@ module HathiTrust
       end
 
       describe "#validate" do
-        let(:logger) { TestValidator.new }
+        let(:logger) { TestLogger.new }
 
         it "runs the validators" do
           sip_validator = described_class.new([
