@@ -1,0 +1,3 @@
+---
+package_checks:
+ - Validation::MetaYml::Exists
