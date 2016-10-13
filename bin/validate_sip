@@ -1,0 +1,5 @@
+require "bundler/setup"
+Bundler.require
+require_relative "../lib/ht_sip_validator"
+
+HathiTrust::ValidateSIPCommand.new(ARGV).exec
