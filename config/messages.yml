@@ -1,0 +1,19 @@
+---
+
+MetaYml::DateFormat:
+  :capture_date:
+    validator: MetaYml::DateFormat
+    validation: :capture_date
+    level: :error
+    human_message:  "An iso8601 combined date is required for capture_date in meta.yml."
+    extra_fields:
+      - filename
+      - actual
+  :image_compression_date:
+    validator: MetaYml::DateFormat
+    validation: :image_compression_date
+    level: :error
+    human_message:  "An iso8601 combined date is required for image_compression_date in meta.yml."
+    extra_fields:
+      - filename
+      - actual
