@@ -14,11 +14,9 @@ module HathiTrust
         before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(valid_yaml) }
 
         it_behaves_like "a validation with a valid package"
-
-        it "does not return any messages" do
-          expect(validation.validate.length).to be(0)
-        end
+        it_behaves_like "a validation that returns no messages"
       end
+
 
       context "when meta.yml has an unknown key" do
         before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(invalid_yaml) }
