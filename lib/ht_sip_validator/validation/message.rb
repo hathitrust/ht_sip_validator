@@ -37,6 +37,15 @@ module HathiTrust
         end
       end
 
+      def ==(other)
+        other.is_a?(self.class) &&
+          validator == other.validator &&
+          validation == other.validation &&
+          level == other.level &&
+          human_message == other.human_message &&
+          extras == other.extras
+      end
+
       private
       attr_reader :level, :extras
 
