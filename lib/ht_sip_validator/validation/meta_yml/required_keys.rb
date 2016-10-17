@@ -7,10 +7,10 @@ module HathiTrust
 
       class RequiredKeys < Validation::Base
         REQUIRED_KEYS = %w(capture_date)
-        def validate
-          REQUIRED_KEYS.each do |key|
+        def perform_validation
+          REQUIRED_KEYS.map do |key|
             unless @sip.meta_yml.has_key?(key)
-              record_error(
+              create_error(
                 validation: :has_field,
                 human_message: "Missing required key #{key} in meta.yml",
                 extras: { filename: "meta.yml",
@@ -19,8 +19,6 @@ module HathiTrust
 
             end
           end
-
-          super
         end
       end
 

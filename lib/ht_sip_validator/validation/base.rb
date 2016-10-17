@@ -5,27 +5,39 @@ module HathiTrust
 
     # Interface of validators
     class Base
+      attr_reader :sip
+
+      # @param [SIP::SIP] sip
       def initialize(sip)
         @sip = sip
-        @messages = []
       end
 
+      # Performs the validation and returns the error
+      # messages.
+      # @return [Array<Message>] Empty if no errors were
+      #   found.
       def validate
-        @messages
+        [perform_validation].flatten.reject{|i| i.nil? }
       end
 
-      protected
 
-      def record_message(params = {})
-        @messages << Message.new(params.merge(validator: self.class))
+      # Actual work of performing the validation
+      # @return [Array<Message>|Message|nil]
+      def perform_validation
+        raise NotImplementedError
       end
 
-      def record_error(params = {})
-        record_message(params.merge(level: Message::ERROR))
+
+      def create_message(params)
+        Message.new(params.merge(validator: self.class))
       end
 
-      def record_warning(params = {})
-        record_message(params.merge(level: Message::WARNING))
+      def create_error(params)
+        create_message(params.merge(level: Message::ERROR))
+      end
+
+      def create_warning(params)
+        create_message(params.merge(level: Message::WARNING))
       end
 
     end

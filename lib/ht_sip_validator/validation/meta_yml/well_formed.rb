@@ -7,19 +7,18 @@ module HathiTrust
 
       # Validates that meta.yml is loadable & parseable
       class WellFormed < Validation::Base
-        def validate
+        def perform_validation
           begin
             @sip.meta_yml
+            return []
           rescue RuntimeError => e
-            record_error(
+            return create_error(
               validation: :well_formed,
               human_message: "Couldn't parse meta.yml",
               extras: { filename: "meta.yml",
                 root_cause: e.message }
             )
           end
-
-          super
         end
       end
 
