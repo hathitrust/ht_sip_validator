@@ -7,28 +7,12 @@ module HathiTrust
 
     describe Message do
       let(:args) {{
-        validator: "test_validator",
         validation: "first_validation",
         human_message: "test fail",
         level: Message::ERROR,
         extras: { a: 1, b: 2}
       }}
 
-      describe "#validator" do
-        it "accepts a string" do
-          puts args
-          message = described_class.new(args.merge({validator: "val"}))
-          expect(message.validator).to eql(:val)
-        end
-        it "accepts a class" do
-          message = described_class.new(args.merge({validator: Fixnum}))
-          expect(message.validator).to eql(:Fixnum)
-        end
-        it "accepts a symbol" do
-          message = described_class.new(args.merge({validator: :some_sym}))
-          expect(message.validator).to eql(:some_sym)
-        end
-      end
       describe "#validation" do
         it "accepts a string" do
           message = described_class.new(args.merge({validation: "val"}))
@@ -52,7 +36,7 @@ module HathiTrust
       describe "#to_s" do
         it "formats" do
           expect(described_class.new(args).to_s)
-            .to eql("ERROR: test_validator|first_validation - test fail")
+            .to eql("ERROR: first_validation - test fail")
         end
       end
       describe "#error?" do

@@ -11,7 +11,7 @@ module HathiTrust
           include_context "with pagedata fixtures"
 
           describe "#validate" do
-            subject(:validator) { described_class.new(mocked_sip) }
+            subject(:validation) { described_class.new(mocked_sip) }
 
             context "when all files are present for the provided pagedata" do
               before(:each) do
@@ -22,7 +22,7 @@ module HathiTrust
                   .and_return(%w(meta.yml checksum.md5 00000001.tif))
               end
 
-              it_behaves_like "a validator with a valid package"
+              it_behaves_like "a validation with a valid package"
             end
 
             context "when a file is missing that is referenced in the pagedata" do
@@ -34,10 +34,10 @@ module HathiTrust
                   .and_return(%w(meta.yml checksum.md5 00000001.tif))
               end
 
-              it_behaves_like "a validator with an invalid package"
+              it_behaves_like "a validation with an invalid package"
 
               it "returns an appropriate error message" do
-                expect(human_messages(validator.validate))
+                expect(human_messages(validation.validate))
                   .to include(a_string_matching(/.*pagedata.*00000001/))
               end
             end
