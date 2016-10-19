@@ -1,5 +1,5 @@
 require "ht_sip_validator/configuration"
-require "ht_sip_validator/validation/sip_validator"
+require "ht_sip_validator/sip_validator"
 require "logger"
 require "optparse"
 
@@ -15,7 +15,7 @@ module HathiTrust
       return if options[:quit]
       raise ArgumentError unless options[:config] && options[:sip]
       config = config(options[:config])
-      validator = HathiTrust::Validation::SIPValidator.new(config.package_checks, logger)
+      validator = HathiTrust::SIPValidator.new(config.package_checks, logger)
       sip = HathiTrust::SIP::SIP.new(options[:sip])
       validator.run_validations_on sip
     end
