@@ -13,7 +13,7 @@ module HathiTrust
       # Validates the given volume and reports any errors
       #
       # @param sip [SubmissionPackage] The volume to validate
-      def validate(sip)
+      def run_validations_on(sip)
         messages = @validators.map do |validation_class|
           @logger.info "Running #{validation_class} "
           errors = validation_class.new(sip).validate

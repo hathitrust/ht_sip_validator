@@ -15,41 +15,40 @@ module HathiTrust
 
     describe SIPValidator do
       describe "#initialize" do
-        it "accepts an array of validators and a logger" do
+        it "accepts an array of validations and a logger" do
           expect(described_class.new([double(:one)], double(:logger))).to_not be_nil
         end
       end
 
-      describe "#validate" do
-        let(:logger) { TestLogger.new }
+      describe "#run_validations_on" do
+        let(:sip)     { double("a sip") }
+        let(:logger)  { TestLogger.new }
+        let(:message) { double("a validation message", to_s: "uno\ndos") }
+        let(:validation_instance)  { double("a validation", validate: [message]) }
+        let(:validation_classes)   { [class_double("ValidationOne", new: validation_instance),
+                                      class_double("ValidationTwo", new: validation_instance)] }
+        let(:validator) { described_class.new( validation_classes, logger) }
 
-        it "runs the validators" do
-          sip_validator = described_class.new([
-            double(:one, new: double(:one_instance, validate: [1])),
-            double(:two, new: double(:two_instance, validate: [2]))
-          ], logger)
-          expect(sip_validator.validate(double(:sip))).to eql([1, 2])
+        it "runs each validations on the sip" do
+          validation_classes.each do |validation|
+            expect(validation).to receive(:new).with(sip)
+            expect(validation_instance).to receive(:validate)
+          end
+          validator.run_validations_on sip
         end
 
-        it "logs the names of validators" do
-          validators = [
-            double(:one, new: double(:one_instance, validate: [])),
-            double(:two, new: double(:two_instance, validate: []))
-          ]
-          described_class.new(validators, logger).validate(double(:sip))
-          expect(logger.logs).to eql(validators.map {|v| "Running #{v} " })
+        it "logs the class names of each validation" do
+          validator.run_validations_on sip
+          validation_classes.each do |validation_class|
+            expect(logger.logs).to include( a_string_including(validation_class.to_s) )
+          end
         end
 
-        it "logs the validation errors, preserving newlines and indenting" do
-          message = double(:validation_message, to_s: "uno\ndos")
-          validation_instance = double(:validation_instance, validate: [message])
-          validation_class = double(:validation_class, new: validation_instance)
-
-          described_class.new([validation_class], logger).validate(double(:sip))
-          expect(logger.logs[1]).to eql("\tuno\n\tdos")
+        it "logs the validation errors, adding indenting and preserving newlines" do
+          validator.run_validations_on sip
+          expect(logger.logs).to include("\tuno\n\tdos")
         end
       end
     end
-
   end
 end

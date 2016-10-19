@@ -17,7 +17,7 @@ module HathiTrust
       config = config(options[:config])
       validator = HathiTrust::Validation::SIPValidator.new(config.package_checks, logger)
       sip = HathiTrust::SIP::SIP.new(options[:sip])
-      validator.validate(sip)
+      validator.run_validations_on sip
     end
 
 
