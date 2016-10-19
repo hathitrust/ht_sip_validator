@@ -8,10 +8,10 @@ module HathiTrust
       class TestBaseValidation < Base
         def initialize(validation_result)
           super("")
-          @validtion_result = validation_result
+          @validation_result = validation_result
         end
         def perform_validation
-          @validtion_result
+          @validation_result
         end
       end
 
