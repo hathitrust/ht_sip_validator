@@ -1,7 +1,7 @@
 
-# let(:validator) { SomeValidator.new }
-shared_examples_for "a validator with an invalid package" do
+# let(:validation) { SomeValidator.new }
+shared_examples_for "a validation with an invalid package" do
   it "returns a collection of Messages" do
-    expect(validator.validate).to all(be_an_instance_of(HathiTrust::Validation::Message))
+    expect(validation.validate).to all(be_an_instance_of(HathiTrust::Validation::Message))
   end
 end

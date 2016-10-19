@@ -11,25 +11,25 @@ module HathiTrust
           include_context "with yaml fixtures"
 
           let(:mocked_sip) { SIP::SIP.new("") }
-          subject(:validator) { described_class.new(mocked_sip) }
+          subject(:validation) { described_class.new(mocked_sip) }
 
           context "when meta.yml has only known keys" do
             before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(valid_yaml) }
 
-            it_behaves_like "a validator with a valid package"
+            it_behaves_like "a validation with a valid package"
 
             it "does not return any messages" do
-              expect(validator.validate.length).to be(0)
+              expect(validation.validate.length).to be(0)
             end
           end
 
           context "when meta.yml has an unknown key" do
             before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(invalid_yaml) }
 
-            it_behaves_like "a validator with warnings and only warnings"
+            it_behaves_like "a validation with warnings and only warnings"
 
             it "returns an appropriate message" do
-              expect(human_messages(validator.validate))
+              expect(human_messages(validation.validate))
                 .to include(a_string_matching(/capture_elephant/))
             end
 
