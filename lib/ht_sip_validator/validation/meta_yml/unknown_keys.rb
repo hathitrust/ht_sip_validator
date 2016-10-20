@@ -2,6 +2,7 @@
 require "ht_sip_validator/validation/base"
 
 module HathiTrust::Validation
+  # Warns if meta.yml has any unexpected keys
   class MetaYml::UnknownKeys < Base
     require "set"
     KNOWN_KEYS = %w(capture_date scanner_make scanner_model scanner_user

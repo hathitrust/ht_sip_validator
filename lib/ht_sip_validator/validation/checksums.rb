@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module HathiTrust::Validation::Checksums
   # File names that are exempt from having checksums
-  EXEMPT_FILENAMES = [HathiTrust::SIP::CHECKSUM_FILE, 'Thumbs.db', '.DS_Store']
+  EXEMPT_FILENAMES = [HathiTrust::SIP::CHECKSUM_FILE, "Thumbs.db", ".DS_Store"].freeze
 end
 
 require "ht_sip_validator/validation/checksums/exists"

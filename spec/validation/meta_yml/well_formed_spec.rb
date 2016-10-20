@@ -3,7 +3,6 @@ require "spec_helper"
 
 module HathiTrust
   describe Validation::MetaYml::WellFormed do
-
     describe "#validate" do
       context "when meta.yml is well formed" do
         subject(:validation) { described_class.new(SIP::SIP.new(sample_zip("default.zip"))) }

@@ -1,8 +1,7 @@
-module HathiTrust
-  module Validation
-    module MetaYml
-    end
-  end
+# frozen_string_literal: true
+
+# namespace for validations on meta.yml
+module HathiTrust::Validation::MetaYml
 end
 
 require "ht_sip_validator/validation/meta_yml/exists"

@@ -10,12 +10,12 @@ shared_context "with pagedata fixtures" do
 pagedata:
   #{pageinfo}
 EOT
-    .merge(valid_yaml)
+      .merge(valid_yaml)
   end
 
   let(:no_pagedata) { valid_yaml }
 
-  let(:good_pagedata) do 
+  let(:good_pagedata) do
     YAML.load(<<EOT)
 pagedata:
   00000001.jp2: { label: "FRONT_COVER" }
@@ -25,6 +25,6 @@ pagedata:
   00000010.jp2: { orderlabel: "ii", label: "PREFACE" }
   00000011.tif: { orderlabel: "iii" }
 EOT
-    .merge(valid_yaml)
+      .merge(valid_yaml)
   end
 end

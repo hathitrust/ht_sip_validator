@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module HathiTrust::Validation
 
   # Output of a validation that fails
@@ -9,7 +10,7 @@ module HathiTrust::Validation
     def initialize(validation:, level:, human_message:, extras: {})
       @validation = validation.to_s.to_sym
       @level = level
-      @human_message = human_message || "#{validation}"
+      @human_message = human_message || validation.to_s
       @extras = extras
     end
 
@@ -28,14 +29,19 @@ module HathiTrust::Validation
     end
 
     def method_missing(message, *args)
-      if extras.has_key?(message)
+      if extras.key?(message)
         extras[message]
       else
-        super message, args
+        super
       end
     end
 
+    def respond_to_missing?(message, include_private = false)
+      extras.key?(message) || super
+    end
+
     private
+
     attr_reader :level, :extras
 
   end

@@ -33,6 +33,11 @@ Style/AlignParameters:
 Style/CaseIndentation:
   IndentWhenRelativeTo: end
 
+# This usually but not always does what we want; disable in individual places
+# where it gets it wrong
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
 # Checks formatting of special comments
 Style/CommentAnnotation:
   Enabled: false
@@ -57,6 +62,9 @@ Style/FileName:
   # It further expects it to be nested inside modules which match the names
   # of subdirectories in its path.
   ExpectMatchingDefinition: false
+
+Style/GuardClause:
+  Enabled: false
 
 Style/IfUnlessModifier:
   MaxLineLength: 100
@@ -98,6 +106,8 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
+Style/Next:
+  Enabled: false
 
 Style/RedundantReturn:
   # When true allows code like `return x, y`.

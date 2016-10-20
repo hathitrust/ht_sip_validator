@@ -13,7 +13,7 @@ end
 describe HathiTrust::SIPValidator do
   describe "#initialize" do
     it "accepts an array of validation classes and a logger" do
-      validation_class = class_double("DemoValidation", new: double('validation instance'))
+      validation_class = class_double("DemoValidation", new: double("validation instance"))
       logger = double("a logger")
       expect(described_class.new([validation_class], logger)).to_not be_nil
     end
@@ -24,9 +24,11 @@ describe HathiTrust::SIPValidator do
     let(:logger)  { TestLogger.new }
     let(:message) { double("a validation message", to_s: "uno\ndos") }
     let(:validation_instance)  { double("a validation", validate: [message]) }
-    let(:validation_classes)   { [class_double("ValidationOne", new: validation_instance),
-                                  class_double("ValidationTwo", new: validation_instance)] }
-    let(:validator) { described_class.new( validation_classes, logger) }
+    let(:validation_classes)   do
+      [class_double("ValidationOne", new: validation_instance),
+       class_double("ValidationTwo", new: validation_instance)]
+    end
+    let(:validator) { described_class.new(validation_classes, logger) }
 
     it "runs each validations on the sip" do
       validation_classes.each do |validation|
@@ -39,7 +41,7 @@ describe HathiTrust::SIPValidator do
     it "logs the class names of each validation" do
       validator.run_validations_on sip
       validation_classes.each do |validation_class|
-        expect(logger.logs).to include( a_string_including(validation_class.to_s) )
+        expect(logger.logs).to include(a_string_including(validation_class.to_s))
       end
     end
 
