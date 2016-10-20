@@ -18,6 +18,7 @@ module HathiTrust
                           .merge(valid_yaml))
             end
 
+            it_behaves_like "a validation with the correct interface"
             it_behaves_like "a validation with a valid package"
             it_behaves_like "a validation that returns no messages"
           end

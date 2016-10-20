@@ -10,6 +10,7 @@ module HathiTrust
       context "when page data is missing" do
         before(:each) { allow(mocked_sip).to receive(:meta_yml).and_return(no_pagedata) }
         it_behaves_like "a validation with warnings and only warnings"
+        it_behaves_like "a validation with the correct interface"
 
         it "returns an appropriate message" do
           expect(human_messages(validation.validate))

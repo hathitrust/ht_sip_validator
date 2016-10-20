@@ -9,10 +9,9 @@ module HathiTrust
       module PageData
         describe PageTags do
           include_context "with pagedata fixtures"
+          subject(:validation) { described_class.new(mocked_sip) }
 
           describe "#validate" do
-            subject(:validation) { described_class.new(mocked_sip) }
-
             context "when pagetags are all known" do
               before(:each) do
                 allow(mocked_sip).to receive(:meta_yml)
@@ -23,6 +22,7 @@ module HathiTrust
                 .and_return(%w(meta.yml checksum.md5 00000001.tif))
               end
 
+              it_behaves_like "a validation with the correct interface"
               it_behaves_like "a validation with a valid package"
             end
 

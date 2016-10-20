@@ -10,6 +10,7 @@ module HathiTrust
       context "when page data is a hash with filenames whose keys have label and/or orderlabel" do
         before(:each) { allow(mocked_sip).to receive(:meta_yml).and_return(good_pagedata) }
         it_behaves_like "a validation with a valid package"
+        it_behaves_like "a validation with the correct interface"
 
         it "does not return any messages" do
           expect(validation.validate.length).to be(0)

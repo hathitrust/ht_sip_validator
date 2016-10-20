@@ -11,6 +11,7 @@ module HathiTrust
     describe "#validate" do
       context "when meta.yml exists in the package" do
         before(:each) { allow(mocked_sip).to receive(:files).and_return(["meta.yml"]) }
+        it_behaves_like "a validation with the correct interface"
         it_behaves_like "a validation with a valid package"
       end
 
