@@ -7,7 +7,10 @@ describe HathiTrust::Validation::Checksums::Exists do
 
   describe "#validate" do
     context "when checksum file exists in the package" do
-      before(:each) { allow(mocked_sip).to receive(:files).and_return([HathiTrust::SIP::CHECKSUM_FILE]) }
+      before(:each) do
+        allow(mocked_sip).to receive(:files)
+          .and_return([HathiTrust::SIP::CHECKSUM_FILE])
+      end
 
       it_behaves_like "a validation with a valid package"
       it_behaves_like "a validation that returns no messages"

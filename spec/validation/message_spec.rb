@@ -19,7 +19,7 @@ module HathiTrust::Validation
       end
       it "accepts a class" do
         message = described_class.new(args.merge(validation: Integer))
-        expect(message.validation).to eql(:Fixnum)
+        expect(message.validation).to eql(:Integer)
       end
       it "accepts a symbol" do
         message = described_class.new(args.merge(validation: :some_sym))

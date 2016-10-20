@@ -32,8 +32,12 @@ module HathiTrust::Validation
       if extras.key?(message)
         extras[message]
       else
-        super message, args
+        super
       end
+    end
+
+    def respond_to_missing?(message, include_private = false)
+      extras.key?(message) || super
     end
 
     private

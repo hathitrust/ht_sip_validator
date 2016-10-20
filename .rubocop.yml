@@ -106,6 +106,8 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
+Style/Next:
+  Enabled: false
 
 Style/RedundantReturn:
   # When true allows code like `return x, y`.

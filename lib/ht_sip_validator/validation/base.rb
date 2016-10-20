@@ -16,7 +16,7 @@ module HathiTrust::Validation
     # @return [Array<Message>] Empty if no errors were
     #   found.
     def validate
-      [perform_validation].flatten.reject(&:nil?)
+      [perform_validation].flatten.compact
     end
 
     # Actual work of performing the validation
