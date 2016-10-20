@@ -13,6 +13,7 @@ module HathiTrust
       context "when meta.yml has capture_date" do
         before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(valid_yaml) }
 
+        it_behaves_like "a validation with the correct interface"
         it_behaves_like "a validation with a valid package"
       end
 
