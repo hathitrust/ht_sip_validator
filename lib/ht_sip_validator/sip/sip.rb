@@ -33,7 +33,7 @@ module HathiTrust::SIP
 
     # @return [Checksums] the checksums from checksum.md5 in the SIP
     def checksums
-      @checksums ||= file_in_zip(CHECKSUM_FILE) do |file| 
+      @checksums ||= file_in_zip(CHECKSUM_FILE) do |file|
         Checksums.new(file)
       end
     end
@@ -46,9 +46,7 @@ module HathiTrust::SIP
       Dir.mktmpdir do |dir|
         open_zip do |zip_file|
           zip_file.each do |entry|
-            unless entry.name_is_directory?
-              entry.extract(File.join(dir, File.basename(entry.name)))
-            end
+            entry.extract(File.join(dir, File.basename(entry.name))) unless entry.name_is_directory?
           end
 
           yield dir

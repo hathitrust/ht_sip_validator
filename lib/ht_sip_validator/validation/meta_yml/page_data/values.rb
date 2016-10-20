@@ -11,9 +11,9 @@ module HathiTrust::Validation
         if value.is_a?(Hash)
           value.keys
             .select {|k| k != "label" && k != "orderlabel" }
-            .each do |pagedata_key| 
-              record_bad_pagedata_value(key, pagedata_key)
-            end
+            .each do |pagedata_key|
+            record_bad_pagedata_value(key, pagedata_key)
+          end
         else
           record_bad_pagedata_value(key, value)
         end

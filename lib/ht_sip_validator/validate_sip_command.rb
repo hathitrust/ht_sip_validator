@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "ht_sip_validator/configuration"
 require "ht_sip_validator/sip_validator"
 require "logger"
@@ -20,8 +21,8 @@ module HathiTrust
       validator.run_validations_on sip
     end
 
-
     private
+
     def config(config_path)
       File.open(config_path) do |file|
         HathiTrust::Configuration.new(file)
@@ -31,7 +32,7 @@ module HathiTrust
     def logger
       logger = Logger.new(STDOUT)
       logger.level = Logger::INFO
-      return logger
+      logger
     end
 
     def parse(argv)
@@ -52,10 +53,9 @@ module HathiTrust
           options[:quit] = true
         end
       end.parse!(argv)
-      return options
+      options
     end
 
   end
 
 end
-

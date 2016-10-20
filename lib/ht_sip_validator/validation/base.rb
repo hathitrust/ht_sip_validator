@@ -16,16 +16,14 @@ module HathiTrust::Validation
     # @return [Array<Message>] Empty if no errors were
     #   found.
     def validate
-      [perform_validation].flatten.reject{|i| i.nil? }
+      [perform_validation].flatten.reject(&:nil?)
     end
-
 
     # Actual work of performing the validation
     # @return [Array<Message>|Message|nil]
     def perform_validation
       raise NotImplementedError
     end
-
 
     def create_message(params)
       Message.new(params.merge(validation: self.class))
