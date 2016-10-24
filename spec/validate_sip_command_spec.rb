@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "spec_helper"
 
 module HathiTrust
@@ -21,15 +22,15 @@ module HathiTrust
 
       it "runs the validations" do
         allow(Logger).to receive(:new).and_return(logger)
-        expect{ described_class.new(argv).exec }.to change{logger.logs}
-          .to(["Running #{HathiTrust::Validation::MetaYml::Exists.to_s} "])
+        expect { described_class.new(argv).exec }.to change { logger.logs }
+          .to(["Running #{HathiTrust::Validation::MetaYml::Exists} "])
       end
 
       it "displays help when given a help flag" do
         allow(Logger).to receive(:new).and_return(logger)
-        expect{
-          expect{ described_class.new(help_argv).exec }.to_not change{logger.logs}
-        }.to output(/Show this message/).to_stdout
+        expect do
+          expect { described_class.new(help_argv).exec }.to_not change { logger.logs }
+        end.to output(/Show this message/).to_stdout
       end
     end
 
@@ -39,21 +40,18 @@ module HathiTrust
 
       it "displays help when given no args" do
         allow(Logger).to receive(:new).and_return(logger)
-        expect{
-          expect{ described_class.new(argv).exec }.to_not change{logger.logs}
-        }.to output(/Show this message/).to_stdout
+        expect do
+          expect { described_class.new(argv).exec }.to_not change { logger.logs }
+        end.to output(/Show this message/).to_stdout
       end
 
       it "displays help when given a help flag" do
         allow(Logger).to receive(:new).and_return(logger)
-        expect{
-          expect{ described_class.new(help_argv).exec }.to_not change{logger.logs}
-        }.to output(/Show this message/).to_stdout
+        expect do
+          expect { described_class.new(help_argv).exec }.to_not change { logger.logs }
+        end.to output(/Show this message/).to_stdout
       end
     end
-
-
-
   end
 
 end

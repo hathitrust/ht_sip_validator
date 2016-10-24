@@ -4,7 +4,6 @@ require "spec_helper"
 module HathiTrust
 
   describe Validation::MetaYml::RequiredKeys do
-
     describe "#validate" do
       include_context "with yaml fixtures"
       let(:mocked_sip) { SIP::SIP.new("") }

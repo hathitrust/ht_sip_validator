@@ -18,7 +18,6 @@ module HathiTrust
         it_behaves_like "a validation that returns no messages"
       end
 
-
       context "when meta.yml has an unknown key" do
         before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(invalid_yaml) }
 
@@ -28,7 +27,6 @@ module HathiTrust
           expect(human_messages(validation.validate))
             .to include(a_string_matching(/capture_elephant/))
         end
-
       end
     end
   end

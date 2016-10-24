@@ -4,9 +4,7 @@ require "spec_helper"
 # specs for HathiTrust SIP validator service
 module HathiTrust
 
-  module Validation
-    class ConfigTestValidator; end
-  end
+  class Validation::ConfigTestValidator; end
 
   describe Configuration do
     describe "#initialize" do

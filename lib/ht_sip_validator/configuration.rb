@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "yaml"
 
-module HathiTrust
+module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
   # Represents a validation configuration.
   class Configuration
@@ -14,7 +14,7 @@ module HathiTrust
     def package_checks
       (config["package_checks"] || [])
         .map {|name| name.sub(/\AValidation::/, "") }
-        .map {|name| HathiTrust::Validation.const_get(name) }
+        .map {|name| Validation.const_get(name) }
     end
   end
 

@@ -9,7 +9,6 @@ module HathiTrust
     subject(:validation) { described_class.new(mocked_sip) }
 
     describe "#validate" do
-
       context "when all files are present for the provided pagedata" do
         before(:each) do
           allow(mocked_sip).to receive(:meta_yml)

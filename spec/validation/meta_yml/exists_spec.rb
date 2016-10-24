@@ -28,5 +28,4 @@ module HathiTrust
     end
   end
 
-
 end
