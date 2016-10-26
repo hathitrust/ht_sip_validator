@@ -5,6 +5,7 @@ module HathiTrust::Validation
   describe Message do
     let(:args) do
       {
+        validator: "MyTest::Validator",
         validation: "first_validation",
         human_message: "test fail",
         level: Message::ERROR,
@@ -35,7 +36,7 @@ module HathiTrust::Validation
     describe "#to_s" do
       it "formats" do
         expect(described_class.new(args).to_s)
-          .to eql("ERROR: first_validation - test fail")
+          .to eql("ERROR: MyTest::Validator|first_validation - test fail")
       end
     end
     describe "#error?" do
