@@ -8,7 +8,7 @@ module HathiTrust::Validation::Image
       image_files = HathiTrust::Validation::Image.image_files(@sip.files)
       return no_images_error if image_files.empty?
 
-      bad_filenames = image_files.select{|filename| is_valid_filename? filename}
+      bad_filenames = image_files.reject{|filename| is_valid_basename? filename}
       bad_filenames.map do |filename|
         create_error(
           validation: :image_filename,
@@ -29,8 +29,8 @@ module HathiTrust::Validation::Image
         )
     end
 
-    def is_valid_filename?(filename)
-      File.basename(filename) =~ /^\d+$/
+    def is_valid_basename?(filename)
+      File.basename(filename, ".*") =~ /^\d+$/
     end
   end
 end
