@@ -3,7 +3,7 @@ require "yaml"
 
 module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
-  # Represents a validation configuration.
+  # Represents a configuration for a set of Validators
   class Configuration
     attr_reader :config
 
@@ -13,8 +13,8 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
     def package_checks
       (config["package_checks"] || [])
-        .map {|name| name.sub(/\AValidation::/, "") }
-        .map {|name| Validation.const_get(name) }
+        .map {|name| name.sub(/\AValidator::/, "") }
+        .map {|name| Validator.const_get(name) }
     end
   end
 

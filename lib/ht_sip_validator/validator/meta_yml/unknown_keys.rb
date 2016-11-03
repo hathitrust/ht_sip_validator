@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Warns if meta.yml has any unexpected keys
   class MetaYml::UnknownKeys < Base
     require "set"
@@ -14,7 +14,7 @@ module HathiTrust::Validation
     def perform_validation
       @sip.meta_yml.keys.to_set.difference(KNOWN_KEYS).map do |key|
         create_warning(
-          validation: :field_valid,
+          validation_type: :field_valid,
           human_message: "Unknown key #{key} in meta.yml",
           extras: { filename: "meta.yml",
                     field: key }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
 
   # Validates that meta.yml has all unconditionally required keys
   class MetaYml::RequiredKeys < Base
@@ -10,7 +10,7 @@ module HathiTrust::Validation
       REQUIRED_KEYS.map do |key|
         unless @sip.meta_yml.key?(key)
           create_error(
-            validation: :has_field,
+            validation_type: :has_field,
             human_message: "Missing required key #{key} in meta.yml",
             extras: { filename: "meta.yml",
                       field: key }

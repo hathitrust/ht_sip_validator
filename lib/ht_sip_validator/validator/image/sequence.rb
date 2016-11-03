@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation::Image
-  class Sequence < HathiTrust::Validation::Base
+module HathiTrust::Validator::Image
+  class Sequence < HathiTrust::Validator::Base
 
     attr_accessor :image_files, :sequence
 
     def perform_validation
-      @image_files = HathiTrust::Validation::Image.image_files(@sip.files).sort
+      @image_files = HathiTrust::Validator::Image.image_files(@sip.files).sort
       return no_images_error if image_files.empty?
 
       # filenames that have invalid sequence numbers.
@@ -71,7 +71,7 @@ module HathiTrust::Validation::Image
 
     def no_images_error
         create_error(
-          validation: :image_sequence,
+          validation_type: :image_sequence,
           human_message: "No image filenames recognized.",
           extras: { image_count: 0 }
         )
@@ -79,7 +79,7 @@ module HathiTrust::Validation::Image
 
     def invalid_error_for(filename)
       create_error(
-        validation: :image_sequence,
+        validation_type: :image_sequence,
         human_message: "An in range image sequence number could not be deduced from #{filename}."
       )
     end
@@ -87,7 +87,7 @@ module HathiTrust::Validation::Image
     def missing_error_for(value)
       formatted_value = sprintf("%.8d",value)
       create_error(
-        validation: :image_sequence,
+        validation_type: :image_sequence,
         human_message: "Image sequence missing #{formatted_value}",
         extras: { image_number: formatted_value }
       )
@@ -95,7 +95,7 @@ module HathiTrust::Validation::Image
 
     def duplication_error_for(filename)
       create_error(
-        validation: :image_sequence,
+        validation_type: :image_sequence,
         human_message: "Image sequence duplication of #{filename}",
         extras: { image_number: filename }
       )

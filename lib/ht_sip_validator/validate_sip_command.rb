@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require "ht_sip_validator/configuration"
-require "ht_sip_validator/sip_validator"
+require "ht_sip_validator/sip_validator_runner"
 require "logger"
 require "optparse"
 
@@ -17,9 +17,9 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
       return if options[:quit]
       raise ArgumentError unless options[:config] && options[:sip]
       config = config(options[:config])
-      validator = SIPValidator.new(config.package_checks, logger)
+      validator = SIPValidatorRunner.new(config.package_checks, logger)
       sip = SIP::SIP.new(options[:sip])
-      validator.run_validations_on sip
+      validator.run_validators_on sip
     end
 
     private

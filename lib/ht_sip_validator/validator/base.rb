@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation
+module HathiTrust::Validator
 
   # Interface of validators
   class Base
@@ -26,7 +26,7 @@ module HathiTrust::Validation
     end
 
     def create_message(params)
-      Message.new(params.merge(validation: self.class))
+      Message.new(params.merge(validator: self.class))
     end
 
     def create_error(params)

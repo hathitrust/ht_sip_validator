@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
-require "ht_sip_validator/validation/meta_yml/page_data/files.rb"
+require "ht_sip_validator/validator/base"
+require "ht_sip_validator/validator/meta_yml/page_data/files.rb"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Validate that the page data key in meta.yml has the expected keys & values
   class MetaYml::PageData::Values < Base
 
@@ -24,7 +24,7 @@ module HathiTrust::Validation
 
     def record_bad_pagedata_value(key, value)
       create_error(
-        validation: :field_valid,
+        validation_type: :field_valid,
         human_message: "The value #{value} for the pagedata for #{key} is not valid. "\
         " It should be specified as { label: 'pagetag', orderlabel: 'pagenumber' }",
         extras: { filename: "meta.yml",

@@ -4,7 +4,7 @@ require "spec_helper"
 # specs for HathiTrust SIP validator service
 module HathiTrust
 
-  class Validation::ConfigTestValidator; end
+  class Validator::ConfigTestValidator; end
 
   describe Configuration do
     describe "#initialize" do
@@ -28,13 +28,13 @@ module HathiTrust
       it "resolves a check named ConfigTestValidator" do
         file = double(:io, read: "---\npackage_checks:\n - ConfigTestValidator\n")
         config = described_class.new(file)
-        expect(config.package_checks).to eql([Validation::ConfigTestValidator])
+        expect(config.package_checks).to eql([Validator::ConfigTestValidator])
       end
 
       it "resolves a check named ConfigTestValidator" do
-        file = double(:io, read: "---\npackage_checks:\n - Validation::ConfigTestValidator\n")
+        file = double(:io, read: "---\npackage_checks:\n - Validator::ConfigTestValidator\n")
         config = described_class.new(file)
-        expect(config.package_checks).to eql([Validation::ConfigTestValidator])
+        expect(config.package_checks).to eql([Validator::ConfigTestValidator])
       end
     end
   end

@@ -2,11 +2,11 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validation::MetaYml::PageOrder do
+  describe Validator::MetaYml::PageOrder do
     describe "#validate" do
       include_context "with yaml fixtures"
       let(:mocked_sip) { SIP::SIP.new("") }
-      subject(:validation) { described_class.new(mocked_sip) }
+      subject(:validator) { described_class.new(mocked_sip) }
 
       context "when meta.yml has scanning and reading order" do
         before(:each) do
@@ -15,9 +15,9 @@ module HathiTrust
                       .merge(valid_yaml))
         end
 
-        it_behaves_like "a validation with the correct interface"
-        it_behaves_like "a validation with a valid package"
-        it_behaves_like "a validation that returns no messages"
+        it_behaves_like "a validator with the correct interface"
+        it_behaves_like "a validator with a valid package"
+        it_behaves_like "a validator that returns no messages"
       end
 
       context "when meta.yml has neither reading nor scanning order" do
@@ -26,10 +26,10 @@ module HathiTrust
             .and_return(valid_yaml)
         end
 
-        it_behaves_like "a validation with warnings and only warnings"
+        it_behaves_like "a validator with warnings and only warnings"
 
         it "returns an appropriate message" do
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/default.*left-to-right/))
         end
       end
@@ -41,10 +41,10 @@ module HathiTrust
                       .merge(valid_yaml))
         end
 
-        it_behaves_like "a validation with an invalid package"
+        it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate message" do
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/missing.*scanning_order/))
         end
       end
@@ -56,10 +56,10 @@ module HathiTrust
                       .merge(valid_yaml))
         end
 
-        it_behaves_like "a validation with an invalid package"
+        it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate message" do
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/missing.*reading_order/))
         end
       end
@@ -72,12 +72,12 @@ module HathiTrust
           .merge(valid_yaml))
         end
 
-        it_behaves_like "a validation with an invalid package"
+        it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate message" do
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/scanning_order.*top-to-bottom/))
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/reading_order.*follows-scanning-order/))
         end
       end

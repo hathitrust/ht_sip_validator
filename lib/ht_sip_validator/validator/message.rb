@@ -1,20 +1,21 @@
 # frozen_string_literal: true
-module HathiTrust::Validation
+module HathiTrust::Validator
 
-  # Output of a validation that fails
+  # Output of a validator that fails
   class Message
 
     ERROR = :error
     WARNING = :warning
 
-    def initialize(validation:, level:, human_message:, extras: {})
-      @validation = validation.to_s.to_sym
-      @level = level
-      @human_message = human_message || validation.to_s
+    def initialize(validator:, validation_type:, level:, human_message:, extras: {})
       @extras = extras
+      @validator = validator
+      @validation_type = validation_type.to_s.to_sym
+      @level = level
+      @human_message = human_message || validation_type.to_s
     end
 
-    attr_reader :validation, :human_message
+    attr_reader :validation_type, :human_message, :validator
 
     def error?
       level == :error
@@ -25,7 +26,9 @@ module HathiTrust::Validation
     end
 
     def to_s
-      "#{level.to_s.upcase}: #{validation} - #{human_message}"
+      "#{level.to_s.upcase}: "\
+        "#{validator.to_s.sub('HathiTrust::Validator::','')}"\
+        " - #{human_message}"
     end
 
     def method_missing(message, *args)
