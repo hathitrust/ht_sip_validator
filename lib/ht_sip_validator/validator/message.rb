@@ -7,14 +7,15 @@ module HathiTrust::Validator
     ERROR = :error
     WARNING = :warning
 
-    def initialize(validation:, level:, human_message:, extras: {})
-      @validation = validation.to_s.to_sym
-      @level = level
-      @human_message = human_message || validation.to_s
+    def initialize(validator:, validation_type:, level:, human_message:, extras: {})
       @extras = extras
+      @validator = validator
+      @validation_type = validation_type.to_s.to_sym
+      @level = level
+      @human_message = human_message || validation_type.to_s
     end
 
-    attr_reader :validation, :human_message
+    attr_reader :validation_type, :human_message, :validator
 
     def error?
       level == :error
@@ -25,7 +26,9 @@ module HathiTrust::Validator
     end
 
     def to_s
-      "#{level.to_s.upcase}: #{validation} - #{human_message}"
+      "#{level.to_s.upcase}: "\
+        "#{validator.to_s.sub('HathiTrust::Validator::','')}"\
+        " - #{human_message}"
     end
 
     def method_missing(message, *args)

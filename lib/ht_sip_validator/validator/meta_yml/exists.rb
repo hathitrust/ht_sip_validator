@@ -7,7 +7,7 @@ module HathiTrust::Validator
     def perform_validation
       unless @sip.files.include?("meta.yml")
         create_error(
-          validation: :exists,
+          validation_type: :exists,
           human_message: "SIP is missing meta.yml",
           extras: { filename: "meta.yml" }
         )

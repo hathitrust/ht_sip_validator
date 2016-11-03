@@ -7,7 +7,7 @@ module HathiTrust::Validator::Checksums
     def perform_validation
       unless @sip.files.include?(HathiTrust::SIP::CHECKSUM_FILE)
         create_error(
-          validation: :exists,
+          validation_type: :exists,
           human_message: "SIP is missing #{HathiTrust::SIP::CHECKSUM_FILE}",
           extras: { filename: HathiTrust::SIP::CHECKSUM_FILE }
         )

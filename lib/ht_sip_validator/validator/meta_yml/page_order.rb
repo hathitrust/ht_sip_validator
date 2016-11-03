@@ -33,7 +33,7 @@ module HathiTrust::Validator
       ORDER_FIELDS.map do |key|
         value = @sip.meta_yml[key]
         unless ALLOWED_ORDERINGS.include?(value)
-          create_error(validation: :field_valid,
+          create_error(validation_type: :field_valid,
                        human_message: "#{key} in meta.yml was #{value}, "\
                         "but it must be one of #{ALLOWED_ORDERINGS}.",
                        extras: { filename: "meta.yml", field: key, actual: value,
@@ -44,7 +44,7 @@ module HathiTrust::Validator
 
     def page_ordering_error(has:, missing:)
       create_error(
-        validation: :has_field,
+        validation_type: :has_field,
         human_message: "meta.yml has #{has} but was missing #{missing}. "\
           "If one is provided, both must be.",
         extras: { filename: "meta.yml",
@@ -54,7 +54,7 @@ module HathiTrust::Validator
 
     def default_page_ordering_warning
       create_warning(
-        validation: :has_field,
+        validation_type: :has_field,
         human_message: "Neither scanning_order or reading_order provided; "\
           "they will default to left-to-right",
         extras: { filename: "meta.yml",

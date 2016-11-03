@@ -24,7 +24,7 @@ module HathiTrust::Validator
 
     def record_bad_pagedata_value(key, value)
       create_error(
-        validation: :field_valid,
+        validation_type: :field_valid,
         human_message: "The value #{value} for the pagedata for #{key} is not valid. "\
         " It should be specified as { label: 'pagetag', orderlabel: 'pagenumber' }",
         extras: { filename: "meta.yml",

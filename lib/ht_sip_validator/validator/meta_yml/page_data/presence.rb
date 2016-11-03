@@ -8,7 +8,7 @@ module HathiTrust::Validator
     def perform_validation
       unless @sip.meta_yml.key?("pagedata")
         create_warning(
-          validation: :field_presence,
+          validation_type: :field_presence,
           human_message: "'pagedata' is not present in meta.yml; "\
           "users will not have page tags or page numbers to navigate through this book.",
           extras: { filename: "meta.yml",

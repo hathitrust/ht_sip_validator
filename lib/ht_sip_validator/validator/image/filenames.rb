@@ -11,7 +11,7 @@ module HathiTrust::Validator::Image
       bad_filenames = image_files.reject{|filename| is_valid_basename? filename}
       bad_filenames.map do |filename|
         create_error(
-          validation: :image_filename,
+          validation_type: :image_filename,
           human_message: "Base filename of #{filename} is not numeric only.",
           extras: { filename: filename }
         )
@@ -23,7 +23,7 @@ module HathiTrust::Validator::Image
     # which obviates the rest of the logic
     def no_images_error
         create_error(
-          validation: :image_sequence,
+          validation_type: :image_sequence,
           human_message: "No image filenames recognized.",
           extras: { image_count: 0 }
         )

@@ -14,7 +14,7 @@ module HathiTrust::Validator
         pageinfo.fetch("label", "").split(/,\s*/).to_set
           .difference(ALLOWED_PAGETAGS).map do |bad_pagetag|
           create_error(
-            validation: :field_valid,
+            validation_type: :field_valid,
             human_message: "Unknown page tag #{bad_pagetag} for file #{filename}",
             extras: { filename: "meta.yml",
                       field: "pagedata[#{filename}][label]",

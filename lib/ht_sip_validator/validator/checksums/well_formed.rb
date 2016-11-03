@@ -11,7 +11,7 @@ module HathiTrust::Validator::Checksums
       errors = checksum_values.map do |checksum_val|
         unless checksum_pattern.match checksum_val
           create_error(
-            validation: :well_formed,
+            validation_type: :well_formed,
             human_message: "SIP Checksums has malformed value: #{checksum_val}",
             extras: { checksum: checksum_val }
           )

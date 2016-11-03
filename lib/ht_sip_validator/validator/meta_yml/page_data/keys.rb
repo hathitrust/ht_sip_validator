@@ -20,7 +20,7 @@ module HathiTrust::Validator
 
     def sequence_error(key)
       create_error(
-        validation: :field_valid,
+        validation_type: :field_valid,
         human_message: "The key #{key} in pagedata in meta.yml appears to refer to a "\
         "sequence number rather than a filename. Specify the key as #{key}.tif or "\
         "#{key}.jp2 (as relevant) instead.",
@@ -32,7 +32,7 @@ module HathiTrust::Validator
 
     def filename_error(key)
       create_error(
-        validation: :field_valid,
+        validation_type: :field_valid,
         human_message: "The key #{key} in pagedata in meta.yml does not refer to a "\
         "valid image filename. Keys in the pagedata should refer to image files, "\
         "which must be named like 00000001.tif or .jp2",

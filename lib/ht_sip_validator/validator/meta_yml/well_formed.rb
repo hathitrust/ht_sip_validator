@@ -10,7 +10,7 @@ module HathiTrust::Validator
       return []
     rescue RuntimeError => e
       return create_error(
-        validation: :well_formed,
+        validation_type: :well_formed,
         human_message: "Couldn't parse meta.yml",
         extras: { filename: "meta.yml",
                   root_cause: e.message }

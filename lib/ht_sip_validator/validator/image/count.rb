@@ -8,7 +8,7 @@ module HathiTrust::Validator::Image
       
       if image_files.count != text_files.count
         create_error(
-          validation: :image_count,
+          validation_type: :image_count,
           human_message: "Number of images: #{image_files.count}"\
                          " does not match number of text files: #{text_files.count}.",
           extras: { image_count: image_files.count,

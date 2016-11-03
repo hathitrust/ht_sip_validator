@@ -5,25 +5,28 @@ module HathiTrust::Validator
   describe Message do
     let(:args) do
       {
-        validation: "first_validation",
+        validator: HathiTrust::Validator::Base,
+        validation_type: :something,
         human_message: "test fail",
         level: Message::ERROR,
         extras: { a: 1, b: 2 }
       }
     end
 
-    describe "#validation" do
+    describe "#validation_type" do
       it "accepts a string" do
-        message = described_class.new(args.merge(validation: "val"))
-        expect(message.validation).to eql(:val)
-      end
-      it "accepts a class" do
-        message = described_class.new(args.merge(validation: Integer))
-        expect(message.validation).to eql(:Integer)
+        message = described_class.new(args.merge(validation_type: "val"))
+        expect(message.validation_type).to eql(:val)
       end
       it "accepts a symbol" do
-        message = described_class.new(args.merge(validation: :some_sym))
-        expect(message.validation).to eql(:some_sym)
+        message = described_class.new(args.merge(validation_type: :some_sym))
+        expect(message.validation_type).to eql(:some_sym)
+      end
+    end
+    describe "#validator" do
+      it "accepts a class" do
+        message = described_class.new(args.merge(validator: Integer))
+        expect(message.validator).to eql(Integer)
       end
     end
     describe "#human_message" do
@@ -35,7 +38,7 @@ module HathiTrust::Validator
     describe "#to_s" do
       it "formats" do
         expect(described_class.new(args).to_s)
-          .to eql("ERROR: first_validation - test fail")
+          .to eql("ERROR: Base - test fail")
       end
     end
     describe "#error?" do
