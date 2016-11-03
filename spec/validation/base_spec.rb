@@ -4,13 +4,13 @@ require "spec_helper"
 module HathiTrust::Validator
   describe Base do
     class TestBaseValidator < Base
-      def initialize(validation_result)
+      def initialize(validator_result)
         super("")
-        @validation_result = validation_result
+        @validator_result = validator_result
       end
 
       def perform_validation
-        @validation_result
+        @validator_result
       end
     end
 
@@ -37,27 +37,27 @@ module HathiTrust::Validator
     end
 
     describe "#validate" do
-      let(:validator) { TestBaseValidator.new(validation_result) }
+      let(:validator) { TestBaseValidator.new(validator_result) }
       context "subclass #perform_validation returns nil" do
-        let(:validation_result) { nil }
+        let(:validator_result) { nil }
         it "returns an empty array" do
           expect(validator.validate).to eql([])
         end
       end
       context "subclass #perform_validation returns Message" do
-        let(:validation_result) { 1 }
+        let(:validator_result) { 1 }
         it "returns an array of messages" do
           expect(validator.validate).to eql([1])
         end
       end
       context "subclass #perform_validation returns empty array" do
-        let(:validation_result) { [] }
+        let(:validator_result) { [] }
         it "returns an empty array" do
           expect(validator.validate).to eql([])
         end
       end
       context "subclass #perform_validation returns message array" do
-        let(:validation_result) { [1, 2] }
+        let(:validator_result) { [1, 2] }
         it "returns an empty array" do
           expect(validator.validate).to eql([1, 2])
         end

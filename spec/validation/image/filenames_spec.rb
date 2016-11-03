@@ -3,7 +3,7 @@ require "spec_helper"
 
 describe HathiTrust::Validator::Image::Filenames do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
-  let(:validation) { described_class.new(mocked_sip) }
+  let(:validator) { described_class.new(mocked_sip) }
 
   describe "#validate" do
     context "when image filenames are all numeric." do
@@ -13,15 +13,15 @@ describe HathiTrust::Validator::Image::Filenames do
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validation with a valid package"
-      it_behaves_like "a validation that returns no messages"
+      it_behaves_like "a validator with a valid package"
+      it_behaves_like "a validator that returns no messages"
     end
 
     context "when there are no image filenames" do
       let(:file_list) { %w(00000001.txt 00000002.txt 00000003.txt checksum.md5 meta.yml) }
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validation with an invalid package"
+      it_behaves_like "a validator with an invalid package"
     end
 
     context "when image filenames are not all numeric." do
@@ -31,7 +31,7 @@ describe HathiTrust::Validator::Image::Filenames do
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validation with an invalid package"
+      it_behaves_like "a validator with an invalid package"
     end
 
   end

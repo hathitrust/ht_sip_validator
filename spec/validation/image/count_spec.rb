@@ -3,7 +3,7 @@ require "spec_helper"
 
 describe HathiTrust::Validator::Image::Count do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
-  let(:validation) { described_class.new(mocked_sip) }
+  let(:validator) { described_class.new(mocked_sip) }
 
   describe "#validate" do
     context "when image count matches text file count." do
@@ -13,8 +13,8 @@ describe HathiTrust::Validator::Image::Count do
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validation with a valid package"
-      it_behaves_like "a validation that returns no messages"
+      it_behaves_like "a validator with a valid package"
+      it_behaves_like "a validator that returns no messages"
     end
 
     context "when image count differs from text file count." do
@@ -24,7 +24,7 @@ describe HathiTrust::Validator::Image::Count do
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validation with an invalid package"
+      it_behaves_like "a validator with an invalid package"
     end
 
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# namespace for validations of the pagedata: section in meta.yml
+# namespace for validators for the pagedata: section in meta.yml
 module HathiTrust::Validator::MetaYml::PageData
 end
 

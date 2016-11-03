@@ -6,7 +6,7 @@ require "spec_helper"
 module HathiTrust
   describe Validator::MetaYml::PageData::PageTags do
     include_context "with pagedata fixtures"
-    subject(:validation) { described_class.new(mocked_sip) }
+    subject(:validator) { described_class.new(mocked_sip) }
 
     describe "#validate" do
       context "when pagetags are all known" do
@@ -19,8 +19,8 @@ module HathiTrust
             .and_return(%w(meta.yml checksum.md5 00000001.tif))
         end
 
-        it_behaves_like "a validation with the correct interface"
-        it_behaves_like "a validation with a valid package"
+        it_behaves_like "a validator with the correct interface"
+        it_behaves_like "a validator with a valid package"
       end
 
       context "with one unknown tag" do
@@ -29,10 +29,10 @@ module HathiTrust
             .and_return(pagedata_with('00000001.tif: { label: "GARBAGE" }'))
         end
 
-        it_behaves_like "a validation with an invalid package"
+        it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate warning message" do
-          expect(human_messages(validation.validate))
+          expect(human_messages(validator.validate))
             .to include(a_string_matching(/GARBAGE.*00000001\.tif/))
         end
       end
@@ -43,10 +43,10 @@ module HathiTrust
             .and_return(pagedata_with('00000001.tif: { label: "FRONT_COVER, GARBAGE" }'))
         end
 
-        it_behaves_like "a validation with an invalid package"
+        it_behaves_like "a validator with an invalid package"
 
         it "returns only one error" do
-          expect(human_messages(validation.validate).count).to be(1)
+          expect(human_messages(validator.validate).count).to be(1)
         end
       end
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# namespace for validations on meta.yml
+# namespace for validators for meta.yml
 module HathiTrust::Validator::MetaYml
 end
 

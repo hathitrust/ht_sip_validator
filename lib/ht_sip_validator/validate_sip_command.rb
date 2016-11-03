@@ -19,7 +19,7 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
       config = config(options[:config])
       validator = SIPValidatorRunner.new(config.package_checks, logger)
       sip = SIP::SIP.new(options[:sip])
-      validator.run_validations_on sip
+      validator.run_validators_on sip
     end
 
     private

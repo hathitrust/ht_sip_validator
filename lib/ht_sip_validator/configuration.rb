@@ -3,7 +3,7 @@ require "yaml"
 
 module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
-  # Represents a validation configuration.
+  # Represents a configuration for a set of Validators
   class Configuration
     attr_reader :config
 

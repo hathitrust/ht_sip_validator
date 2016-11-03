@@ -20,7 +20,7 @@ module HathiTrust
       let(:argv) { ["-c", config_file, "-s", zip_file] }
       let(:help_argv) { argv + ["-h"] }
 
-      it "runs the validations" do
+      it "runs the validators" do
         allow(Logger).to receive(:new).and_return(logger)
         expect { described_class.new(argv).exec }.to change { logger.logs }
           .to(["Running #{HathiTrust::Validator::MetaYml::Exists} "])
