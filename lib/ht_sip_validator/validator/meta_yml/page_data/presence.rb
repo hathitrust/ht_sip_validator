@@ -6,7 +6,7 @@ module HathiTrust::Validator
   # Validate that the page data key in meta.yml has the expected keys & values
   class MetaYml::PageData::Presence < Base
     def perform_validation
-      unless @sip.meta_yml.key?("pagedata")
+      unless @sip.metadata.key?("pagedata")
         create_warning(
           validation_type: :field_presence,
           human_message: "'pagedata' is not present in meta.yml; "\

@@ -10,14 +10,14 @@ module HathiTrust
       subject(:validator) { described_class.new(mocked_sip) }
 
       context "when meta.yml has capture_date" do
-        before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(valid_yaml) }
+        before(:each) { allow(mocked_sip).to receive(:metadata) .and_return(valid_yaml) }
 
         it_behaves_like "a validator with the correct interface"
         it_behaves_like "a validator with a valid package"
       end
 
       context "when meta.yml does not have capture_date" do
-        before(:each) { allow(mocked_sip).to receive(:meta_yml) .and_return(invalid_yaml) }
+        before(:each) { allow(mocked_sip).to receive(:metadata) .and_return(invalid_yaml) }
 
         it_behaves_like "a validator with an invalid package"
 

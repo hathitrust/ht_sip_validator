@@ -8,7 +8,7 @@ module HathiTrust::Validator
     REQUIRED_KEYS = %w(capture_date).freeze
     def perform_validation
       REQUIRED_KEYS.map do |key|
-        unless @sip.meta_yml.key?(key)
+        unless @sip.metadata.key?(key)
           create_error(
             validation_type: :has_field,
             human_message: "Missing required key #{key} in meta.yml",

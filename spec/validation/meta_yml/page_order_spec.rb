@@ -10,7 +10,7 @@ module HathiTrust
 
       context "when meta.yml has scanning and reading order" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(YAML.load("scanning_order: left-to-right\nreading_order: right-to-left")
                       .merge(valid_yaml))
         end
@@ -22,7 +22,7 @@ module HathiTrust
 
       context "when meta.yml has neither reading nor scanning order" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(valid_yaml)
         end
 
@@ -36,7 +36,7 @@ module HathiTrust
 
       context "when meta.yml has only reading order" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(YAML.load("reading_order: right-to-left")
                       .merge(valid_yaml))
         end
@@ -51,7 +51,7 @@ module HathiTrust
 
       context "when meta.yml has only scanning order" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(YAML.load("scanning_order: right-to-left")
                       .merge(valid_yaml))
         end
@@ -66,7 +66,7 @@ module HathiTrust
 
       context "when meta.yml has invalid scanning or reading order" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(YAML.load("scanning_order: top-to-bottom\n"\
                                 "reading_order: follows-scanning-order")
           .merge(valid_yaml))

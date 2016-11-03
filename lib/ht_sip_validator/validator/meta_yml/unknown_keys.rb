@@ -12,7 +12,7 @@ module HathiTrust::Validator
                     reading_order pagedata).to_set
 
     def perform_validation
-      @sip.meta_yml.keys.to_set.difference(KNOWN_KEYS).map do |key|
+      @sip.metadata.keys.to_set.difference(KNOWN_KEYS).map do |key|
         create_warning(
           validation_type: :field_valid,
           human_message: "Unknown key #{key} in meta.yml",

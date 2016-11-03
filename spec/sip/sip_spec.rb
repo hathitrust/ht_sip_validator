@@ -18,32 +18,39 @@ module HathiTrust::SIP
       end
     end
 
-    describe "#meta_yml" do
+    describe "#metadata" do
       context "with a well-formed zip" do
         include_context "with default zip"
         it "parses meta.yml" do
-          expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
+          expect(described_class.new(zip_file).metadata).to eql(zip_meta)
         end
       end
 
       context "with directory-free zip" do
         include_context "with nodirs zip"
         it "parses meta.yml" do
-          expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
+          expect(described_class.new(zip_file).metadata).to eql(zip_meta)
         end
       end
 
       context "with zip with deeply nested folder names" do
         include_context "with deeply_nested zip"
         it "parses meta.yml" do
-          expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
+          expect(described_class.new(zip_file).metadata).to eql(zip_meta)
         end
       end
 
       context "with zip missing meta.yml" do
         include_context "with empty zip"
         it "returns an empty hash" do
-          expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
+          expect(described_class.new(zip_file).metadata).to eql(zip_meta)
+        end
+      end
+
+      context "with an empty meta.yml file" do
+        include_context "with zip with empty meta.yml"
+        it "returns an empty hash" do
+          expect(described_class.new(zip_file).metadata).to eql(zip_meta)
         end
       end
     end

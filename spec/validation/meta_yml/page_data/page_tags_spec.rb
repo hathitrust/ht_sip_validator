@@ -11,7 +11,7 @@ module HathiTrust
     describe "#validate" do
       context "when pagetags are all known" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001.tif: { orderlabel: "1", '\
                                     'label: "IMAGE_ON_PAGE, FRONT_COVER" }'))
 
@@ -25,7 +25,7 @@ module HathiTrust
 
       context "with one unknown tag" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001.tif: { label: "GARBAGE" }'))
         end
 
@@ -39,7 +39,7 @@ module HathiTrust
 
       context "with one known and one unknown tag" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001.tif: { label: "FRONT_COVER, GARBAGE" }'))
         end
 
