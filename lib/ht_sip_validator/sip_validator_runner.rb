@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # Service reponsible for running a set of validations on a sip
-class HathiTrust::SIPValidator
+class HathiTrust::SIPValidatorRunner
   # Creates a new validator service using the specified configuration
   def initialize(validators, logger)
     @validators = validators

@@ -10,7 +10,7 @@ class TestLogger
   end
 end
 
-describe HathiTrust::SIPValidator do
+describe HathiTrust::SIPValidatorRunner do
   describe "#initialize" do
     it "accepts an array of validation classes and a logger" do
       validation_class = class_double("DemoValidation", new: double("validation instance"))
