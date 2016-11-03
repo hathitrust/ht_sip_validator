@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Validates that package contains meta.yml
   class MetaYml::Exists < Base
     def perform_validation

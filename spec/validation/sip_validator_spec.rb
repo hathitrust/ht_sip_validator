@@ -13,7 +13,7 @@ end
 describe HathiTrust::SIPValidatorRunner do
   describe "#initialize" do
     it "accepts an array of validation classes and a logger" do
-      validation_class = class_double("DemoValidation", new: double("validation instance"))
+      validation_class = class_double("DemoValidator", new: double("validation instance"))
       logger = double("a logger")
       expect(described_class.new([validation_class], logger)).to_not be_nil
     end
@@ -25,8 +25,8 @@ describe HathiTrust::SIPValidatorRunner do
     let(:message) { double("a validation message", to_s: "uno\ndos") }
     let(:validation_instance)  { double("a validation", validate: [message]) }
     let(:validation_classes)   do
-      [class_double("ValidationOne", new: validation_instance),
-       class_double("ValidationTwo", new: validation_instance)]
+      [class_double("ValidatorOne", new: validation_instance),
+       class_double("ValidatorTwo", new: validation_instance)]
     end
     let(:validator) { described_class.new(validation_classes, logger) }
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Warns if meta.yml has any unexpected keys
   class MetaYml::UnknownKeys < Base
     require "set"

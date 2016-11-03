@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 require "set"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Validate that each file referenced in pagedata refers to a file
   # that's actually in the package.
   class MetaYml::PageData::Files < Base

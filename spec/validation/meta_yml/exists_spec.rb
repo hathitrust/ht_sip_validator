@@ -3,7 +3,7 @@ require "spec_helper"
 
 module HathiTrust
 
-  describe Validation::MetaYml::Exists do
+  describe Validator::MetaYml::Exists do
     let(:mocked_sip) { SIP::SIP.new("") }
 
     subject(:validation) { described_class.new(mocked_sip) }

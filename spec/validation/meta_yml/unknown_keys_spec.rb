@@ -3,7 +3,7 @@ require "spec_helper"
 
 module HathiTrust
 
-  describe Validation::MetaYml::UnknownKeys do
+  describe Validator::MetaYml::UnknownKeys do
     describe "#validate" do
       include_context "with yaml fixtures"
 

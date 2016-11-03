@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation::Checksums
+module HathiTrust::Validator::Checksums
   # validates that package contains checksums
-  class Exists < HathiTrust::Validation::Base
+  class Exists < HathiTrust::Validator::Base
     def perform_validation
       unless @sip.files.include?(HathiTrust::SIP::CHECKSUM_FILE)
         create_error(

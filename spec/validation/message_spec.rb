@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   describe Message do
     let(:args) do
       {

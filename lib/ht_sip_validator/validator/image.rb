@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation::Image
+module HathiTrust::Validator::Image
   # Filename extensions to recognize as images
   IMG_FILE_EXTENSIONS = [".jp2", ".tif"].freeze
   
@@ -11,6 +11,6 @@ module HathiTrust::Validation::Image
   end
 end
 
-require "ht_sip_validator/validation/image/filenames"
-require "ht_sip_validator/validation/image/sequence"
-require "ht_sip_validator/validation/image/count"
+require "ht_sip_validator/validator/image/filenames"
+require "ht_sip_validator/validator/image/sequence"
+require "ht_sip_validator/validator/image/count"

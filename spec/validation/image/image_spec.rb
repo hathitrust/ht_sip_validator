@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe HathiTrust::Validation::Image do
+describe HathiTrust::Validator::Image do
 
-  subject {HathiTrust::Validation::Image}
+  subject {HathiTrust::Validator::Image}
 
   it "stores array of strings in IMG_FILE_EXTENSIONS" do
     expect(subject::IMG_FILE_EXTENSIONS).to be_a(Array)
@@ -20,7 +20,7 @@ describe HathiTrust::Validation::Image do
     let(:file_list) { other_files + target_files }
 
     before(:each) do
-      stub_const("HathiTrust::Validation::Image::IMG_FILE_EXTENSIONS", file_extensions)
+      stub_const("HathiTrust::Validator::Image::IMG_FILE_EXTENSIONS", file_extensions)
     end
 
     it 'only returns filenames with extensions define in IMG_FILE_EXTENSIONS' do

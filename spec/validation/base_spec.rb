@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   describe Base do
-    class TestBaseValidation < Base
+    class TestBaseValidator < Base
       def initialize(validation_result)
         super("")
         @validation_result = validation_result
@@ -19,7 +19,7 @@ module HathiTrust::Validation
       let(:validation) { Base.new(double(:sip)) }
       before(:each) do
         # Override the method class to just return its arguments
-        allow(HathiTrust::Validation::Message).to receive(:new) {|args| args }
+        allow(HathiTrust::Validator::Message).to receive(:new) {|args| args }
       end
 
       it "#create_message creates the correct message" do
@@ -37,7 +37,7 @@ module HathiTrust::Validation
     end
 
     describe "#validate" do
-      let(:validation) { TestBaseValidation.new(validation_result) }
+      let(:validation) { TestBaseValidator.new(validation_result) }
       context "subclass #perform_validation returns nil" do
         let(:validation_result) { nil }
         it "returns an empty array" do

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module HathiTrust::Validation
+module HathiTrust::Validator
 
   # Output of a validation that fails
   class Message

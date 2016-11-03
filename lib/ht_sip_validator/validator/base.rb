@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation
+module HathiTrust::Validator
 
   # Interface of validators
   class Base

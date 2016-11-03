@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation::Image
-  class Filenames < HathiTrust::Validation::Base
+module HathiTrust::Validator::Image
+  class Filenames < HathiTrust::Validator::Base
 
 
     def perform_validation
-      image_files = HathiTrust::Validation::Image.image_files(@sip.files)
+      image_files = HathiTrust::Validator::Image.image_files(@sip.files)
       return no_images_error if image_files.empty?
 
       bad_filenames = image_files.reject{|filename| is_valid_basename? filename}

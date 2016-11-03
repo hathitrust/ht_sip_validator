@@ -2,7 +2,7 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validation::MetaYml::PageOrder do
+  describe Validator::MetaYml::PageOrder do
     describe "#validate" do
       include_context "with yaml fixtures"
       let(:mocked_sip) { SIP::SIP.new("") }

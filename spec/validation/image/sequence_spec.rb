@@ -2,7 +2,7 @@
 require "spec_helper"
 require "pry"
 
-describe HathiTrust::Validation::Image::Sequence do
+describe HathiTrust::Validator::Image::Sequence do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
   let(:validation) { described_class.new(mocked_sip) }
 

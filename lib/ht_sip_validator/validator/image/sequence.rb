@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation::Image
-  class Sequence < HathiTrust::Validation::Base
+module HathiTrust::Validator::Image
+  class Sequence < HathiTrust::Validator::Base
 
     attr_accessor :image_files, :sequence
 
     def perform_validation
-      @image_files = HathiTrust::Validation::Image.image_files(@sip.files).sort
+      @image_files = HathiTrust::Validator::Image.image_files(@sip.files).sort
       return no_images_error if image_files.empty?
 
       # filenames that have invalid sequence numbers.

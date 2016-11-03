@@ -2,7 +2,7 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validation::MetaYml::PageData::Keys do
+  describe Validator::MetaYml::PageData::Keys do
     describe "#validate" do
       include_context "with pagedata fixtures"
       subject(:validation) { described_class.new(mocked_sip) }

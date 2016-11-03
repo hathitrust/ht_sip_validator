@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe HathiTrust::Validation::Image::Filenames do
+describe HathiTrust::Validator::Image::Filenames do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
   let(:validation) { described_class.new(mocked_sip) }
 

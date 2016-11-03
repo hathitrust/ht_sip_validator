@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation
+module HathiTrust::Validator
   # Validate that all page tags are in the allowed set.
   class MetaYml::PageData::PageTags < Base
     ALLOWED_PAGETAGS = %w(BACK_COVER BLANK CHAPTER_PAGE CHAPTER_START COPYRIGHT

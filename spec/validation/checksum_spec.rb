@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe HathiTrust::Validation::Checksums::Exists do
+describe HathiTrust::Validator::Checksums::Exists do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
   let(:validation) { described_class.new(mocked_sip) }
 
@@ -29,9 +29,9 @@ describe HathiTrust::Validation::Checksums::Exists do
   end
 end
 
-describe HathiTrust::Validation::Checksums::FileListComplete do
+describe HathiTrust::Validator::Checksums::FileListComplete do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
-  let(:exempt_filenames) { HathiTrust::Validation::Checksums::EXEMPT_FILENAMES }
+  let(:exempt_filenames) { HathiTrust::Validator::Checksums::EXEMPT_FILENAMES }
   let(:mock_checksums) { instance_double("HathiTrust::SIP::Checksums") }
   let(:validation) { described_class.new(mocked_sip) }
 
@@ -70,9 +70,9 @@ describe HathiTrust::Validation::Checksums::FileListComplete do
   end
 end
 
-describe HathiTrust::Validation::Checksums::WellFormed do
+describe HathiTrust::Validator::Checksums::WellFormed do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
-  let(:exempt_filenames) { HathiTrust::Validation::Checksums::EXEMPT_FILENAMES }
+  let(:exempt_filenames) { HathiTrust::Validator::Checksums::EXEMPT_FILENAMES }
   let(:mock_checksums) { instance_double("HathiTrust::SIP::Checksums") }
   let(:validation) { described_class.new(mocked_sip) }
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-require "ht_sip_validator/validation/base"
+require "ht_sip_validator/validator/base"
 
-module HathiTrust::Validation::Checksums
+module HathiTrust::Validator::Checksums
   # validates that checksums exist for all files in the sip
-  class FileListComplete < HathiTrust::Validation::Base
+  class FileListComplete < HathiTrust::Validator::Base
     def perform_validation
       errors = @sip.files.map do |filename|
         # The filename needs to have a checksum OR the filename needs to be on the exempt list

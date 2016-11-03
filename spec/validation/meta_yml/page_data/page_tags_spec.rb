@@ -4,7 +4,7 @@ require "spec_helper"
 # Ensure that every file referenced in the page data refers to a file actually
 # present in the SIP
 module HathiTrust
-  describe Validation::MetaYml::PageData::PageTags do
+  describe Validator::MetaYml::PageData::PageTags do
     include_context "with pagedata fixtures"
     subject(:validation) { described_class.new(mocked_sip) }
 

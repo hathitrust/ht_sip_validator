@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module HathiTrust::Validation::Image
-  class Count < HathiTrust::Validation::Base
+module HathiTrust::Validator::Image
+  class Count < HathiTrust::Validator::Base
 
     def perform_validation
-      image_files = HathiTrust::Validation::Image.image_files(@sip.files)
+      image_files = HathiTrust::Validator::Image.image_files(@sip.files)
       
       if image_files.count != text_files.count
         create_error(
