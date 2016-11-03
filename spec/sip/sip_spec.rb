@@ -39,12 +39,29 @@ module HathiTrust::SIP
           expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
         end
       end
+
+      context "with zip missing meta.yml" do
+        include_context "with empty zip"
+        it "returns an empty hash" do
+          expect(described_class.new(zip_file).meta_yml).to eql(zip_meta)
+        end
+      end
     end
 
     describe "#checksums" do
-      include_context "with default zip"
-      it "returns a hash of filenames to checksums" do
-        expect(described_class.new(zip_file).checksums).to be_a Checksums
+      context "with a well-formed zip" do
+        include_context "with default zip"
+        it "returns a hash of filenames to checksums" do
+          expect(described_class.new(zip_file).checksums).to be_a Checksums
+        end
+      end
+
+
+      context "with zip missing checksum.md5" do
+        include_context "with empty zip"
+        it "returns an empty hash" do
+          expect(described_class.new(zip_file).checksums.checksums).to eql({})
+        end
       end
     end
 

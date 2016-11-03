@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require "zip"
 require "yaml"
+require "set"
 
 module HathiTrust::SIP
   CHECKSUM_FILE = "checksum.md5"
@@ -15,27 +16,36 @@ module HathiTrust::SIP
       @extraction_dir = nil
     end
 
-    # @return [Array] a list of file names in the SIP
+    # @return [Set] a set of file names in the SIP
     def files
       @files ||= open_zip do |zip_file|
         zip_file.select {|e| !e.name_is_directory? }
           .map(&:name)
-          .map {|e| File.basename(e) }
+          .map {|e| File.basename(e) }.to_set
       end
     end
 
     # @return [Hash] the parsed meta.yml from the SIP
     def meta_yml
-      @meta_yml ||= file_in_zip(META_FILE) do |file|
-        YAML.load(file.read)
-      end
+      
+      @meta_yml ||= if files.include?(META_FILE)
+                      file_in_zip(META_FILE) do |file|
+                        YAML.load(file.read)
+                      end
+                    else
+                      {}
+                    end
     end
 
     # @return [Checksums] the checksums from checksum.md5 in the SIP
     def checksums
-      @checksums ||= file_in_zip(CHECKSUM_FILE) do |file|
-        Checksums.new(file)
-      end
+      @checksums ||= if files.include?(CHECKSUM_FILE)
+                       file_in_zip(CHECKSUM_FILE) do |file|
+                         Checksums.new(file)
+                       end
+                     else
+                       Checksums.new(StringIO.new(''))
+                     end
     end
 
     # Extracts the files to a temporary directory and passes
