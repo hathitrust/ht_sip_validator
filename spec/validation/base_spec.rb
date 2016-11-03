@@ -16,7 +16,7 @@ module HathiTrust::Validation
 
     describe "message generation" do
       let(:params) { { validation: "test", human_message: "sdfsdfsda" } }
-      let(:validation) { Base.new(double(:sip)) }
+      let(:validation) { TestBaseValidation.new(double(:sip)) }
       before(:each) do
         # Override the method class to just return its arguments
         allow(HathiTrust::Validation::Message).to receive(:new) {|args| args }
@@ -24,15 +24,15 @@ module HathiTrust::Validation
 
       it "#create_message creates the correct message" do
         expect(validation.create_message(params.merge(level: :test)))
-          .to eql(params.merge(level: :test, validation: validation.class))
+          .to eql(params.merge(level: :test, validator: "TestBaseValidation", validation: "test"))
       end
       it "#create_error creates the correct message" do
         expect(validation.create_error(params))
-          .to eql params.merge(level: Message::ERROR, validation: validation.class)
+          .to eql params.merge(level: Message::ERROR, validator: "TestBaseValidation", validation: "test")
       end
       it "#create_message creates the correct message" do
         expect(validation.create_warning(params))
-          .to eql params.merge(level: Message::WARNING, validation: validation.class)
+          .to eql params.merge(level: Message::WARNING, validator: "TestBaseValidation", validation: "test")
       end
     end
 

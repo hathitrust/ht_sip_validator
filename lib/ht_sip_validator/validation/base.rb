@@ -26,7 +26,7 @@ module HathiTrust::Validation
     end
 
     def create_message(params)
-      Message.new(params.merge(validation: self.class))
+      Message.new(params.merge(validator: self.class.to_s.split("Validation::").last))
     end
 
     def create_error(params)
