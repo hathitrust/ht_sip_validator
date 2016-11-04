@@ -1,3 +1,3 @@
 ---
 package_checks:
- - MetaYml::Exists
+  - MetaYml::Exists: []

@@ -7,15 +7,11 @@ module HathiTrust
     include_context "with stubbed validators"
 
     describe "#initialize" do
-      it "accepts a string" do
-        expect(ValidatorConfig.new("ValidatorOne")).to be_a(ValidatorConfig)
-      end
-      it "accepts a hash with one key whose value is a string" do
-        expect(ValidatorConfig.new("ValidatorOne": "ValidatorTwo"))
-          .to be_a(ValidatorConfig)
+      it "accepts an hash with one key whose value is an empty array" do
+        expect(ValidatorConfig.new("ValidatorOne": [])).to be_a(ValidatorConfig)
       end
       it "accepts a hash with one key whose value is an array of strings" do
-        expect(ValidatorConfig.new("ValidatorOne": "ValidatorThree"))
+        expect(ValidatorConfig.new("ValidatorOne": %w(ValidatorTwo ValidatorThree)))
           .to be_a(ValidatorConfig)
       end
 
@@ -37,7 +33,7 @@ module HathiTrust
         # don't use one of the stubbed validators
         # because a class double is not a class
         stub_const("HathiTrust::Validator::StubbedValidator", Class.new)
-        validator = ValidatorConfig.new("StubbedValidator")
+        validator = ValidatorConfig.new("StubbedValidator": [])
         expect(validator.validator_class).to be_a(Class)
       end
     end
@@ -45,14 +41,14 @@ module HathiTrust
     describe "#prerequisites" do
       context "with no prerequisites" do
         it "returns an empty array" do
-          validator = ValidatorConfig.new("ValidatorOne")
+          validator = ValidatorConfig.new("ValidatorOne": [])
           expect(validator.prerequisites).to eql([])
         end
       end
 
       context "with one prerequisite" do
         it "returns an array with one class" do
-          validator = ValidatorConfig.new("ValidatorOne": "ValidatorTwo")
+          validator = ValidatorConfig.new("ValidatorOne": ["ValidatorTwo"])
           expect(validator.prerequisites).to eql([HathiTrust::Validator::ValidatorTwo])
         end
       end

@@ -26,7 +26,7 @@ module HathiTrust
       end
 
       it "resolves a check named ConfigTestValidator" do
-        file = double(:io, read: "---\npackage_checks:\n - ConfigTestValidator\n")
+        file = double(:io, read: "---\npackage_checks:\n - ConfigTestValidator: []\n")
         config = described_class.new(file)
         expect(config.package_checks.map(&:validator_class))
           .to eql([Validator::ConfigTestValidator])
