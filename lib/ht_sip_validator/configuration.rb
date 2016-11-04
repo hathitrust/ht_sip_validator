@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "yaml"
+require "ht_sip_validator/validator_config"
 
 module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
@@ -13,8 +14,7 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
     def package_checks
       (config["package_checks"] || [])
-        .map {|name| name.sub(/\AValidator::/, "") }
-        .map {|name| Validator.const_get(name) }
+        .map {|config| ValidatorConfig.new(config) }
     end
   end
 

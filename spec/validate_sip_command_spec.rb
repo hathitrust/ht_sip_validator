@@ -4,14 +4,7 @@ require "spec_helper"
 module HathiTrust
 
   describe ValidateSIPCommand, integration: true do
-    class TestLogger
-      attr_accessor :logs, :level
-      def info(message)
-        self.logs ||= []
-        self.logs << message
-      end
-    end
-
+    include_context "with test logger"
     include_context "with default zip"
     include_context "with minimal config"
     let(:logger) { TestLogger.new }

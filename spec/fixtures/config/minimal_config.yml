@@ -1,3 +1,3 @@
 ---
 package_checks:
- - Validator::MetaYml::Exists
+ - MetaYml::Exists
