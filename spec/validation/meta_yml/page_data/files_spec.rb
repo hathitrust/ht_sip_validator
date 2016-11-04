@@ -11,7 +11,7 @@ module HathiTrust
     describe "#validate" do
       context "when all files are present for the provided pagedata" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001.tif: { label: "FRONT_COVER" }'))
 
           allow(mocked_sip).to receive(:files)
@@ -24,7 +24,7 @@ module HathiTrust
 
       context "when a file is missing that is referenced in the pagedata" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001.jp2: { label: "FRONT_COVER" }'))
 
           allow(mocked_sip).to receive(:files)

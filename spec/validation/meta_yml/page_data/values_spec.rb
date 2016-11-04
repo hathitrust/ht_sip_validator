@@ -8,7 +8,7 @@ module HathiTrust
       subject(:validator) { described_class.new(mocked_sip) }
 
       context "when page data is a hash with filenames whose keys have label and/or orderlabel" do
-        before(:each) { allow(mocked_sip).to receive(:meta_yml).and_return(good_pagedata) }
+        before(:each) { allow(mocked_sip).to receive(:metadata).and_return(good_pagedata) }
         it_behaves_like "a validator with a valid package"
         it_behaves_like "a validator with the correct interface"
 
@@ -19,7 +19,7 @@ module HathiTrust
 
       context "when page data has a sequence number only" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('00000001: { label: "FRONT_COVER" }'))
         end
 
@@ -33,7 +33,7 @@ module HathiTrust
 
       context "when page data has keys from the wrong scope" do
         before(:each) do
-          allow(mocked_sip).to receive(:meta_yml)
+          allow(mocked_sip).to receive(:metadata)
             .and_return(pagedata_with('tiff_artist: "University of Michigan"'))
         end
 

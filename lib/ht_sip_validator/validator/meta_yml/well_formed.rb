@@ -6,7 +6,7 @@ module HathiTrust::Validator
   # Validates that meta.yml is loadable & parseable
   class MetaYml::WellFormed < Base
     def perform_validation
-      @sip.meta_yml
+      @sip.metadata
       return []
     rescue RuntimeError => e
       return create_error(
