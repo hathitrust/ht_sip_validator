@@ -26,6 +26,5 @@ describe HathiTrust::Validator::Image::Count do
 
       it_behaves_like "a validator with an invalid package"
     end
-
   end
 end

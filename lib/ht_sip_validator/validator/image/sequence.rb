@@ -20,18 +20,18 @@ module HathiTrust::Validator::Image
       # sequence values that are missing from sequence of image files.
       missing = missing_values sequence
 
-      errors = Array.new
-      errors += missing.map{|value| missing_error_for value}
-      errors += invalid_files.map{|filename| invalid_error_for filename}
-      errors += duplicate_files.map{|filename| duplication_error_for filename}
+      errors = []
+      errors += missing.map {|value| missing_error_for value }
+      errors += invalid_files.map {|filename| invalid_error_for filename }
+      errors += duplicate_files.map {|filename| duplication_error_for filename }
 
-      return errors
+      errors
     end
 
-    private 
+    private
 
-    def sequence_files(filenames=[]) 
-      filenames.map{|filename| File.basename(filename, ".*").to_i }
+    def sequence_files(filenames = [])
+      filenames.map {|filename| File.basename(filename, ".*").to_i }
     end
 
     def sequence
@@ -39,28 +39,28 @@ module HathiTrust::Validator::Image
     end
 
     def indexes_of_sequence_values(values)
-      values.map{|value| sequence.each_index.select{|idx| sequence[idx] == value}}.flatten   
+      values.map {|value| sequence.each_index.select {|idx| sequence[idx] == value } }.flatten
     end
 
     def filenames_of_sequence_values(values)
-      indexes_of_sequence_values(values).map{|idx| image_files[idx]}.uniq
+      indexes_of_sequence_values(values).map {|idx| image_files[idx] }.uniq
     end
 
     # Sequence problem discovery methods
-    
+
     # Find missing counting numbers between 1 and array max
     def missing_values(array)
       expected = Range.new(1, array.max)
-      missing_vals = expected.reject{|val| array.include? val}
+      missing_vals = expected.reject {|val| array.include? val }
     end
 
     # Find duplicate values in an array
-    #   Trick is to group by value to get hash of arrays. e.g 
+    #   Trick is to group by value to get hash of arrays. e.g
     #   [1,2,2,3].group_by{|val| val} gives you {1=>[1], 2=>[2, 2], 3=>[3]}
     def duplicate_values(array)
-      array.group_by{ |val| val }
-           .select { |k, v| v.size > 1 }
-           .keys
+      array.group_by {|val| val }
+        .select {|_k, v| v.size > 1 }
+        .keys
     end
 
     def invalid_values(array)
@@ -70,11 +70,11 @@ module HathiTrust::Validator::Image
     # Convenience methods for creating errors
 
     def no_images_error
-        create_error(
-          validation_type: :image_sequence,
-          human_message: "No image filenames recognized.",
-          extras: { image_count: 0 }
-        )
+      create_error(
+        validation_type: :image_sequence,
+        human_message: "No image filenames recognized.",
+        extras: { image_count: 0 }
+      )
     end
 
     def invalid_error_for(filename)
@@ -85,7 +85,7 @@ module HathiTrust::Validator::Image
     end
 
     def missing_error_for(value)
-      formatted_value = sprintf("%.8d",value)
+      formatted_value = sprintf("%.8d", value)
       create_error(
         validation_type: :image_sequence,
         human_message: "Image sequence missing #{formatted_value}",

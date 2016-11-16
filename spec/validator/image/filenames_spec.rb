@@ -33,6 +33,5 @@ describe HathiTrust::Validator::Image::Filenames do
 
       it_behaves_like "a validator with an invalid package"
     end
-
   end
 end

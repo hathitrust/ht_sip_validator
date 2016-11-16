@@ -27,7 +27,7 @@ module HathiTrust::Validator
 
     def to_s
       "#{level.to_s.upcase}: "\
-        "#{validator.to_s.sub('HathiTrust::Validator::','')}"\
+        "#{validator.to_s.sub("HathiTrust::Validator::", "")}"\
         " - #{human_message}"
     end
 
