@@ -25,6 +25,11 @@ module HathiTrust::SIP
       end
     end
 
+    # @return [Array] all paths (files and directories) inside the SIP
+    def paths
+      @paths ||= open_zip {|z| z.map(&:name) }
+    end
+
     # @return [Hash] the parsed meta.yml from the SIP
     def metadata
       @metadata ||= if files.include?(META_FILE)

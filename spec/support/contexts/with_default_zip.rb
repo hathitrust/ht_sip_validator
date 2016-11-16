@@ -22,4 +22,8 @@ shared_context "with default zip" do
     %w(00000001.tif 00000001.txt 00000002.jp2
        00000002.txt checksum.md5 meta.yml)
   end
+  let(:zip_paths) do
+    %w(test/ test/00000001.tif test/00000001.txt test/00000002.jp2
+       test/00000002.txt test/checksum.md5 test/meta.yml)
+  end
 end
