@@ -4,11 +4,21 @@ require "yaml"
 require "set"
 
 module HathiTrust::SIP
+
   CHECKSUM_FILE = "checksum.md5"
   META_FILE = "meta.yml"
 
+  FILE_GROUP_EXTENSIONS = {
+    image: [".jp2", ".tif"],
+    ocr: [".txt"],
+    coord_ocr: [".xml", ".html"]
+  }.freeze
+
+  NON_GROUP_FILES = [CHECKSUM_FILE, META_FILE, "marc.xml"].freeze
+
   # A HathiTrust simple SIP file, packaged as zip
   class SIP
+
     # Initialize a SubmissionPackage given an existing file
     # @param [String] zip_file_name The path to the SIP package
     def initialize(zip_file_name)
@@ -68,6 +78,15 @@ module HathiTrust::SIP
       end
     end
 
+    # @return [Array] sub-set of filenames in a given group
+    def group_files(group)
+      raise ArgumentError, "No such file group #{group}" unless FILE_GROUP_EXTENSIONS.key?(group)
+
+      files.select {|f| FILE_GROUP_EXTENSIONS[group].include? File.extname(f) }
+        .reject {|f| NON_GROUP_FILES.include? f }
+        .sort
+    end
+
     private
 
     def file_in_zip(file_name)
@@ -88,4 +107,5 @@ module HathiTrust::SIP
       end
     end
   end
+
 end

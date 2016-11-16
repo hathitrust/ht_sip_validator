@@ -3,6 +3,19 @@ require "spec_helper"
 
 # specs for HathiTrust submission package
 module HathiTrust::SIP
+
+  describe FILE_GROUP_EXTENSIONS do
+    [:image, :coord_ocr, :ocr].each do |group|
+      it "stores array of strings in FILE_GROUP_EXTENSIONS[#{group}]" do
+        expect(subject[group]).to be_a(Array)
+        subject[group].each do |item|
+          expect(item).to be_a(String)
+          expect(item).to match(/^\.[a-z0-9]{3,4}$/)
+        end
+      end
+    end
+  end
+
   describe SIP do
     describe "#initialize" do
       include_context "with default zip"
@@ -102,6 +115,33 @@ module HathiTrust::SIP
         described_class.new(zip_file).extract {|dir| dir_saved = dir }
         expect(dir_saved).not_to be_empty
         expect(File.exist?(dir_saved)).to be_falsey
+      end
+    end
+
+    describe "#group_files" do
+      let(:file_extensions) { [".bar", ".baz"] }
+      let(:target_files) { %w(00000003.jp2 00000002.tif 00000001.jp2) }
+      let(:other_files) { %w(00000001.txt 00000002.txt 00000003.txt checksum.md5 meta.yml) }
+      let(:file_list) { other_files + target_files }
+      subject { SIP.new("") }
+
+      before(:each) do
+        allow(subject).to receive(:files).and_return(file_list)
+      end
+
+      it "only returns filenames from the appropriate group" do
+        returned_files = subject.group_files(:image)
+        expect(returned_files.count).to eq(target_files.count)
+        expect(returned_files).to all(match(/\.(jp2|tif)$/))
+      end
+
+      it "returns sorted filenames" do
+        returned_files = subject.group_files(:image)
+        expect(returned_files).to eq(target_files.sort)
+      end
+
+      it "raises ArgumentError for a nonexistent group" do
+        expect { subject.group_files(:ponies) }.to raise_error(ArgumentError)
       end
     end
   end

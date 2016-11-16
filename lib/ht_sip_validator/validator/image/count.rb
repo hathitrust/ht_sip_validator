@@ -4,8 +4,7 @@ module HathiTrust::Validator::Image
   class Count < HathiTrust::Validator::Base
 
     def perform_validation
-      image_files = HathiTrust::Validator::Image.image_files(@sip.files)
-
+      image_files = @sip.group_files(:image)
       if image_files.count != text_files.count
         create_error(
           validation_type: :image_count,
