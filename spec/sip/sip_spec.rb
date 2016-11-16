@@ -18,6 +18,22 @@ module HathiTrust::SIP
       end
     end
 
+    describe "#paths" do
+      context "with a well-formed zip" do
+        include_context "with default zip"
+        it "returns a list of all paths in the zip" do
+          expect(described_class.new(zip_file).paths.sort).to eql(zip_paths)
+        end
+      end
+
+      context "with a zip with duplicate filenames" do
+        include_context "with duplicate filenames zip"
+        it "returns a list of all paths in the zip" do
+          expect(described_class.new(zip_file).paths.sort).to eql(zip_paths)
+        end
+      end
+    end
+
     describe "#metadata" do
       context "with a well-formed zip" do
         include_context "with default zip"
@@ -62,7 +78,6 @@ module HathiTrust::SIP
           expect(described_class.new(zip_file).checksums).to be_a Checksums
         end
       end
-
 
       context "with zip missing checksum.md5" do
         include_context "with empty zip"
