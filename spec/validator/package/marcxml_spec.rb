@@ -2,7 +2,7 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validator::MarcXML do
+  describe Validator::Package::MarcXML do
     let(:mocked_sip) { SIP::SIP.new("") }
     let(:validator) { described_class.new(mocked_sip) }
 
