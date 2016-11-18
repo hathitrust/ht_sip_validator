@@ -5,3 +5,4 @@ module HathiTrust::Validator::OCR
 end
 
 require "ht_sip_validator/validator/ocr/coordinate_format"
+require "ht_sip_validator/validator/ocr/has_image"
