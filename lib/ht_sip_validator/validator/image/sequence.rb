@@ -6,7 +6,7 @@ module HathiTrust::Validator::Image
     attr_accessor :image_files, :sequence
 
     def perform_validation
-      @image_files = HathiTrust::Validator::Image.image_files(@sip.files).sort
+      @image_files = @sip.group_files(:image).sort
       return no_images_error if image_files.empty?
 
       # filenames that have invalid sequence numbers.
