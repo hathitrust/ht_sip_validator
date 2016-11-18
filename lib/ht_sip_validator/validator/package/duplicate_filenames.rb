@@ -18,7 +18,7 @@ module HathiTrust::Validator
           validation_type: :file_absent,
           human_message: "Filename #{filename} appears multiple times "\
            " in the SIP: #{paths.join(", ")}. Each file name must appear "\
-           " only one in the SIP.",
+           " only once in the SIP.",
           extras: { filename: filename, actual: paths }
         )
       end

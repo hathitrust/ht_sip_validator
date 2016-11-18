@@ -50,7 +50,7 @@ describe HathiTrust::Validator::Image::Sequence do
            00000003.tif 00000003.txt 00000004.jp2 00000004.txt
            checksum.md5 meta.yml)
       end
-      let(:dupes) { %w( 00000005.tif 00000005.jp2 00000006.jp2 00000006.jp2) }
+      let(:dupes) { %w(00000005.tif 00000005.jp2 00000006.jp2 00000006.jp2) }
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list + dupes) }
 
       it_behaves_like "a validator with an invalid package"
@@ -62,7 +62,7 @@ describe HathiTrust::Validator::Image::Sequence do
       end
 
       it "emits errors that reference the offending filename." do
-        messages = human_messages( validator.validate )
+        messages = human_messages(validator.validate)
         dupes.each do |filename|
           expect(messages).to include(a_string_matching(/#{filename}/))
         end
@@ -70,20 +70,19 @@ describe HathiTrust::Validator::Image::Sequence do
     end
 
     context "an image filename produces an invalid sequence number." do
-      let(:bad_list) { ['000000a1.tif'] }
-      let(:good_list) { ['00000002.tif', '00000003.tif'] }
+      let(:bad_list) { ["000000a1.tif"] }
+      let(:good_list) { ["00000002.tif", "00000003.tif"] }
       let(:file_list) { good_list + bad_list }
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
       it_behaves_like "a validator with an invalid package"
 
       it "emitted errors reference the offending filename." do
-        messages = human_messages( validator.validate )
+        messages = human_messages(validator.validate)
         bad_list.each do |filename|
           expect(messages).to include(a_string_matching(/#{filename}/))
         end
       end
     end
-
   end
 end

@@ -8,7 +8,6 @@ module HathiTrust
       subject(:validator) { described_class.new(mocked_sip) }
 
       context "when page data is a hash with filenames whose keys have label and/or orderlabel" do
-
         before(:each) { allow(mocked_sip).to receive(:metadata).and_return(good_pagedata) }
         it_behaves_like "a validator with a valid package"
         it_behaves_like "a validator with the correct interface"

@@ -5,14 +5,14 @@ module HathiTrust::Validator::Image
 
     def perform_validation
       image_files = HathiTrust::Validator::Image.image_files(@sip.files)
-      
+
       if image_files.count != text_files.count
         create_error(
           validation_type: :image_count,
           human_message: "Number of images: #{image_files.count}"\
                          " does not match number of text files: #{text_files.count}.",
           extras: { image_count: image_files.count,
-                    text_count: text_files.count}
+                    text_count: text_files.count }
         )
       end
     end
@@ -21,7 +21,7 @@ module HathiTrust::Validator::Image
 
     # Convenience method for getting subset of sip files that end in .txt
     def text_files
-      @sip.files.select{|filename| File.extname(filename).downcase == ".txt"}
+      @sip.files.select {|filename| File.extname(filename).casecmp(".txt").zero? }
     end
 
   end

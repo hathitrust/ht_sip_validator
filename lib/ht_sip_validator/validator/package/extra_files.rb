@@ -9,7 +9,7 @@ module HathiTrust::Validator
   class Package::ExtraFiles < Base
     def perform_validation
       warn_extra_yml_files +
-      warn_extra_md5_files
+        warn_extra_md5_files
     end
 
     private

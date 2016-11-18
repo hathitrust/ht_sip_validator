@@ -6,7 +6,7 @@ module HathiTrust::Validator
   VALID_EXTENSIONS = %w(.jp2 .tif .txt .html .xml .yml .pdf .md5).to_set
 
   # Warn for files with unhandled filename extensions
-  class Filenames < Base
+  class Package::FileTypes < Base
 
     def perform_validation
       @sip.files.reject {|f| valid_extension?(f) }.map do |filename|

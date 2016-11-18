@@ -4,7 +4,7 @@ require "set"
 module HathiTrust::Validator
 
   # Warn if marc.xml is present
-  class MarcXML < Base
+  class Package::MarcXML < Base
 
     def perform_validation
       if @sip.files.include?("marc.xml")
