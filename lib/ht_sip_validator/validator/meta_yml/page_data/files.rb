@@ -7,7 +7,7 @@ module HathiTrust::Validator
   # that's actually in the package.
   class MetaYml::PageData::Files < Base
     def perform_validation
-      @sip.metadata["pagedata"].keys.to_set.difference(@sip.files).map do |pagefile|
+      @sip.metadata.fetch("pagedata",{}).keys.to_set.difference(@sip.files).map do |pagefile|
         create_error(
           validation_type: :file_present,
           human_message: "pagedata in meta.yml references #{pagefile}, but that file "\

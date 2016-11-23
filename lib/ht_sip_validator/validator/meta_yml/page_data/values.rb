@@ -7,7 +7,7 @@ module HathiTrust::Validator
   class MetaYml::PageData::Values < Base
 
     def perform_validation
-      @sip.metadata["pagedata"].map do |key, value|
+      @sip.metadata.fetch("pagedata",{}).map do |key, value|
         if value.is_a?(Hash)
           value.keys
             .select {|k| k != "label" && k != "orderlabel" }

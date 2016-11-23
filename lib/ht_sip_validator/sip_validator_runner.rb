@@ -30,6 +30,8 @@ class HathiTrust::SIPValidatorRunner
         run_file_validator_on(validator_config.validator_class, filename, sip, results)
       else
         skip_validator(validator_config, results)
+        # expecting to have an array of messages
+        []
       end
     end
   end
@@ -72,12 +74,17 @@ class HathiTrust::SIPValidatorRunner
     # if prerequisites didn't run
     results[validator_config.validator_class] = :skipped
 
-    message = "Skipping #{validator_config.validator_class}: " +
+    message = "Skipping #{strip_module(validator_config.validator_class)}: " +
       failed_prereqs(validator_config.prerequisites, results).map do |p|
-        p.to_s + " " + prereq_failure_message(results[p])
+        strip_module(p).to_s + " " + prereq_failure_message(results[p])
       end.join("; ")
 
     @logger.send(message_error_level(validator_config, results), message)
+    
+  end
+
+  def strip_module(klass)
+    return klass.to_s.sub('HathiTrust::Validator::','')
   end
 
   def message_error_level(validator_config, results)
