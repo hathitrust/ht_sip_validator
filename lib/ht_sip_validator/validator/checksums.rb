@@ -7,3 +7,4 @@ end
 require "ht_sip_validator/validator/checksums/exists"
 require "ht_sip_validator/validator/checksums/file_list_complete"
 require "ht_sip_validator/validator/checksums/well_formed"
+require "ht_sip_validator/validator/checksums/expected_value"
