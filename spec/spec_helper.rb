@@ -109,6 +109,10 @@ def config_path
   File.dirname(__FILE__) + "/fixtures/config"
 end
 
+def open_fixture(path, file)
+  File.open(File.join(fixtures_path, path, file))
+end
+
 def any_errors?(messages)
   messages.any?(&:error?)
 end
