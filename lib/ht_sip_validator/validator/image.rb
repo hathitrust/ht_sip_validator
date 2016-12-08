@@ -5,4 +5,3 @@ module HathiTrust::Validator::Image
 end
 
 require "ht_sip_validator/validator/image/sequence"
-require "ht_sip_validator/validator/image/count"

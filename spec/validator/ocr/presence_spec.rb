@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "spec_helper"
 
-describe HathiTrust::Validator::Image::Count do
+describe HathiTrust::Validator::OCR::Presence do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
   let(:validator) { described_class.new(mocked_sip) }
 
@@ -24,7 +24,12 @@ describe HathiTrust::Validator::Image::Count do
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
-      it_behaves_like "a validator with an invalid package"
+      it_behaves_like "a validator with warnings and only warnings"
+
+      it "returns an appropriate message" do
+        expect(human_messages(validator.validate))
+          .to include(a_string_matching(/00000004\.txt/))
+      end
     end
   end
 end
