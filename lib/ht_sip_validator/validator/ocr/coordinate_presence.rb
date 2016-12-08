@@ -10,9 +10,14 @@ module HathiTrust::Validator
     include OCR
 
     def perform_validation
-      file_set_diff(sequence_map(:ocr), "plain-text OCR",
-        sequence_map(:coord_ocr), "coordinate OCR",
-        ".{xml,html}", :warning)
+      ocr_seqs = sequence_map(:ocr)
+      coord_ocr_seqs = sequence_map(:coord_ocr)
+      missing_coord_message = filegroup_message_template("plain-text OCR",
+        "coordinate OCR", ".{xml,html}")
+
+      file_set_diff(ocr_seqs, coord_ocr_seqs).map do |seq|
+        create_warning(missing_coord_message.call(ocr_seqs, seq))
+      end
     end
 
   end

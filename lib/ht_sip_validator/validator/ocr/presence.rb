@@ -9,7 +9,13 @@ module HathiTrust::Validator
     include OCR
 
     def perform_validation
-      file_set_diff(sequence_map(:image), "image", sequence_map(:ocr), "OCR", ".txt", :warning)
+      ocr_seqs = sequence_map(:ocr)
+      image_seqs = sequence_map(:image)
+      missing_ocr_message = filegroup_message_template("image", "OCR", ".txt")
+
+      file_set_diff(image_seqs, ocr_seqs).map do |seq|
+        create_warning(missing_ocr_message.call(ocr_seqs, seq))
+      end
     end
 
   end
