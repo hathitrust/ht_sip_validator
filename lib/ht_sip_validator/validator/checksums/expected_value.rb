@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require "ht_sip_validator/validator/base"
 require "digest"
-require "pry"
 
 module HathiTrust::Validator::Checksums
   # validates that checksums file values match calculated values

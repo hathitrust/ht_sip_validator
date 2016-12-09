@@ -2,7 +2,7 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validator::MetaYml::PageData::Keys do
+  describe Validator::MetaYml::PageData::Values do
     describe "#validate" do
       include_context "with pagedata fixtures"
       subject(:validator) { described_class.new(mocked_sip) }
@@ -17,31 +17,31 @@ module HathiTrust
         end
       end
 
-      context "when page data has a sequence number only" do
+      context "when page data values have unexpected keys" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with(1 => { "label" => "FRONT_COVER" }))
+            .and_return(pagedata_with("00000001.tif" => { "aardvark" => "FRONT_COVER" }))
         end
 
         it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate error message" do
           expect(human_messages(validator.validate))
-            .to include(a_string_matching(/filename/))
+            .to include(a_string_matching(/aardvark/))
         end
       end
 
-      context "when page data has keys from the wrong scope" do
+      context "when page data value is not a hash" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("tiff_artist" => "University of Michigan"))
+            .and_return(pagedata_with("00000001.tif" => "aardvark"))
         end
 
         it_behaves_like "a validator with an invalid package"
 
         it "returns an appropriate error message" do
           expect(human_messages(validator.validate))
-            .to include(a_string_matching(/filename/))
+            .to include(a_string_matching(/aardvark/))
         end
       end
 

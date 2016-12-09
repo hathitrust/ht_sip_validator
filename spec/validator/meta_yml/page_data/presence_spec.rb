@@ -17,6 +17,8 @@ module HathiTrust
             .to include(a_string_matching(/page/))
         end
       end
+
+      it_behaves_like "a validator that can handle missing pagedata"
     end
   end
 end

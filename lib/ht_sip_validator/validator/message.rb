@@ -44,9 +44,6 @@ module HathiTrust::Validator
     end
 
     def ==(other)
-      if other.class == Array
-        binding.pry
-      end
       error? == other.error? &&
         validator == other.validator &&
         validation_type == other.validation_type &&

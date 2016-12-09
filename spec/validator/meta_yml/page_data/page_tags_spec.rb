@@ -48,6 +48,8 @@ module HathiTrust
           expect(human_messages(validator.validate).count).to be(1)
         end
       end
+
+      it_behaves_like "a validator that can handle missing pagedata"
     end
   end
 end

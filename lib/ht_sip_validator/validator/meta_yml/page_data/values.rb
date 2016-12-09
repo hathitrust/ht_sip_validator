@@ -7,12 +7,10 @@ module HathiTrust::Validator
   class MetaYml::PageData::Values < Base
 
     def perform_validation
-      @sip.metadata.fetch("pagedata",{}).map do |key, value|
+      @sip.metadata.fetch("pagedata", {}).map do |key, value|
         if value.is_a?(Hash)
-          value.keys
-            .select {|k| k != "label" && k != "orderlabel" }
-            .each do |pagedata_key|
-            record_bad_pagedata_value(key, pagedata_key)
+          if value.keys.any? {|k| k != "label" && k != "orderlabel" }
+            record_bad_pagedata_value(key, value)
           end
         else
           record_bad_pagedata_value(key, value)

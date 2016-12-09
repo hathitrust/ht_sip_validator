@@ -38,6 +38,8 @@ module HathiTrust
             .to include(a_string_matching(/.*pagedata.*00000001/))
         end
       end
+
+      it_behaves_like "a validator that can handle missing pagedata"
     end
   end
 end
