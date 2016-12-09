@@ -6,10 +6,10 @@ module HathiTrust
     include_context "with stubbed validators"
 
     describe "#initialize" do
-      it "accepts an array of validator configurations and a logger" do
-        validator_config = ValidatorConfig.new("ValidatorOne": [])
+      it "accepts a configuration a logger" do
+        validator_config = Configuration.new(StringIO.new(""))
         logger = double("a logger")
-        expect(described_class.new([validator_config], logger)).to_not be_nil
+        expect(described_class.new(validator_config, logger)).to_not be_nil
       end
     end
 
@@ -17,15 +17,20 @@ module HathiTrust
       include_context "with test logger"
       let(:sip)     { double("a sip") }
       let(:logger)  { TestLogger.new }
-      let(:config) do
+      let(:package_checks) do
         [ValidatorConfig.new("ValidatorOne": []),
          ValidatorConfig.new("ValidatorTwo": [])]
       end
-      let(:validator) { described_class.new(config, logger) }
+      let(:mocked_config) { Configuration.new(StringIO.new("")) }
+      let(:validator) { described_class.new(mocked_config, logger) }
+      before(:each) do
+        allow(mocked_config).to receive(:package_checks).and_return(package_checks)
+        allow(sip).to receive(:files).and_return([])
+      end
 
       shared_examples_for "a sipvalidator that runs each validator" do
         it "runs each validator on the sip" do
-          config.each do |validator_config|
+          package_checks.each do |validator_config|
             expect(validator_config.validator_class).to receive(:new).with(sip)
             expect(validator_instance).to receive(:validate)
           end
@@ -37,7 +42,7 @@ module HathiTrust
 
       it "logs the class names of each validator" do
         validator.run_validators_on sip
-        config.each do |validator_config|
+        package_checks.each do |validator_config|
           expect(logger.logs).to include(a_string_including(validator_config.validator_class.to_s))
         end
       end
@@ -61,11 +66,13 @@ module HathiTrust
         end
 
         context "when a validator with a dependency fails" do
-          let(:error_config) do
+          let(:error_checks) do
             [ValidatorConfig.new("AlwaysError": []),
              ValidatorConfig.new("ValidatorOne": ["AlwaysError"])]
           end
+          let(:error_config) { Configuration.new(StringIO.new("")) }
           let(:error_validator) { described_class.new(error_config, logger) }
+          before(:each) { allow(error_config).to receive(:package_checks).and_return(error_checks) }
 
           it "does not run dependent validators" do
             expect(Validator::ValidatorOne).not_to receive(:validate)
@@ -81,8 +88,11 @@ module HathiTrust
           end
         end
 
+        # FIXME DRY
         it "reports appropriately if dependency hasn't been run yet" do
-          error_config = [ValidatorConfig.new("ValidatorOne": ["AlwaysError"])]
+          error_checks = [ValidatorConfig.new("ValidatorOne": ["AlwaysError"])]
+          error_config = Configuration.new(StringIO.new(""))
+          allow(error_config).to receive(:package_checks).and_return(error_checks)
           error_validator = described_class.new(error_config, logger)
 
           error_validator.run_validators_on(sip)
@@ -92,9 +102,11 @@ module HathiTrust
         end
 
         it "reports if depdendency was skipped" do
-          error_config = [ValidatorConfig.new("AlwaysError": []),
+          error_checks = [ValidatorConfig.new("AlwaysError": []),
                           ValidatorConfig.new("ValidatorOne": ["AlwaysError"]),
                           ValidatorConfig.new("ValidatorTwo": ["ValidatorOne"])]
+          error_config = Configuration.new(StringIO.new(""))
+          allow(error_config).to receive(:package_checks).and_return(error_checks)
           error_validator = described_class.new(error_config, logger)
 
           error_validator.run_validators_on(sip)

@@ -17,7 +17,7 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
       return if options[:quit]
       raise ArgumentError unless options[:config] && options[:sip]
       config = config(options[:config])
-      validator = SIPValidatorRunner.new(config.package_checks, logger)
+      validator = SIPValidatorRunner.new(config, logger)
       sip = SIP::SIP.new(options[:sip])
       validator.run_validators_on sip
     end

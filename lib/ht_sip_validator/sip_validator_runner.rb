@@ -4,8 +4,8 @@ require "ht_sip_validator/validator_config"
 # Service reponsible for running a set of Validators on a sip
 class HathiTrust::SIPValidatorRunner
   # Creates a new validator service using the specified configuration
-  def initialize(configuration, logger)
-    @validators = configuration
+  def initialize(config, logger)
+    @config = config
     @logger = logger
   end
 
@@ -14,17 +14,35 @@ class HathiTrust::SIPValidatorRunner
   # @param sip [SubmissionPackage] The volume to validate
   def run_validators_on(sip)
     results = {}
-    messages = @validators.map do |validator_config|
+    messages = run_package_checks(sip, results)
+
+    sip.files.each do |filename|
+      messages += run_file_checks(filename, sip, results)
+    end
+    messages.reduce(:+)
+  end
+
+  private
+
+  def run_file_checks(filename, sip, results)
+    @config.file_checks.map do |validator_config|
+      if prereqs_succeeded(validator_config.prerequisites, results)
+        run_file_validator_on(validator_config.validator_class, filename, sip, results)
+      else
+        skip_validator(validator_config, results)
+      end
+    end
+  end
+
+  def run_package_checks(sip, results)
+    @config.package_checks.map do |validator_config|
       if prereqs_succeeded(validator_config.prerequisites, results)
         run_validator_on(validator_config.validator_class, sip, results)
       else
         skip_validator(validator_config, results)
       end
     end
-    messages.reduce(:+)
   end
-
-  private
 
   def prereqs_succeeded(prerequisites, results)
     prerequisites.all? {|p| results[p] == true }
@@ -32,6 +50,14 @@ class HathiTrust::SIPValidatorRunner
 
   def failed_prereqs(prerequisites, results)
     prerequisites.select {|p| results[p] != true }
+  end
+
+  def run_file_validator_on(validator_class, filename, sip, results)
+    @logger.info "Running #{validator_class} on #{filename}"
+
+    errors = validator_class.new(sip).validate_file(filename, FIXME)
+    results[validator_class] = validator_success?(errors)
+    errors.each {|error| @logger.info "\t" + error.to_s.gsub("\n", "\n\t") }
   end
 
   def run_validator_on(validator_class, sip, results)

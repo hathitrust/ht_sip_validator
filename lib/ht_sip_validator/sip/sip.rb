@@ -87,6 +87,14 @@ module HathiTrust::SIP
         .sort
     end
 
+    def each_file
+      open_zip do |zip_file|
+        zip_file.select {|e| !e.name_is_directory? }.each do |entry|
+          yield [File.basename(entry.name), entry.get_input_stream]
+        end
+      end
+    end
+
     private
 
     def file_in_zip(file_name)

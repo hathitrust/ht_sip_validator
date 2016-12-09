@@ -13,7 +13,17 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
     end
 
     def package_checks
-      (config["package_checks"] || [])
+      config_section_checks("package_checks")
+    end
+
+    def file_checks
+      config_section_checks("file_checks")
+    end
+
+    private
+
+    def config_section_checks(type)
+      (config[type] || [])
         .map {|config| ValidatorConfig.new(config) }
     end
   end
