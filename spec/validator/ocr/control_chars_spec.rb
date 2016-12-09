@@ -2,7 +2,7 @@
 require "spec_helper"
 
 module HathiTrust
-  describe Validator::OCR::UTF8 do
+  describe Validator::OCR::ControlChars do
     let(:mocked_sip) { SIP::SIP.new("") }
     let(:validator) { described_class.new(mocked_sip) }
     let(:filehandle) { open_fixture("ocr", filename) }
@@ -14,27 +14,12 @@ module HathiTrust
         it_behaves_like "a file validator that returns no messages"
       end
 
-      context "with a utf-8 xml file" do
-        let(:filename) { "utf8.xml" }
-        it_behaves_like "a validator with a valid file"
-        it_behaves_like "a file validator that returns no messages"
-      end
-
-      context "with a utf-16 xml file" do
-        let(:filename) { "utf16.xml" }
+      context "with a text file with control characters" do
+        let(:filename) { "controlchars.txt" }
         it_behaves_like "a validator with an invalid file"
         it "returns an appropriate message" do
           expect(human_messages(validator.validate_file(filename, filehandle)))
-            .to include(a_string_matching(/utf16\.xml/))
-        end
-      end
-
-      context "with a iso8859 text file" do
-        let(:filename) { "iso8859.txt" }
-        it_behaves_like "a validator with an invalid file"
-        it "returns an appropriate message" do
-          expect(human_messages(validator.validate_file(filename, filehandle)))
-            .to include(a_string_matching(/iso8859\.txt/))
+            .to include(a_string_matching(/controlchars.txt/))
         end
       end
     end
