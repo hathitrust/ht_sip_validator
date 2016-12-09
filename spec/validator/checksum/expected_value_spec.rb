@@ -12,6 +12,7 @@ describe HathiTrust::Validator::Checksums::ExpectedValue do
     allow(mocked_sip).to receive(:checksums).and_return(mock_checksums) 
     allow(mock_checksums).to receive(:checksum_for).with("foo").and_return(foo_checksums_value)
     allow(validator).to receive(:calculated_checksum_for).with("foo").and_return(foo_calculated_value)
+    allow(validator).to receive(:calculate_checksums)
   end
 
   describe "#validate" do
