@@ -144,5 +144,15 @@ module HathiTrust::SIP
         expect { subject.group_files(:ponies) }.to raise_error(ArgumentError)
       end
     end
+
+    describe "#each_file" do
+      include_context "with default zip"
+
+      it "yields the filename and a filehandle for each file in the zip" do
+        sip = described_class.new(zip_file)
+        expected_args = sip.files.map {|filename| [filename, Zip::InputStream] }
+        expect {|b| sip.each_file(&b) }.to yield_successive_args(*expected_args)
+      end
+    end
   end
 end

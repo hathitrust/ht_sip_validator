@@ -32,6 +32,20 @@ module HathiTrust
           .to eql([Validator::ConfigTestValidator])
       end
     end
+
+    describe "#file_checks" do
+      it "handles an empty configuration" do
+        config = described_class.new(double(:io, read: "---\nfile_checks:\n"))
+        expect(config.file_checks).to eql([])
+      end
+
+      it "resolves a check named ConfigTestValidator" do
+        file = double(:io, read: "---\nfile_checks:\n - ConfigTestValidator: []\n")
+        config = described_class.new(file)
+        expect(config.file_checks.map(&:validator_class))
+          .to eql([Validator::ConfigTestValidator])
+      end
+    end
   end
 
 end
