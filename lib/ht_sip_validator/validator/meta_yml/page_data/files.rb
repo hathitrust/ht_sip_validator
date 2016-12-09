@@ -8,7 +8,7 @@ module HathiTrust::Validator
   class MetaYml::PageData::Files < Base
     def perform_validation
       @sip.metadata.fetch("pagedata",{}).keys.to_set.difference(@sip.files).map do |pagefile|
-        create_error(
+        create_warning(
           validation_type: :file_present,
           human_message: "pagedata in meta.yml references #{pagefile}, but that file "\
           "is not in the package.",

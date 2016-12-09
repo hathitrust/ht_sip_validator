@@ -31,9 +31,9 @@ module HathiTrust
             .and_return(%w(meta.yml checksum.md5 00000001.tif))
         end
 
-        it_behaves_like "a validator with an invalid package"
+        it_behaves_like "a validator with warnings and only warnings"
 
-        it "returns an appropriate error message" do
+        it "returns an appropriate message" do
           expect(human_messages(validator.validate))
             .to include(a_string_matching(/.*pagedata.*00000001/))
         end
