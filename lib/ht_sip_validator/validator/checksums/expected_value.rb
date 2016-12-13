@@ -5,25 +5,29 @@ require "pry"
 
 module HathiTrust::Validator::Checksums
   # validates that checksums file values match calculated values
-  class ExpectedValue < HathiTrust::Validator::Base
-    attr :calculated
+  class ExpectedValue < HathiTrust::Validator::FileValidator
 
-    def perform_validation
-      checksumed_files = @sip.files - EXEMPT_FILENAMES
-      @calculated = calculate_checksums
-
-      checksumed_files.map do |filename|
-        if @sip.checksums.checksum_for(filename) != calculated_checksum_for(filename)
-          error_for filename
-        end
+    def perform_file_validation(filename, filehandle)
+      checksum_from_sip = @sip.checksums.checksum_for(filename)
+      if checksum_from_sip.nil?
+        missing_checksum_error filename
+      elsif checksum_from_sip != calculated_checksum(filehandle)
+        mismatch_checksum_error filename
       end
     end
 
-    def calculated_checksum_for(filename)
-      @calculated[filename]
+    def should_validate?(filename)
+      !EXEMPT_FILENAMES.include? filename
     end
 
-    def error_for(filename)
+    # @param instream [IO] A readable IO object.
+    # @return MD5 hex string
+    # It is incumbent on the caller to clean it up the io object.
+    def calculated_checksum(instream)
+      Digest::MD5.hexdigest(instream.read)
+    end
+
+    def mismatch_checksum_error(filename)
       create_error(
         validation_type: :expected_checksum_value,
         human_message: "Checksum mismatch for #{filename}",
@@ -31,14 +35,13 @@ module HathiTrust::Validator::Checksums
       )
     end
 
-    private 
-
-    def calculate_checksums
-      calculated = Hash.new
-      @sip.each_file do |filename, instream|
-          calculated[filename] = Digest::MD5.hexdigest(instream.read)
-      end
-      return calculated
+    def missing_checksum_error(filename)
+      create_error(
+        validation_type: :expected_checksum_value,
+        human_message: "Checksum missing for #{filename}",
+        extras: { filename: filename }
+      )
     end
+
   end
 end
