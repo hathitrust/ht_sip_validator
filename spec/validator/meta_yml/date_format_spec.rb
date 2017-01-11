@@ -13,11 +13,9 @@ module HathiTrust
     subject(:validator) { described_class.new(sip) }
 
     let(:capture_date_error) do
-      Validator::Message.new(
+      message_for(
         validator: described_class,
         validation_type: :capture_date,
-        level: :error,
-        human_message: "An iso8601 combined date is required for capture_date in meta.yml.",
         extras: {
           filename: "meta.yml",
           field: "capture_date",
@@ -27,11 +25,9 @@ module HathiTrust
     end
 
     let(:image_compression_date_error) do
-      Validator::Message.new(
+      message_for(
         validator: described_class,
         validation_type: :image_compression_date,
-        level: :error,
-        human_message: "An iso8601 combined date is required for image_compression_date in meta.yml.",
         extras: {
           filename: "meta.yml",
           field: "image_compression_date",

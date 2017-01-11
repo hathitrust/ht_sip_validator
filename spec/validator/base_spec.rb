@@ -24,15 +24,15 @@ module HathiTrust::Validator
 
       it "#create_message creates the correct message" do
         expect(validator.create_message(params.merge(level: :test)))
-          .to eql(params.merge(level: :test, validator: validator.class))
+          .to eql(params.merge(level: :test, validator: "Base"))
       end
       it "#create_error creates the correct message" do
         expect(validator.create_error(params))
-          .to eql params.merge(level: Message::ERROR, validator: validator.class)
+          .to eql params.merge(level: Message::ERROR, validator: "Base")
       end
       it "#create_message creates the correct message" do
         expect(validator.create_warning(params))
-          .to eql params.merge(level: Message::WARNING, validator: validator.class)
+          .to eql params.merge(level: Message::WARNING, validator: "Base")
       end
     end
 

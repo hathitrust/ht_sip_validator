@@ -94,8 +94,24 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 
-Dir[File.join(File.dirname(__FILE__), "support", "**", "*.rb")].each {|f| require f }
 require "ht_sip_validator"
+require "yaml"
+Dir[File.join(File.dirname(__FILE__), "support", "**", "*.rb")].each {|f| require f }
+
+MESSAGES_YML = File.join(File.dirname(__FILE__), "..", "config", "messages.yml").freeze
+
+def message_for(validator:, validation_type:, extras:)
+  @default_messages ||= YAML.load(File.read(MESSAGES_YML))
+  validator = validator.to_s.split("HathiTrust::Validator::").last
+  HathiTrust::Validator::Message.new(
+    validator: validator,
+    validation_type: validation_type,
+    level: @default_messages[validator][validation_type]["level"],
+    human_message: @default_messages[validator][validation_type]["human_message"],
+    extras: extras
+  )
+end
+
 
 def fixtures_path
   File.join File.dirname(__FILE__), "fixtures"
