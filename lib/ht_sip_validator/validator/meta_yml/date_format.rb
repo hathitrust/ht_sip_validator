@@ -20,7 +20,7 @@ module HathiTrust::Validator
         rescue ArgumentError
           messages << create_error(
             validation_type: field.to_sym,
-            human_message: "An iso8601 combined date is required for #{field} in meta.yml.",
+            human_message: human_message(field),
             extras: {
               filename: "meta.yml",
               field: field,
@@ -30,6 +30,10 @@ module HathiTrust::Validator
         end
       end
       return messages
+    end
+
+    def human_message(field)
+      "An iso8601 combined date (e.g 2016-12-08T01:02:03-05:00) is required for #{field} in meta.yml."
     end
 
   end

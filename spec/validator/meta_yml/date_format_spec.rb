@@ -17,7 +17,7 @@ module HathiTrust
         validator: described_class,
         validation_type: :capture_date,
         level: :error,
-        human_message: "An iso8601 combined date is required for capture_date in meta.yml.",
+        human_message: "An iso8601 combined date (e.g 2016-12-08T01:02:03-05:00) is required for capture_date in meta.yml.",
         extras: {
           filename: "meta.yml",
           field: "capture_date",
@@ -31,7 +31,7 @@ module HathiTrust
         validator: described_class,
         validation_type: :image_compression_date,
         level: :error,
-        human_message: "An iso8601 combined date is required for image_compression_date in meta.yml.",
+        human_message: "An iso8601 combined date (e.g 2016-12-08T01:02:03-05:00) is required for image_compression_date in meta.yml.",
         extras: {
           filename: "meta.yml",
           field: "image_compression_date",
