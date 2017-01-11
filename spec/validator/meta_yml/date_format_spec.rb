@@ -53,14 +53,10 @@ module HathiTrust
       let(:capture_date) { "2016-12-08T01:02:03-05:00" }
       let(:image_compression_date) { nil }
 
-      it_behaves_like "a validator with an invalid package"
+      it_behaves_like "a validator with the correct interface"
+      it_behaves_like "a validator with a valid package"
+      it_behaves_like "a validator that returns no messages"
 
-      it "returns an appropriate message" do
-        # This test is more verbose than necessary due to a bug in rspec's collection matchers
-        messages = validator.validate
-        expect(messages.size).to eql(1)
-        expect(messages.first).to eql(image_compression_date_error)
-      end
     end
 
     context "when wrong format" do

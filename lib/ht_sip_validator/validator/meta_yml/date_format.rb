@@ -14,7 +14,9 @@ module HathiTrust::Validator
       messages = []
       FIELDS.each do |field|
         begin
-          DateTime.strptime(sip.metadata[field] || "", DATE_FORMAT)
+          unless sip.metadata[field].nil?
+            DateTime.strptime(sip.metadata[field], DATE_FORMAT)
+          end
         rescue ArgumentError
           messages << create_error(
             validation_type: field.to_sym,
