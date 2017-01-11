@@ -57,7 +57,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate_file(filename, FIXME)
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.info "\t" + error.to_s.gsub("\n", "\n\t") }
+    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
   end
 
   def run_validator_on(validator_class, sip, results)
@@ -65,7 +65,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.info "\t" + error.to_s.gsub("\n", "\n\t") }
+    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
   end
 
   def skip_validator(validator_config, results)
@@ -86,6 +86,12 @@ class HathiTrust::SIPValidatorRunner
     else
       :info
     end
+  end
+
+  def really_just_the_message_error_level(message)
+    return :error if message.error?
+    return :warn if message.warning?
+    return :info
   end
 
   def prereq_failure_message(result)
