@@ -43,6 +43,18 @@ module HathiTrust::Validator
       extras.key?(message) || super
     end
 
+    def ==(other)
+      if other.class == Array
+        binding.pry
+      end
+      error? == other.error? &&
+        validator == other.validator &&
+        validation_type == other.validation_type &&
+        human_message == other.human_message
+    end
+    alias_method :equal?, :==
+    alias_method :eql?, :==
+
     private
 
     attr_reader :level, :extras

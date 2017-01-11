@@ -5,6 +5,7 @@ module HathiTrust::Validator::MetaYml
 end
 
 require "ht_sip_validator/validator/meta_yml/exists"
+require "ht_sip_validator/validator/meta_yml/date_format"
 require "ht_sip_validator/validator/meta_yml/required_keys"
 require "ht_sip_validator/validator/meta_yml/well_formed"
 require "ht_sip_validator/validator/meta_yml/unknown_keys"
