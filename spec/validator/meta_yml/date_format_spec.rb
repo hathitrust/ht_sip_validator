@@ -5,10 +5,10 @@ module HathiTrust
 
   describe Validator::MetaYml::DateFormat do
     let(:sip) do
-      yaml = ""
-      yaml += "capture_date: #{capture_date}\n" if capture_date
-      yaml += "image_compression_date: #{image_compression_date}\n" if image_compression_date
-      double(:sip, metadata: SIP::YAML.load(yaml))
+      double(:sip, metadata: {
+        "capture_date" => capture_date,
+        "image_compression_date" => image_compression_date
+      })
     end
     subject(:validator) { described_class.new(sip) }
 

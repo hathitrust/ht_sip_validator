@@ -6,7 +6,6 @@ module HathiTrust::SIP
 
   describe YAML do
     describe "#load" do
-      include_context "with default zip"
       it "parses a string" do
         expect(YAML.load("thing")).to eq("thing")
       end
