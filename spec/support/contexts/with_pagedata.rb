@@ -6,7 +6,7 @@ shared_context "with pagedata fixtures" do
   include_context "with yaml fixtures"
 
   def pagedata_with(pageinfo)
-    HathiTrust::SIP::YAML.load(<<EOT)
+    YAML.load(<<EOT)
 pagedata:
   #{pageinfo}
 EOT
@@ -16,7 +16,7 @@ EOT
   let(:no_pagedata) { valid_yaml }
 
   let(:good_pagedata) do
-    HathiTrust::SIP::YAML.load(<<EOT)
+    YAML.load(<<EOT)
 pagedata:
   00000001.jp2: { label: "FRONT_COVER" }
   00000007.jp2: { label: "TITLE" }
