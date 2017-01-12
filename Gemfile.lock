@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    handle_rest (0.0.1)
+    ht_sip_validator (0.0.1)
       rubyzip
 
 GEM
@@ -59,7 +59,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
-  handle_rest!
+  ht_sip_validator!
   inch
   pry
   rake
