@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 Gem::Specification.new do |s|
-  s.name = "ht_sip_validator"
+  s.name = "handle_rest"
   s.version = "0.0.1"
   s.date = "2016-05-10"
   s.summary = "HathiTrust SIP validator"
