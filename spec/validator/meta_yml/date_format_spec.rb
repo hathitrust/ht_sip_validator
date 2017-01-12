@@ -56,7 +56,6 @@ module HathiTrust
       it_behaves_like "a validator with the correct interface"
       it_behaves_like "a validator with a valid package"
       it_behaves_like "a validator that returns no messages"
-
     end
 
     context "when wrong format" do
@@ -85,9 +84,6 @@ module HathiTrust
         expect(messages.first).to eql(capture_date_error)
         expect(messages.last).to eql(image_compression_date_error)
       end
-
-
     end
-
   end
 end

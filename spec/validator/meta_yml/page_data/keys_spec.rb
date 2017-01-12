@@ -20,7 +20,7 @@ module HathiTrust
       context "when page data has a sequence number only" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with('00000001: { label: "FRONT_COVER" }'))
+            .and_return(pagedata_with(1 => { "label" => "FRONT_COVER" }))
         end
 
         it_behaves_like "a validator with an invalid package"
@@ -34,7 +34,7 @@ module HathiTrust
       context "when page data has keys from the wrong scope" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with('tiff_artist: "University of Michigan"'))
+            .and_return(pagedata_with("tiff_artist" => "University of Michigan"))
         end
 
         it_behaves_like "a validator with an invalid package"

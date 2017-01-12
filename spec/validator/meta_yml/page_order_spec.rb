@@ -4,15 +4,15 @@ require "spec_helper"
 module HathiTrust
   describe Validator::MetaYml::PageOrder do
     describe "#validate" do
-      include_context "with yaml fixtures"
+      include_context "with metadata fixtures"
       let(:mocked_sip) { SIP::SIP.new("") }
       subject(:validator) { described_class.new(mocked_sip) }
 
       context "when meta.yml has scanning and reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(YAML.load("scanning_order: left-to-right\nreading_order: right-to-left")
-                      .merge(valid_yaml))
+            .and_return({"scanning_order"=>"left-to-right", "reading_order"=>"right-to-left"}
+                      .merge(valid_metadata))
         end
 
         it_behaves_like "a validator with the correct interface"
@@ -23,7 +23,7 @@ module HathiTrust
       context "when meta.yml has neither reading nor scanning order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(valid_yaml)
+            .and_return(valid_metadata)
         end
 
         it_behaves_like "a validator with warnings and only warnings"
@@ -37,8 +37,8 @@ module HathiTrust
       context "when meta.yml has only reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(YAML.load("reading_order: right-to-left")
-                      .merge(valid_yaml))
+            .and_return({"reading_order"=>"right-to-left"}
+                      .merge(valid_metadata))
         end
 
         it_behaves_like "a validator with an invalid package"
@@ -52,8 +52,8 @@ module HathiTrust
       context "when meta.yml has only scanning order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(YAML.load("scanning_order: right-to-left")
-                      .merge(valid_yaml))
+            .and_return({"scanning_order"=>"right-to-left"}
+                      .merge(valid_metadata))
         end
 
         it_behaves_like "a validator with an invalid package"
@@ -67,9 +67,8 @@ module HathiTrust
       context "when meta.yml has invalid scanning or reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(YAML.load("scanning_order: top-to-bottom\n"\
-                                "reading_order: follows-scanning-order")
-          .merge(valid_yaml))
+            .and_return({"scanning_order"=>"top-to-bottom", "reading_order"=>"follows-scanning-order"}
+          .merge(valid_metadata))
         end
 
         it_behaves_like "a validator with an invalid package"
