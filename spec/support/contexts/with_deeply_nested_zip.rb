@@ -14,7 +14,7 @@ shared_context "with deeply_nested zip" do
   end
   let(:zip_meta) do
     {
-      "capture_date" => Time.parse("2016-01-01T00:00:00-04:00"),
+      "capture_date" => "2016-01-01T00:00:00-04:00",
       "scanner_user" => "University of Michigan"
     }
   end
