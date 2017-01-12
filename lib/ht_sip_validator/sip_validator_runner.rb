@@ -59,7 +59,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate_file(filename, filehandle)
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
+    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), error.to_s.gsub("\n", "\n\t"))}
   end
 
   def run_validator_on(validator_class, sip, results)
@@ -67,7 +67,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
+    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), error.to_s.gsub("\n", "\n\t"))}
   end
 
   def skip_validator(validator_config, results)

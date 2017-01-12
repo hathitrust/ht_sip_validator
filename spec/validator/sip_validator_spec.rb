@@ -50,7 +50,7 @@ module HathiTrust
 
       it "logs the validator errors, adding indenting and preserving newlines" do
         validator.run_validators_on sip
-        expect(logger.logs).to include("\tuno\n\tdos")
+        expect(logger.logs).to include("uno\n\tdos")
       end
 
       context "with a configuration listing dependencies" do
