@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require "spec_helper"
-require "pry"
 
 describe HathiTrust::Validator::OCR::HasImage do
   let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }

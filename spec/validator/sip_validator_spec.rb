@@ -26,6 +26,7 @@ module HathiTrust
       before(:each) do
         allow(mocked_config).to receive(:package_checks).and_return(package_checks)
         allow(sip).to receive(:files).and_return([])
+        allow(sip).to receive(:each_file).and_return(nil)
       end
 
       shared_examples_for "a sipvalidator that runs each validator" do

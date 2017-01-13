@@ -10,7 +10,7 @@ module HathiTrust::Validator
                           TITLE TITLE_PARTS).to_set
 
     def perform_validation
-      @sip.metadata["pagedata"].map do |filename, pageinfo|
+      @sip.metadata.fetch('pagedata',{}).map do |filename, pageinfo|
         pageinfo.fetch("label", "").split(/,\s*/).to_set
           .difference(ALLOWED_PAGETAGS).map do |bad_pagetag|
           create_error(

@@ -6,7 +6,7 @@ module HathiTrust::Validator
   # Validate that the page data key in meta.yml has the expected keys & values
   class MetaYml::PageData::Keys < Base
     def perform_validation
-      @sip.metadata["pagedata"].keys.map do |key|
+      @sip.metadata.fetch("pagedata",{}).keys.map do |key|
         # special case for common error of giving a sequence rather than a filename
         if key =~ /^\d{8}$/
           sequence_error(key)

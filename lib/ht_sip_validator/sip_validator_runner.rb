@@ -16,20 +16,22 @@ class HathiTrust::SIPValidatorRunner
     results = {}
     messages = run_package_checks(sip, results)
 
-    sip.files.each do |filename|
-      messages += run_file_checks(filename, sip, results)
+    sip.each_file do |filename,filehandle|
+      messages += run_file_checks(filename, filehandle, sip, results)
     end
     messages.reduce(:+)
   end
 
   private
 
-  def run_file_checks(filename, sip, results)
+  def run_file_checks(filename, filehandle, sip, results)
     @config.file_checks.map do |validator_config|
       if prereqs_succeeded(validator_config.prerequisites, results)
-        run_file_validator_on(validator_config.validator_class, filename, sip, results)
+        run_file_validator_on(validator_config.validator_class, filename, filehandle, sip, results)
       else
         skip_validator(validator_config, results)
+        # expecting to have an array of messages
+        []
       end
     end
   end
@@ -52,10 +54,10 @@ class HathiTrust::SIPValidatorRunner
     prerequisites.select {|p| results[p] != true }
   end
 
-  def run_file_validator_on(validator_class, filename, sip, results)
+  def run_file_validator_on(validator_class, filename, filehandle, sip, results)
     @logger.info "Running #{validator_class} on #{filename}"
 
-    errors = validator_class.new(sip).validate_file(filename, FIXME)
+    errors = validator_class.new(sip).validate_file(filename, filehandle)
     results[validator_class] = validator_success?(errors)
     errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
   end
@@ -72,12 +74,17 @@ class HathiTrust::SIPValidatorRunner
     # if prerequisites didn't run
     results[validator_config.validator_class] = :skipped
 
-    message = "Skipping #{validator_config.validator_class}: " +
+    message = "Skipping #{strip_module(validator_config.validator_class)}: " +
       failed_prereqs(validator_config.prerequisites, results).map do |p|
-        p.to_s + " " + prereq_failure_message(results[p])
+        strip_module(p).to_s + " " + prereq_failure_message(results[p])
       end.join("; ")
 
     @logger.send(message_error_level(validator_config, results), message)
+    
+  end
+
+  def strip_module(klass)
+    return klass.to_s.sub('HathiTrust::Validator::','')
   end
 
   def message_error_level(validator_config, results)
