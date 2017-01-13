@@ -4,7 +4,19 @@ require "ht_sip_validator/sip_validator_runner"
 require "logger"
 require "optparse"
 
-module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
+module HathiTrust
+
+  class ValidateSIPLogFormatter < Logger::Formatter
+    def initialize(sip)
+      super()
+      @sip = sip
+      @counts = {}
+    end
+
+    def call(severity, _timestamp, _progname, msg)
+      "#{File.basename(@sip)} - #{severity}: #{msg}\n"
+    end
+  end
 
   # driver for handling command line options and validating a SIP
   class ValidateSIPCommand
@@ -32,14 +44,16 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
     def logger(options)
       logger = Logger.new(STDOUT)
-      if options[:verbose]
-        logger.level = Logger::INFO
-      elsif options[:quiet]
-        logger.level = Logger::ERROR
-      else
-        logger.level = Logger::WARN
+      logger.level = if options[:verbose]
+                       Logger::INFO
+                     elsif options[:quiet]
+                       Logger::ERROR
+                     else
+                       Logger::WARN
       end
-        
+
+      logger.formatter = ValidateSIPLogFormatter.new(options[:sip])
+
       logger
     end
 

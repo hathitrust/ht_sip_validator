@@ -59,7 +59,7 @@ module HathiTrust
             new: double("validator that always fails",
               validate: [double("a failure message",
                 to_s: "it's an error",
-                error?: true)])).as_stubbed_const
+                error?: true, warning?: false)])).as_stubbed_const
         end
 
         context "when all validators succeed" do
