@@ -38,7 +38,7 @@ module HathiTrust::Validator
     describe "#to_s" do
       it "formats" do
         expect(described_class.new(args).to_s)
-          .to eql("ERROR: Base - test fail")
+          .to eql("Base - test fail")
       end
     end
     describe "#error?" do

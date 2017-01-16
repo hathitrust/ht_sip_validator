@@ -26,9 +26,9 @@ module HathiTrust::Validator
     end
 
     def to_s
-      "#{level.to_s.upcase}: "\
-        "#{validator.to_s.sub("HathiTrust::Validator::", "")}"\
-        " - #{human_message}"
+      #      "#{level.to_s.upcase}: "\
+      "#{validator.to_s.sub("HathiTrust::Validator::", "")}"\
+      " - #{human_message}"
     end
 
     def method_missing(message, *args)

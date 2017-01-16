@@ -50,7 +50,7 @@ module HathiTrust
 
       it "logs the validator errors, adding indenting and preserving newlines" do
         validator.run_validators_on sip
-        expect(logger.logs).to include("\tuno\n\tdos")
+        expect(logger.logs).to include("uno\n\tdos")
       end
 
       context "with a configuration listing dependencies" do
@@ -59,7 +59,7 @@ module HathiTrust
             new: double("validator that always fails",
               validate: [double("a failure message",
                 to_s: "it's an error",
-                error?: true)])).as_stubbed_const
+                error?: true, warning?: false)])).as_stubbed_const
         end
 
         context "when all validators succeed" do

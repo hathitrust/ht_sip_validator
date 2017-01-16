@@ -101,6 +101,10 @@ def fixtures_path
   File.join File.dirname(__FILE__), "fixtures"
 end
 
+def app_config_path
+  File.join File.dirname(__FILE__), "..", "config"
+end
+
 def sample_zip(zip = "default.zip")
   File.dirname(__FILE__) + "/fixtures/sips/#{zip}"
 end

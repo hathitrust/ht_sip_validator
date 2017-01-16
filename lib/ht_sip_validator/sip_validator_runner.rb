@@ -7,6 +7,8 @@ class HathiTrust::SIPValidatorRunner
   def initialize(config, logger)
     @config = config
     @logger = logger
+    @error_count = 0
+    @warning_count = 0
   end
 
   # Validates the given volume and reports any errors
@@ -16,9 +18,10 @@ class HathiTrust::SIPValidatorRunner
     results = {}
     messages = run_package_checks(sip, results)
 
-    sip.each_file do |filename,filehandle|
+    sip.each_file do |filename, filehandle|
       messages += run_file_checks(filename, filehandle, sip, results)
     end
+
     messages.reduce(:+)
   end
 
@@ -30,8 +33,6 @@ class HathiTrust::SIPValidatorRunner
         run_file_validator_on(validator_config.validator_class, filename, filehandle, sip, results)
       else
         skip_validator(validator_config, results)
-        # expecting to have an array of messages
-        []
       end
     end
   end
@@ -57,9 +58,11 @@ class HathiTrust::SIPValidatorRunner
   def run_file_validator_on(validator_class, filename, filehandle, sip, results)
     @logger.info "Running #{validator_class} on #{filename}"
 
+    # previous check may have left filehandle at EOF.
+    filehandle.rewind
     errors = validator_class.new(sip).validate_file(filename, filehandle)
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
+    errors.each {|error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
   end
 
   def run_validator_on(validator_class, sip, results)
@@ -67,7 +70,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(really_just_the_message_error_level(error), "\t" + error.to_s.gsub("\n", "\n\t"))}
+    errors.each {|error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
   end
 
   def skip_validator(validator_config, results)
@@ -79,15 +82,19 @@ class HathiTrust::SIPValidatorRunner
         strip_module(p).to_s + " " + prereq_failure_message(results[p])
       end.join("; ")
 
-    @logger.send(message_error_level(validator_config, results), message)
-    
+    message_level = skip_validator_message_level(validator_config, results)
+    @logger.public_send(message_level, message)
+
+    # return empty array of messages
+    []
   end
 
   def strip_module(klass)
-    return klass.to_s.sub('HathiTrust::Validator::','')
+    klass.to_s.sub("HathiTrust::Validator::", "")
   end
 
-  def message_error_level(validator_config, results)
+  def skip_validator_message_level(validator_config, results)
+    # error if there was a prerequisite but it did not run
     if validator_config.prerequisites.any? {|p| !results.key?(p) }
       :error
     else
@@ -95,10 +102,10 @@ class HathiTrust::SIPValidatorRunner
     end
   end
 
-  def really_just_the_message_error_level(message)
+  def message_level(message)
     return :error if message.error?
     return :warn if message.warning?
-    return :info
+    :info
   end
 
   def prereq_failure_message(result)

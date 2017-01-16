@@ -13,5 +13,12 @@ shared_context "with test logger" do
     def error(message)
       info(message)
     end
+
+    def warn(message)
+      info(message)
+    end
+
+    def formatter=(_)
+    end
   end
 end
