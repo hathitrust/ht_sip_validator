@@ -30,4 +30,5 @@ package_checks:
 file_checks:
  - OCR::UTF8: []
  - OCR::ControlChars: ['OCR::UTF8']
+ - OCR::WellFormedXML: []
  - Checksums::ExpectedValue: ['Checksums::WellFormed']
