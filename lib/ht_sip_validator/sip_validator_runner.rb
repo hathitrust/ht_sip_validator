@@ -22,21 +22,10 @@ class HathiTrust::SIPValidatorRunner
       messages += run_file_checks(filename, filehandle, sip, results)
     end
 
-    summarize_results(messages)
+    messages.reduce(:+)
   end
 
   private
-
-  def summarize_results(messages)
-    flattened_messages = messages.reduce(:+)
-    error_count = flattened_messages.select(&:error?).count
-    warning_count = flattened_messages.select(&:warning?).count
-
-    status = (error_count.zero? ? "Success" : "Failure")
-    puts "#{status}: #{error_count} error(s), #{warning_count} warning(s)"
-
-    flattened_messages
-  end
 
   def run_file_checks(filename, filehandle, sip, results)
     @config.file_checks.map do |validator_config|

@@ -31,10 +31,18 @@ module HathiTrust
       config = config(options[:config])
       validator = SIPValidatorRunner.new(config, logger(options))
       sip = SIP::SIP.new(options[:sip])
-      validator.run_validators_on sip
+      summarize_results(validator.run_validators_on(sip))
     end
 
     private
+
+    def summarize_results(messages)
+      error_count = messages.select(&:error?).count
+      warning_count = messages.select(&:warning?).count
+
+      status = (error_count.zero? ? "Success" : "Failure")
+      puts "#{status}: #{error_count} error(s), #{warning_count} warning(s)"
+    end
 
     def config(config_path)
       File.open(config_path) do |file|
