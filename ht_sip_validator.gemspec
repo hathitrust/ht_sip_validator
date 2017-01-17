@@ -16,6 +16,7 @@ world.)
   s.homepage = "https://github.com/mlibrary/ht_sip_validator"
   s.license = "APACHE2"
   s.add_dependency "rubyzip"
+  s.add_dependency "nokogiri"
   s.required_ruby_version = ">= 2.1"
 
   s.add_development_dependency "bundler"
