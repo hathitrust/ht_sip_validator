@@ -14,6 +14,12 @@ module HathiTrust
         it_behaves_like "a file validator that returns no messages"
       end
 
+      context "with a utf-8 text file with DOS line endings" do
+        let(:filename) { "utf8-dos.txt" }
+        it_behaves_like "a validator with a valid file"
+        it_behaves_like "a file validator that returns no messages"
+      end
+
       context "with a text file with control characters" do
         let(:filename) { "controlchars.txt" }
         it_behaves_like "a validator with an invalid file"
