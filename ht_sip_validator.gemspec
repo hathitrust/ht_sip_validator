@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 Gem::Specification.new do |s|
   s.name = "ht_sip_validator"
-  s.version = "0.0.1"
-  s.date = "2016-05-10"
+  s.version = "0.1.0"
+  s.date = "2017-01-19"
   s.summary = "HathiTrust SIP validator"
 
   s.description = %( Tools to validate submission information packages for
@@ -17,7 +17,7 @@ world.)
   s.license = "APACHE2"
   s.add_dependency "rubyzip"
   s.add_dependency "nokogiri"
-  s.required_ruby_version = ">= 2.1"
+  s.required_ruby_version = ">= 2.3"
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"

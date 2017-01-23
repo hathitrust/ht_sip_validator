@@ -1,3 +1,5 @@
+#!ruby
+
 require "bundler/setup"
 Bundler.require
 require_relative "../lib/ht_sip_validator"

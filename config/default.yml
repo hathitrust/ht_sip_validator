@@ -1,34 +1,103 @@
+# Default configuration for HathiTrust SIP validator.
+# Refer to the specification for SIPs at:  http://bit.ly/1jboMIC
+
+# You can disable a check by commenting it out (prepending a '#' character)
+# Checks to consider disabling:
+# 
+# MetaYml::PageData::Presence - if you are not producing page tag / page number data
+# 
+# OCR::CoordinatePresence - if you are not producing coordinate OCR (e.g. ALTO,
+# hOCR, etc in a .html or .xml file)
+
 ---
+# Checks to run on the overall package
 package_checks:
  - Package::FileTypes: []
+# Warns if marc.xml is in the package (it is no longer necessary and will not
+# be used)
  - Package::MarcXML: []
+# Gives an error if there is more than one PDF file in the package.
  - Package::PDFCount: []
+# Warns for each YAML and md5 file other than meta.yml and
+# checksum.md5
  - Package::ExtraFiles: []
+# Gives an error for each filename duplicated in the SIP (i.e. two files with
+# the same filename but different paths in the ZIP file)
  - Package::DuplicateFilenames: []
+# Warns for each file with an unexpected file type in the ZIP
  - Package::FileBasenames: []
+# Gives an error if meta.yml is not in the package. 
  - MetaYml::Exists: []
+# Gives an error if meta.yml can't be loaded or parsed.  Most other package
+# validators depend on this and will not run if meta.yml is missing or
+# malformed.
  - MetaYml::WellFormed: ['MetaYml::Exists']
+# Warns if no reading order / scanning order is provided; gives an error if the
+# values are not left-to-right or right-to-left, or if reading order is
+# provided and scanning order is not, or vice versa.
  - MetaYml::PageOrder: ['MetaYml::WellFormed']
+# Warns if there isn't any page number / page tag data in meta.yml. Disable this if you 
+# are not producing page data 
  - MetaYml::PageData::Presence: ['MetaYml::WellFormed']
+# Gives an error for each page tag that is not in the allowed set (see specification)
  - MetaYml::PageData::PageTags: ['MetaYml::WellFormed']
+# Gives an error for each page data value that is not in the correct format
+# (e.g. {label: 'pagetag', orderlabel: 'pagenumber' }
  - MetaYml::PageData::Values: ['MetaYml::WellFormed']
+# Gives an error for each page data key that is not in the correct format (e.g.
+# 00000001.tif)
  - MetaYml::PageData::Keys: ['MetaYml::WellFormed']
+# Warns for each page data key that refers to a file that is not in the package.
  - MetaYml::PageData::Files: ['MetaYml::WellFormed']
+# Warns for each unknown key in meta.yml
  - MetaYml::UnknownKeys: ['MetaYml::WellFormed']
+# Warns for each required key in meta.yml that is not present.
+# Currently only capture_date is unconditionally required.
  - MetaYml::RequiredKeys: ['MetaYml::WellFormed']
+# Gives an error for each date in meta.yml that isn't in ISO8601 combined
+# format (e.g.  2016-12-08T01:02:03-05:00)
  - MetaYml::DateFormat: ['MetaYml::WellFormed']
+# Gives an error if checksum.md5 is missing from the SIP
  - Checksums::Exists: []
+# Gives an error for each line in checksum.md5 that doesn't appear to contain a
+# MD5 checksum (32 hexadecimal digits). If there are any such malformed checksums,
+# checksum validation won't run.
  - Checksums::WellFormed: ['Checksums::Exists']
+# Gives an error for each file in the package that does not have a checksum in
+# checksum.md5
  - Checksums::FileListComplete: ['Checksums::WellFormed']
+# Gives an error for each missing, duplicated, or malformed sequence number
+# (filename of image files without extension, e.g. '00000001' for
+# '00000001.tif')
  - Image::Sequence: []
+# Warns for each image that is missing a corresponding .txt OCR file.
  - OCR::Presence: []
+# Gives an error for each .txt OCR file that does not have a corresponding .tif
+# or .jp2 image file.
  - OCR::HasImage: []
+# Warns for each .txt OCR file that does not have a corresponding
+# .html or .xml coordinate OCR. Disable this if you are not submitting
+# coordinate OCR.
  - OCR::CoordinatePresence: []
+# Warns if the package contains a mix of .html and .xml coordinate
+# OCR files
  - OCR::CoordinateFormat: []
+# Gives an error for each .html or .xml file (coordinate OCR) that does not
+# have a corresponding plain-text OCR file.
  - OCR::CoordinateHasPlain: []
 
+# Checks to run for each relevant file in the package.
 file_checks:
+# Gives an error for each .txt, .html or .xml file that has invalid UTF-8 byte
+# sequences
  - OCR::UTF8: []
+# Gives an error for each .txt, .html, or .xml file that has control characters
+# other than tab, line feed, and carriage return (i.e. contains
+# any unicode characters U+0000-U+001F except U+0009, U+000A, U+000D) 
  - OCR::ControlChars: ['OCR::UTF8']
+# Gives an error for each .html or .xml coordinate OCR file that is not
+# well-formed XML
  - OCR::WellFormedXML: []
+# Gives an error for each file whose checksum does not match the one given in
+# checksum.md5
  - Checksums::ExpectedValue: ['Checksums::WellFormed']
