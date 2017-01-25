@@ -52,7 +52,9 @@ bundle exec ruby bin/validate_sip -c config/default.yml -s /path/to/sip.zip
 
 ## Output
 
-By default, `validate_sip` will list all errors and warnings in the given SIP and output a summary with the number of warnings or errors, for example:
+By default, `validate_sip` will list all errors and warnings in the given SIP and output a summary with the number of warnings or errors. Errors will cause a SIP to fail ingest into HathiTrust and must be fixed before submission. Warnings point out things that could affect the display of material in HathiTrust, but will not prevent a SIP from being ingested.
+
+Example output:
 
 ```
 bundle exec ruby bin/validate_sip -c config/default.yml -s spec/fixtures/sips/bad_ocr.zip 
