@@ -10,6 +10,7 @@ A locally runnable submission package validator with human readable and useful m
 
 - [ruby](https://www.ruby-lang.org/en/documentation/installation/) 2.3 or later (earlier versions not tested)
 - [bundler](http://bundler.io/)
+- [git](https://git-scm.com/)
 
 We recommend installing ruby via [rbenv](https://github.com/rbenv/rbenv#readme)
 with [ruby-build](https://github.com/rbenv/ruby-build#readme) or
