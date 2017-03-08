@@ -11,7 +11,7 @@ A locally runnable submission package validator with human readable and useful m
 - [ruby](https://www.ruby-lang.org/en/documentation/installation/) 2.3 or later (earlier versions not tested)
 - [bundler](http://bundler.io/) (`gem install bundler` once Ruby is installed)
 - [git](https://git-scm.com/) (`apt-get install git` (Debian/Ubuntu) or `yum install git` (Fedora/RedHat/CentOS))
-- [zlib](`apt-get install zlib1g-dev` (Debian/Ubuntu) or `yum install libzlib-devel` (Fedora/RedHat/CentOS))
+- [zlib] (`apt-get install zlib1g-dev` (Debian/Ubuntu) or `yum install libzlib-devel` (Fedora/RedHat/CentOS))
 - Mac OS X will likely require XCode command-line tools to be installed
 
 We recommend installing ruby via [rbenv](https://github.com/rbenv/rbenv#readme)
