@@ -7,5 +7,5 @@ group :development do
   gem "pry"
   gem "rubocop", require: false
   gem "yard"
-  gem "inch"
+  # gem "inch"
 end
