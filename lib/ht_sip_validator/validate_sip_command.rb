@@ -27,14 +27,18 @@ module HathiTrust
     def exec
       options = parse(@argv)
       return if options[:quit]
-      raise ArgumentError unless options[:config] && options[:sip]
-      config = config(options[:config])
+      raise ArgumentError unless options[:sip]
+      config = config(options[:config] || default_config)
       validator = SIPValidatorRunner.new(config, logger(options))
       sip = SIP::SIP.new(options[:sip])
       summarize_results(validator.run_validators_on(sip))
     end
 
     private
+
+    def default_config
+      Pathname.new("#{File.dirname(__FILE__)}/../../config/default.yml").to_s
+    end
 
     def summarize_results(messages)
       error_count = messages.select(&:error?).count
