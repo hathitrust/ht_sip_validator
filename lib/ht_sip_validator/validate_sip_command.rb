@@ -25,13 +25,15 @@ module HathiTrust
     end
 
     def exec
-      options = parse(@argv)
+      (options, sip_filenames) = parse(@argv)
       return if options[:quit]
-      raise ArgumentError unless options[:sip]
       config = config(options[:config] || default_config)
-      validator = SIPValidatorRunner.new(config, logger(options))
-      sip = SIP::SIP.new(options[:sip])
-      summarize_results(validator.run_validators_on(sip))
+
+      sip_filenames.each do |sip_filename|
+        validator = SIPValidatorRunner.new(config, logger(options,sip_filename))
+        sip = SIP::SIP.new(sip_filename)
+        summarize_results(sip_filename,validator.run_validators_on(sip))
+      end
     end
 
     private
@@ -40,12 +42,12 @@ module HathiTrust
       Pathname.new("#{File.dirname(__FILE__)}/../../config/default.yml").to_s
     end
 
-    def summarize_results(messages)
+    def summarize_results(sip_filename,messages)
       error_count = messages.select(&:error?).count
       warning_count = messages.select(&:warning?).count
 
       status = (error_count.zero? ? "Success" : "Failure")
-      puts "#{status}: #{error_count} error(s), #{warning_count} warning(s)"
+      puts "#{File.basename(sip_filename)} - #{status}: #{error_count} error(s), #{warning_count} warning(s)"
     end
 
     def config(config_path)
@@ -54,7 +56,7 @@ module HathiTrust
       end
     end
 
-    def logger(options)
+    def logger(options,sip_filename)
       logger = Logger.new(STDOUT)
       logger.level = if options[:verbose]
                        Logger::INFO
@@ -64,12 +66,12 @@ module HathiTrust
                        Logger::WARN
       end
 
-      logger.formatter = ValidateSIPLogFormatter.new(options[:sip])
+      logger.formatter = ValidateSIPLogFormatter.new(sip_filename)
 
       logger
     end
 
-    CONFIG_METHODS = [:handle_config_option, :handle_sip_option, :handle_help_option, :handle_verbose_option, :handle_quiet_option].freeze
+    CONFIG_METHODS = [:handle_config_option, :handle_help_option, :handle_verbose_option, :handle_quiet_option].freeze
 
     def parse(argv)
       argv.push("-h") if argv.empty?
@@ -78,20 +80,13 @@ module HathiTrust
         opt.banner = "Usage: validate_sip [options]"
         CONFIG_METHODS.each {|m| send(m, opt, options) }
       end.parse!(argv)
-      options
+      [options, argv]
     end
 
     def handle_config_option(opt, options)
       opt.on "-c", "--config=CONFIGPATH",
         "Path to the configuration." do |location|
         options[:config] = location
-      end
-    end
-
-    def handle_sip_option(opt, options)
-      opt.on "-s", "--sip=SIP",
-        "Path to the sip." do |location|
-        options[:sip] = location
       end
     end
 

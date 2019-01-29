@@ -12,7 +12,7 @@ module HathiTrust
       before(:each) { allow(Logger).to receive(:new).and_return(logger) }
 
       context "filled args" do
-        let(:argv) { ["-c", config_file, "-s", zip_file] }
+        let(:argv) { ["-c", config_file, zip_file] }
         let(:help_argv) { argv + ["-h"] }
 
         it "runs the validators" do
@@ -46,11 +46,9 @@ module HathiTrust
     end
 
     describe "full integration test" do
-      let(:config_file) { File.join app_config_path, "default.yml" }
-
       context "valid sip" do
         let(:zip_file) { File.join fixtures_path, "sips", "no_warnings.zip" }
-        let(:argv) { ["-c", config_file, "-s", zip_file] }
+        let(:argv) { [zip_file] }
 
         it "has no warnings or errors" do
           expect do
@@ -61,7 +59,7 @@ module HathiTrust
 
       context "invalid sip" do
         let(:zip_file) { File.join fixtures_path, "sips", "bad_ocr.zip" }
-        let(:argv) { ["-c", config_file, "-s", zip_file] }
+        let(:argv) { [zip_file] }
 
         it "has the expected errors" do
           expect do
