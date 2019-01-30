@@ -20,27 +20,21 @@ with [ruby-build](https://github.com/rbenv/ruby-build#readme) or
 
 ### Windows
 
-Currently, the process is somewhat more complicated on Windows, but we hope to
-provide a simpler installation method in the future. We have tested this
-release on Windows 10 with the following dependencies:
-
-- [Git for Windows](https://git-scm.com/downloads) 2.11.0.3 - select the 'Use Git from the Windows Command Prompt' option when installing.
-- [RubyInstaller](http://rubyinstaller.org/downloads) 2.3.3
-- [RubyInstaller DevKit](http://rubyinstaller.org/downloads) 4.7.2 (64-bit) - follow [these instructions](https://github.com/oneclick/rubyinstaller/wiki/Development-kit) to install
-
-Once these prerequisites are installed, choose 'Start Command Prompt with Ruby' from the Start menu and run:
-
-```bash
-gem install bundler
-```
-
-The installation and running instructions are then the same as on Linux and Mac
-OS X.
-
+There are two packages available for Windows, which you can download from the
+[releases page](https://github.com/hathitrust/ht_sip_validator/releases), and
+package all pre-requisites. These packages have only been tested on 64-bit
+Windows 10, but are likely to work on earlier versions too.
 
 ## Installation
 
-Download and extract a [release](https://github.com/hathitrust/ht_sip_validator/releases), or `git clone https://github.com/hathitrust/ht_sip_validator` for the latest development version. Then:
+For Windows, download a
+[release](https://github.com/hathitrust/ht_sip_validator/releases); there is an
+installer as well as a single executable that doesn't require installation.
+
+For Linux and Mac OS X, download and extract a
+[release](https://github.com/hathitrust/ht_sip_validator/releases), or `git
+clone https://github.com/hathitrust/ht_sip_validator` for the latest
+development version. Then:
 
 ```bash
 cd ht_sip_validator
@@ -49,8 +43,31 @@ bundle install
 
 ## Running
 
+Run the validator by providing a list of SIPs to validate.
+
+Windows (installed version):
+
 ```
-bundle exec ruby bin/validate_sip -c config/default.yml -s /path/to/sip.zip
+C:\Program Files (x86)\HathiTrust SIP Validator\validate_sip C:\path\to\sip.zip C:\path\to\another_sip.zip
+```
+
+Because of limitations in Windows, you currently must provide the full path to
+the SIPs to validate (as well the configuration file, if one is provided; see
+below))
+
+Windows (standalone exe)
+
+```
+validate_sip sip.zip sip2.zip
+```
+
+The standalone executable is slower to start up, but does not require
+installation and does not require specifying the complete path to each SIP.
+
+Mac OS X and Linux:
+
+```
+bundle exec ruby bin/validate_sip /path/to/sip.zip /path/to/another_sip.zip
 ```
 
 ## Output
@@ -60,22 +77,21 @@ By default, `validate_sip` will list all errors and warnings in the given SIP an
 Example output:
 
 ```
-bundle exec ruby bin/validate_sip -c config/default.yml -s spec/fixtures/sips/bad_ocr.zip 
+bundle exec ruby bin/validate_sip spec/fixtures/sips/bad_ocr.zip 
 bad_ocr.zip - WARN: MetaYml::PageOrder - Neither scanning_order or reading_order provided; they will default to left-to-right
 bad_ocr.zip - WARN: MetaYml::PageData::Presence - 'pagedata' is not present in meta.yml; users will not have page tags or page numbers to navigate through this book.
 bad_ocr.zip - WARN: OCR::CoordinatePresence - plain-text OCR file 00000001.txt has no corresponding coordinate OCR 00000001.{xml,html}
 bad_ocr.zip - WARN: OCR::CoordinatePresence - plain-text OCR file 00000002.txt has no corresponding coordinate OCR 00000002.{xml,html}
 bad_ocr.zip - ERROR: OCR::ControlChars - File 00000001.txt contains disallowed control characters
 bad_ocr.zip - ERROR: OCR::UTF8 - File 00000002.txt is not valid UTF-8: invalid byte "\xC9" found.
-Failure: 2 error(s), 4 warning(s)
+bad_ocr.zip - Failure: 2 error(s), 4 warning(s)
 ```
 
 ## Options
 
 ```
-Usage: validate_sip [options]
+Usage: validate_sip [options] sip1 sip2 ...
     -c, --config=CONFIGPATH          Path to the configuration.
-    -s, --sip=SIP                    Path to the sip.
     -v, --verbose                    Show verbose output; overrides --quiet
     -q, --quiet                      Show errors only (no warnings)
     -h, --help                       Show this message
@@ -100,12 +116,16 @@ Particular validators you might want to disable:
   reads left-to-right
 
 You can either edit `config/default.yml` directly or make a copy for your
-particular use case or set of content.
+particular use case or set of content. For the installed windows version, you
+can find the config at `C:\Program Files (x86)\HathiTrust SIP
+Validator\src\config\default.yml`. For the standalone Windows executable,
+[download the default
+config](https://raw.githubusercontent.com/hathitrust/ht_sip_validator/master/config/default.yml)
+and change it as you see fit.
 
 ## Limitations
 
-- Does not yet validate any image technical characteristics (planned by mid-2017)
-- Does not yet validate submissions of born-digital material
+- Does not yet validate any image technical characteristics
 - Output is not very configurable
 
 ## Related Projects
