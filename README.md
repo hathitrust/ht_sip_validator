@@ -20,16 +20,15 @@ with [ruby-build](https://github.com/rbenv/ruby-build#readme) or
 
 ### Windows
 
-There are two packages available for Windows, which you can download from the
-[releases page](https://github.com/hathitrust/ht_sip_validator/releases), and
-package all pre-requisites. These packages have only been tested on 64-bit
-Windows 10, but are likely to work on earlier versions too.
+There is a stand-alone executable as well as an installer available for Windows. Both are available from the
+[releases page](https://github.com/hathitrust/ht_sip_validator/releases). No other pre-requisites are required.
+These releases have only been tested on 64-bit Windows 10, but are likely to work on earlier versions of Windows as well.
 
 ## Installation
 
 For Windows, download a
 [release](https://github.com/hathitrust/ht_sip_validator/releases); there is an
-installer as well as a single executable that doesn't require installation.
+installer as well as a stand-alone executable that doesn't require installation.
 
 For Linux and Mac OS X, download and extract a
 [release](https://github.com/hathitrust/ht_sip_validator/releases), or `git
@@ -53,7 +52,7 @@ C:\Program Files (x86)\HathiTrust SIP Validator\validate_sip C:\path\to\sip.zip 
 
 Because of limitations in Windows, you currently must provide the full path to
 the SIPs to validate (as well the configuration file, if one is provided; see
-below))
+below)
 
 Windows (standalone exe)
 
