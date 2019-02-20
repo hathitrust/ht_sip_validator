@@ -20,6 +20,10 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
       config_section_checks("file_checks")
     end
 
+    def utility_checks
+      config_section_checks("utility_checks")
+    end
+
     private
 
     def config_section_checks(type)

@@ -101,3 +101,6 @@ file_checks:
 # Gives an error for each file whose checksum does not match the one given in
 # checksum.md5
  - Checksums::ExpectedValue: ['Checksums::WellFormed']
+
+utility_checks:
+  - JHOVE::WellFormedAndValid: []
