@@ -57,6 +57,17 @@ module HathiTrust
         end
       end
 
+      context "sip with checksums from powershell" do
+        let(:zip_file) { File.join fixtures_path, "sips", "powershell_checksums.zip" }
+        let(:argv) { [zip_file] }
+
+        it "has no warnings or errors" do
+          expect do
+            described_class.new(argv).exec
+          end.to output(/Success: 0 error\(s\), 0 warning\(s\)/).to_stdout
+        end
+      end
+
       context "invalid sip" do
         let(:zip_file) { File.join fixtures_path, "sips", "bad_ocr.zip" }
         let(:argv) { [zip_file] }
