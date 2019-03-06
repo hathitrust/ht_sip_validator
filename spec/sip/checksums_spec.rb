@@ -17,10 +17,11 @@ module HathiTrust::SIP
       let(:path_sample) { "#{foo_md5} /home/foo/bar/some/long/path/foo" }
       let(:windows_sample) { foo_md5 + ' *C:\Users\My Name\with\spaces \path\foo' }
       let(:uppercase_sample) { "#{foo_md5} Foo" }
+      let(:powershell_sample) { File.open(File.dirname(__FILE__) + "/../fixtures/powershell_checksum.md5", "rb").read() }
 
       include_context "with default zip"
       let(:zip_stream) do
-        Zip::File.new(zip_file).glob("**/checksum.md5").first.get_input_stream
+        Zip::File.new(zip_file).glob("**/checksum.md5").first.get_input_stream.read
       end
 
       it "accepts a string" do
@@ -43,6 +44,10 @@ module HathiTrust::SIP
       end
       it "accepts an input stream from a zip file" do
         expect(described_class.new(zip_stream).checksums).to eql(zip_checksums)
+      end
+
+      it "can read a checksum file created with powershell (utf-16)" do
+        expect(described_class.new(powershell_sample).checksums).to include("00000001.html" => "602c5866bb2da48d7301322d3758f6c3")
       end
     end
 

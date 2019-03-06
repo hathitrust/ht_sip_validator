@@ -55,10 +55,10 @@ module HathiTrust::SIP
     def checksums
       @checksums ||= if files.include?(CHECKSUM_FILE)
                        file_in_zip(CHECKSUM_FILE) do |file|
-                         Checksums.new(file)
+                         Checksums.new(file.read)
                        end
                      else
-                       Checksums.new(StringIO.new(""))
+                       Checksums.new("")
                      end
     end
 
