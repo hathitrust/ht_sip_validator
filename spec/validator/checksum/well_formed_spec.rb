@@ -2,7 +2,7 @@
 require "spec_helper"
 
 describe HathiTrust::Validator::Checksums::WellFormed do
-  let(:mocked_sip) { HathiTrust::SIP::SIP.new("") }
+  let(:mocked_sip) { instance_double("HathiTrust::SIP::SIP") }
   let(:exempt_filenames) { HathiTrust::Validator::Checksums::EXEMPT_FILENAMES }
   let(:mock_checksums) { instance_double("HathiTrust::SIP::Checksums") }
   let(:validator) { described_class.new(mocked_sip) }

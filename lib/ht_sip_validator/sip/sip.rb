@@ -51,6 +51,15 @@ module HathiTrust::SIP
                     end
     end
 
+    # @return [String] The raw contents of the checksum file, or an empty string if there is no checksum file
+    def raw_checksums
+      if files.include?(CHECKSUM_FILE)
+        file_in_zip(CHECKSUM_FILE) { |file| file.read }
+      else
+        ""
+      end
+    end
+
     # @return [Checksums] the checksums from checksum.md5 in the SIP
     def checksums
       @checksums ||= if files.include?(CHECKSUM_FILE)
@@ -60,6 +69,8 @@ module HathiTrust::SIP
                      else
                        Checksums.new("")
                      end
+
+      @checksums ||= Checksum.new(raw_checksums)
     end
 
     # Extracts the files to a temporary directory and passes
