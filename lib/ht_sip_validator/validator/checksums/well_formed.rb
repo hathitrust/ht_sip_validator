@@ -2,7 +2,7 @@
 require "ht_sip_validator/validator/base"
 
 module HathiTrust::Validator::Checksums
-  # validates that checksums values are well formed
+  # validates that checksums values are well-formed md5 checksums
   class WellFormed < HathiTrust::Validator::Base
     def perform_validation
       checksum_values = @sip.checksums.checksums.values

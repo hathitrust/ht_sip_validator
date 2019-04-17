@@ -14,11 +14,10 @@ module HathiTrust::SIP
       @checksums = {}
 
       check_for_bom(checksum_file).each_line() do |line|
-        line.strip.match(/^([a-fA-F0-9]{32})(\s+\*?)(\S.*)/) do |m|
-          (checksum, _, filename) = m.captures
-          # Handle windows-style paths
-          filename.tr!('\\', "/")
-          @checksums[File.basename(filename).downcase] = checksum.downcase
+
+        if m = line.strip.match(/\b[a-fA-F0-9]{32}\b/) and filename = extract_filename(m)
+          checksum = m.to_s.downcase
+          @checksums[File.basename(filename)] = checksum
         end
       end
     end
@@ -43,6 +42,17 @@ module HathiTrust::SIP
       else
         checksum_file
       end
+    end
+
+    def extract_filename(match)
+      (match.pre_match.strip + match.post_match.strip).
+        # Remove delimeters & random asterisks that some md5 programs put in there.
+        # Hope nobody has legit filenames with leading or trailing commas or asterisks
+        gsub(/^[*,]/,'').
+        gsub(/[*,]$/,'').
+        # Handle windows-style paths
+        tr('\\','/').
+        downcase
     end
   end
 end
