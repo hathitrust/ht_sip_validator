@@ -53,6 +53,10 @@ module HathiTrust::SIP
         it "parses meta.yml" do
           expect(described_class.new(zip_file).metadata).to eql(zip_meta)
         end
+
+        it "returns a string for the timestamp" do
+          m= described_class.new(zip_file).metadata
+        end
       end
 
       context "with directory-free zip" do
@@ -152,6 +156,20 @@ module HathiTrust::SIP
         sip = described_class.new(zip_file)
         expected_args = sip.files.map {|filename| [filename, Zip::InputStream] }
         expect {|b| sip.each_file(&b) }.to yield_successive_args(*expected_args)
+      end
+    end
+
+    describe "#load_yaml" do
+      it "parses a string" do
+        expect(described_class.load_yaml("thing")).to eq("thing")
+      end
+
+      it "doesn't parse times" do
+        expect(described_class.load_yaml("time: 1970-01-01T00:00:00")).to eq("time" => "1970-01-01T00:00:00")
+      end
+
+      it "returns false when parsing an empty string" do
+        expect(described_class.load_yaml("")).to be false
       end
     end
   end

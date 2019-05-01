@@ -5,4 +5,3 @@ end
 
 require "ht_sip_validator/sip/checksums"
 require "ht_sip_validator/sip/sip"
-require "ht_sip_validator/sip/yaml"
