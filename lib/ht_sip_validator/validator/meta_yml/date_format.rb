@@ -10,29 +10,20 @@ module HathiTrust::Validator
     FIELDS = ["capture_date", "image_compression_date"].freeze
     DATE_FORMAT = "%FT%T%:z".freeze
 
+    # regex from edtfRegularExpressions in https://www.loc.gov/standards/premis/v2/premis-v2-3.xsd
+    DATE_REGEX = %r{\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?}
+
     def perform_validation
-      messages = []
-
-      FIELDS.each do |field|
-        next if sip.metadata[field].nil?
-        had_error = false
-
-        # regex from edtfRegularExpressions in https://www.loc.gov/standards/premis/v2/premis-v2-3.xsd
-        if !sip.metadata[field].match(%r{\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?})
-          had_error = true
-        end
-
-        begin
+      [].tap do |messages|
+        FIELDS.each do |field|
+          next if sip.metadata[field].nil?
+          raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
           DateTime.strptime(sip.metadata[field], DATE_FORMAT)
-        rescue ArgumentError
-          had_error = true
-        end
 
-        if had_error
+        rescue ArgumentError
           messages << error_for(field)
         end
       end
-      return messages
     end
 
     def human_message(field)
