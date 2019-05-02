@@ -85,5 +85,19 @@ module HathiTrust
         expect(messages.last).to eql(image_compression_date_error)
       end
     end
+
+    context "when missing leading zeroes" do
+      let(:capture_date) { "2001-2-28T1:02:03-3:00" }
+      let(:image_compression_date) { "2002-2-28T12:12:59-3:00" }
+
+      it_behaves_like "a validator with an invalid package"
+
+      it "returns an appropriate message" do
+        messages = validator.validate
+        expect(messages.size).to eql(2)
+        expect(messages.first).to eql(capture_date_error)
+        expect(messages.last).to eql(image_compression_date_error)
+      end
+    end
   end
 end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require "zip"
-require "yaml"
 require "set"
 
 module HathiTrust::SIP
@@ -44,7 +43,7 @@ module HathiTrust::SIP
     def metadata
       @metadata ||= if files.include?(META_FILE)
                       file_in_zip(META_FILE) do |file|
-                        ensure_hash(YAML.load(file.read))
+                        ensure_hash(SIP.load_yaml(file.read))
                       end
                     else
                       {}
@@ -106,6 +105,15 @@ module HathiTrust::SIP
       end
     end
 
+    def self.load_yaml(*args)
+      ast = Psych.parse(*args)
+      return false unless ast
+
+      class_loader = Psych::ClassLoader.new
+      Psych::Visitors::ToRuby.new(NoTimeScanner.new(class_loader),
+        class_loader).accept(ast)
+    end
+
     private
 
     def file_in_zip(file_name)
@@ -126,5 +134,13 @@ module HathiTrust::SIP
       end
     end
   end
+
+  class NoTimeScanner < Psych::ScalarScanner
+    # Don't try to actually parse the time.
+    def parse_time(string)
+      string
+    end
+  end
+
 
 end

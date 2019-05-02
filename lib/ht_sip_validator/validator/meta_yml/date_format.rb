@@ -10,30 +10,38 @@ module HathiTrust::Validator
     FIELDS = ["capture_date", "image_compression_date"].freeze
     DATE_FORMAT = "%FT%T%:z".freeze
 
+    # regex from edtfRegularExpressions in https://www.loc.gov/standards/premis/v2/premis-v2-3.xsd
+    DATE_REGEX = %r{\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?}
+
     def perform_validation
-      messages = []
-      FIELDS.each do |field|
-        begin
-          unless sip.metadata[field].nil?
-            DateTime.strptime(sip.metadata[field], DATE_FORMAT)
-          end
+      [].tap do |messages|
+        FIELDS.each do |field|
+          next if sip.metadata[field].nil?
+          raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
+          DateTime.strptime(sip.metadata[field], DATE_FORMAT)
+
         rescue ArgumentError
-          messages << create_error(
-            validation_type: field.to_sym,
-            human_message: human_message(field),
-            extras: {
-              filename: "meta.yml",
-              field: field,
-              actual: sip.metadata[field]
-            }
-          )
+          messages << error_for(field)
         end
       end
-      return messages
     end
 
     def human_message(field)
       "An iso8601 combined date (e.g 2016-12-08T01:02:03-05:00) is required for #{field} in meta.yml."
+    end
+
+    private
+
+    def error_for(field)
+      create_error(
+        validation_type: field.to_sym,
+        human_message: human_message(field),
+        extras: {
+          filename: "meta.yml",
+          field: field,
+          actual: sip.metadata[field]
+        }
+      )
     end
 
   end
