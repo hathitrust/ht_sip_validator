@@ -8,7 +8,7 @@ A locally runnable submission package validator with human readable and useful m
 
 ### Linux and Mac OS X
 
-- [ruby](https://www.ruby-lang.org/en/documentation/installation/) 2.3 or later (earlier versions not tested)
+- [ruby](https://www.ruby-lang.org/en/documentation/installation/) 2.4.x or later
 - [bundler](http://bundler.io/) (`gem install bundler` once Ruby is installed)
 - [git](https://git-scm.com/) (`apt-get install git` (Debian/Ubuntu) or `yum install git` (Fedora/RedHat/CentOS))
 - zlib (`apt-get install zlib1g-dev` (Debian/Ubuntu) or `yum install libzlib-devel` (Fedora/RedHat/CentOS))
@@ -76,7 +76,7 @@ By default, `validate_sip` will list all errors and warnings in the given SIP an
 Example output:
 
 ```
-bundle exec ruby bin/validate_sip spec/fixtures/sips/bad_ocr.zip 
+bundle exec ruby bin/validate_sip spec/fixtures/sips/bad_ocr.zip
 bad_ocr.zip - WARN: MetaYml::PageOrder - Neither scanning_order or reading_order provided; they will default to left-to-right
 bad_ocr.zip - WARN: MetaYml::PageData::Presence - 'pagedata' is not present in meta.yml; users will not have page tags or page numbers to navigate through this book.
 bad_ocr.zip - WARN: OCR::CoordinatePresence - plain-text OCR file 00000001.txt has no corresponding coordinate OCR 00000001.{xml,html}
@@ -107,7 +107,7 @@ Particular validators you might want to disable:
 
 - `MetaYml::PageData::Presence` - if you are not producing page tag / page
   number data
- 
+
 - `OCR::CoordinatePresence` - if you are not producing coordinate OCR (e.g.
   ALTO, hOCR, etc in a .html or .xml file)
 
