@@ -16,12 +16,14 @@ module HathiTrust::Validator
     def perform_validation
       [].tap do |messages|
         FIELDS.each do |field|
-          next if sip.metadata[field].nil?
-          raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
-          DateTime.strptime(sip.metadata[field], DATE_FORMAT)
+          begin
+            next if sip.metadata[field].nil?
+            raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
+            DateTime.strptime(sip.metadata[field], DATE_FORMAT)
 
-        rescue ArgumentError
-          messages << error_for(field)
+          rescue ArgumentError
+            messages << error_for(field)
+          end
         end
       end
     end
