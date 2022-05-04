@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Namespace for features of the sip
 module HathiTrust::SIP
 end

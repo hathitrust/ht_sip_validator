@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require "zip"
 require "set"
 
 module HathiTrust::SIP
-
   CHECKSUM_FILE = "checksum.md5"
   META_FILE = "meta.yml"
 
@@ -17,7 +17,6 @@ module HathiTrust::SIP
 
   # A HathiTrust simple SIP file, packaged as zip
   class SIP
-
     # Initialize a SubmissionPackage given an existing file
     # @param [String] zip_file_name The path to the SIP package
     def initialize(zip_file_name)
@@ -28,26 +27,26 @@ module HathiTrust::SIP
     # @return [Set] a set of file names in the SIP
     def files
       @files ||= open_zip do |zip_file|
-        zip_file.select {|e| !e.name_is_directory? }
+        zip_file.select { |e| !e.name_is_directory? }
           .map(&:name)
-          .map {|e| File.basename(e) }.to_set
+          .map { |e| File.basename(e) }.to_set
       end
     end
 
     # @return [Array] all paths (files and directories) inside the SIP
     def paths
-      @paths ||= open_zip {|z| z.map(&:name) }
+      @paths ||= open_zip { |z| z.map(&:name) }
     end
 
     # @return [Hash] the parsed meta.yml from the SIP
     def metadata
       @metadata ||= if files.include?(META_FILE)
-                      file_in_zip(META_FILE) do |file|
-                        ensure_hash(SIP.load_yaml(file.read))
-                      end
-                    else
-                      {}
-                    end
+        file_in_zip(META_FILE) do |file|
+          ensure_hash(SIP.load_yaml(file.read))
+        end
+      else
+        {}
+      end
     end
 
     # @return [String] The raw contents of the checksum file, or an empty string if there is no checksum file
@@ -62,12 +61,12 @@ module HathiTrust::SIP
     # @return [Checksums] the checksums from checksum.md5 in the SIP
     def checksums
       @checksums ||= if files.include?(CHECKSUM_FILE)
-                       file_in_zip(CHECKSUM_FILE) do |file|
-                         Checksums.new(file.read)
-                       end
-                     else
-                       Checksums.new("")
-                     end
+        file_in_zip(CHECKSUM_FILE) do |file|
+          Checksums.new(file.read)
+        end
+      else
+        Checksums.new("")
+      end
 
       @checksums ||= Checksum.new(raw_checksums)
     end
@@ -92,14 +91,14 @@ module HathiTrust::SIP
     def group_files(group)
       raise ArgumentError, "No such file group #{group}" unless FILE_GROUP_EXTENSIONS.key?(group)
 
-      files.select {|f| FILE_GROUP_EXTENSIONS[group].include? File.extname(f) }
-        .reject {|f| NON_GROUP_FILES.include? f }
+      files.select { |f| FILE_GROUP_EXTENSIONS[group].include? File.extname(f) }
+        .reject { |f| NON_GROUP_FILES.include? f }
         .sort
     end
 
     def each_file
       open_zip do |zip_file|
-        zip_file.select {|e| !e.name_is_directory? }.each do |entry|
+        zip_file.select { |e| !e.name_is_directory? }.each do |entry|
           yield [File.basename(entry.name), entry.get_input_stream]
         end
       end
@@ -141,6 +140,4 @@ module HathiTrust::SIP
       string
     end
   end
-
-
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -14,16 +15,15 @@ module HathiTrust
     end
 
     describe "#run_validators_on" do
-      include_context "with test logger"
-      let(:sip)     { double("a sip") }
-      let(:logger)  { TestLogger.new }
+      let(:sip) { double("a sip") }
+      let(:logger) { TestLogger.new }
       let(:package_checks) do
-        [ValidatorConfig.new("ValidatorOne": []),
-         ValidatorConfig.new("ValidatorTwo": [])]
+        [ValidatorConfig.new(ValidatorOne: []),
+          ValidatorConfig.new(ValidatorTwo: [])]
       end
       let(:file_checks) do
-        [ValidatorConfig.new("FileValidatorOne": []),
-         ValidatorConfig.new("FileValidatorTwo": [])]
+        [ValidatorConfig.new(FileValidatorOne: []),
+          ValidatorConfig.new(FileValidatorTwo: [])]
       end
       let(:mocked_config) { Configuration.new(StringIO.new("")) }
       let(:validator) { described_class.new(mocked_config, logger) }
@@ -31,14 +31,14 @@ module HathiTrust
         allow(mocked_config).to receive(:package_checks).and_return(package_checks)
         allow(mocked_config).to receive(:file_checks).and_return(file_checks)
 
-        mocked_files = %w(00000001.txt 00000001.tif 00000001.xml 00000002.txt
-                          00000002.jp2 00000002.xml)
+        mocked_files = %w[00000001.txt 00000001.tif 00000001.xml 00000002.txt
+          00000002.jp2 00000002.xml]
 
         allow(sip).to receive(:files).and_return(mocked_files)
 
         # make each_file yield each filename in turn
-        mocked_files.map {|name| [name, StringIO.new("")] }
-          .reduce(allow(sip).to(receive(:each_file))) {|a, e| a.and_yield(*e) }
+        mocked_files.map { |name| [name, StringIO.new("")] }
+          .reduce(allow(sip).to(receive(:each_file))) { |a, e| a.and_yield(*e) }
       end
 
       shared_examples_for "a sipvalidator that runs each validator" do
@@ -90,11 +90,11 @@ module HathiTrust
 
         context "when a validator with a dependency fails" do
           let(:error_package_checks) do
-            [ValidatorConfig.new("AlwaysError": []),
-             ValidatorConfig.new("ValidatorOne": ["AlwaysError"])]
+            [ValidatorConfig.new(AlwaysError: []),
+              ValidatorConfig.new(ValidatorOne: ["AlwaysError"])]
           end
           let(:error_file_checks) do
-            [ ValidatorConfig.new("FileValidatorOne": ["AlwaysError"])]
+            [ValidatorConfig.new(FileValidatorOne: ["AlwaysError"])]
           end
           let(:error_config) { Configuration.new(StringIO.new("")) }
           let(:error_validator) { described_class.new(error_config, logger) }
@@ -128,7 +128,7 @@ module HathiTrust
 
         # FIXME DRY
         it "reports appropriately if dependency hasn't been run yet" do
-          error_checks = [ValidatorConfig.new("ValidatorOne": ["AlwaysError"])]
+          error_checks = [ValidatorConfig.new(ValidatorOne: ["AlwaysError"])]
           error_config = Configuration.new(StringIO.new(""))
           allow(error_config).to receive(:package_checks).and_return(error_checks)
           error_validator = described_class.new(error_config, logger)
@@ -140,9 +140,9 @@ module HathiTrust
         end
 
         it "reports if depdendency was skipped" do
-          error_checks = [ValidatorConfig.new("AlwaysError": []),
-                          ValidatorConfig.new("ValidatorOne": ["AlwaysError"]),
-                          ValidatorConfig.new("ValidatorTwo": ["ValidatorOne"])]
+          error_checks = [ValidatorConfig.new(AlwaysError: []),
+            ValidatorConfig.new(ValidatorOne: ["AlwaysError"]),
+            ValidatorConfig.new(ValidatorTwo: ["ValidatorOne"])]
           error_config = Configuration.new(StringIO.new(""))
           allow(error_config).to receive(:package_checks).and_return(error_checks)
           error_validator = described_class.new(error_config, logger)

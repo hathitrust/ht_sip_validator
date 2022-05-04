@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator_config"
 
 # Service reponsible for running a set of Validators on a sip
@@ -48,11 +49,11 @@ class HathiTrust::SIPValidatorRunner
   end
 
   def prereqs_succeeded(prerequisites, results)
-    prerequisites.all? {|p| results[p] == true }
+    prerequisites.all? { |p| results[p] == true }
   end
 
   def failed_prereqs(prerequisites, results)
-    prerequisites.select {|p| results[p] != true }
+    prerequisites.select { |p| results[p] != true }
   end
 
   def run_file_validator_on(validator_class, filename, filehandle, sip, results)
@@ -62,7 +63,7 @@ class HathiTrust::SIPValidatorRunner
     filehandle.rewind
     errors = validator_class.new(sip).validate_file(filename, filehandle)
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
+    errors.each { |error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
   end
 
   def run_validator_on(validator_class, sip, results)
@@ -70,7 +71,7 @@ class HathiTrust::SIPValidatorRunner
 
     errors = validator_class.new(sip).validate
     results[validator_class] = validator_success?(errors)
-    errors.each {|error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
+    errors.each { |error| @logger.public_send(message_level(error), error.to_s.gsub("\n", "\n\t")) }
   end
 
   def skip_validator(validator_config, results)
@@ -95,7 +96,7 @@ class HathiTrust::SIPValidatorRunner
 
   def skip_validator_message_level(validator_config, results)
     # error if there was a prerequisite but it did not run
-    if validator_config.prerequisites.any? {|p| !results.key?(p) }
+    if validator_config.prerequisites.any? { |p| !results.key?(p) }
       :error
     else
       :info
@@ -121,5 +122,4 @@ class HathiTrust::SIPValidatorRunner
   def validator_success?(messages)
     !messages.any?(&:error?)
   end
-
 end

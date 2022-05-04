@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -9,8 +10,8 @@ module HathiTrust
     describe "#validate" do
       context "when package contains only xml coordinate OCR" do
         let(:file_list) do
-          %w(00000001.tif 00000001.txt 00000001.xml 00000002.tif 00000002.txt
-             00000002.xml checksum.md5 meta.yml)
+          %w[00000001.tif 00000001.txt 00000001.xml 00000002.tif 00000002.txt
+            00000002.xml checksum.md5 meta.yml]
         end
         before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
@@ -20,8 +21,8 @@ module HathiTrust
 
       context "when package contains only html coordinate OCR" do
         let(:file_list) do
-          %w(00000001.tif 00000001.txt 00000001.html 00000002.tif 00000002.txt
-             00000002.html checksum.md5 meta.yml)
+          %w[00000001.tif 00000001.txt 00000001.html 00000002.tif 00000002.txt
+            00000002.html checksum.md5 meta.yml]
         end
         before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
@@ -31,8 +32,8 @@ module HathiTrust
 
       context "when package contains a mix of xml and html coordinate OCR " do
         let(:file_list) do
-          %w(00000001.tif 00000001.txt 00000001.xml 00000002.tif 00000002.txt
-             00000002.html checksum.md5 meta.yml)
+          %w[00000001.tif 00000001.txt 00000001.xml 00000002.tif 00000002.txt
+            00000002.html checksum.md5 meta.yml]
         end
         before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 

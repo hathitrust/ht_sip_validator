@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require "yaml"
 require "ht_sip_validator/validator_config"
 
-module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
-
+module HathiTrust
   # Represents a configuration for a set of Validators
   class Configuration
     attr_reader :config
@@ -24,8 +24,7 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
 
     def config_section_checks(type)
       (config[type] || [])
-        .map {|config| ValidatorConfig.new(config) }
+        .map { |config| ValidatorConfig.new(config) }
     end
   end
-
 end

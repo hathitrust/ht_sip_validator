@@ -2,10 +2,8 @@ require "set"
 
 # frozen_string_literal: true
 module HathiTrust::Validator
-
   # Validates that all images have corresponding plain-text OCR
   class OCR::Presence < Base
-
     include OCR
 
     def perform_validation
@@ -17,7 +15,5 @@ module HathiTrust::Validator
         create_warning(missing_ocr_message.call(ocr_seqs, seq))
       end
     end
-
   end
-
 end

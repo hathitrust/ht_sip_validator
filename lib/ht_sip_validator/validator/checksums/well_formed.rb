@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator/base"
 
 module HathiTrust::Validator::Checksums
@@ -13,7 +14,7 @@ module HathiTrust::Validator::Checksums
           create_error(
             validation_type: :well_formed,
             human_message: "SIP Checksums has malformed value: #{checksum_val}",
-            extras: { checksum: checksum_val }
+            extras: {checksum: checksum_val}
           )
         end
       end

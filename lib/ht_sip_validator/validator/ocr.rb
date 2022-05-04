@@ -9,10 +9,10 @@ module HathiTrust::Validator::OCR
 
   def filegroup_message_template(base_name, other_name, other_ext)
     proc do |base, seq|
-      { validation_type: :file_present,
-        human_message: "#{base_name} file #{base[seq]} has no "\
+      {validation_type: :file_present,
+       human_message: "#{base_name} file #{base[seq]} has no "\
         "corresponding #{other_name} #{seq}#{other_ext}",
-        extras: { filename: "#{seq}#{other_ext}" } }
+       extras: {filename: "#{seq}#{other_ext}"}}
     end
   end
 
@@ -24,9 +24,8 @@ module HathiTrust::Validator::OCR
   # e.g. {'00000001': '00000001.jp2', '00000002': '00000002.tif' }
   #
   def sequence_map(group)
-    Hash[@sip.group_files(group).map {|f| [File.basename(f, ".*"), f] }]
+    @sip.group_files(group).map { |f| [File.basename(f, ".*"), f] }.to_h
   end
-
 end
 
 require "ht_sip_validator/validator/ocr/coordinate_presence"

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 shared_context "with zip with empty meta.yml" do
@@ -12,6 +13,6 @@ shared_context "with zip with empty meta.yml" do
     }
   end
   let(:zip_files) do
-    %w()
+    %w[]
   end
 end

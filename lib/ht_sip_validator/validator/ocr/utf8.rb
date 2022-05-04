@@ -2,10 +2,8 @@ require "set"
 
 # frozen_string_literal: true
 module HathiTrust::Validator
-
   # Validates that provided coordinate OCR is UTF-8
   class OCR::UTF8 < FileValidator
-
     def perform_file_validation(filename, filehandle)
       check_utf8(filename, filehandle)
     end
@@ -25,13 +23,11 @@ module HathiTrust::Validator
         messages << create_error(
           validation_type: :file_valid,
           human_message: "File #{filename} is not valid UTF-8: invalid byte #{invalid.inspect} found.",
-          extras: { file: filename }
+          extras: {file: filename}
         )
         break
       end
       messages
     end
-
   end
-
 end

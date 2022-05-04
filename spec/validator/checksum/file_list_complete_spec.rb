@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Checksums::FileListComplete do
@@ -12,23 +13,23 @@ describe HathiTrust::Validator::Checksums::FileListComplete do
 
   describe "#validate" do
     context "when checksums filenames match sip files." do
-      let(:file_list) { %w(foo bar baz) }
-      before(:each) { allow(mock_checksums).to receive(:checksum_for) {|arg| arg } }
+      let(:file_list) { %w[foo bar baz] }
+      before(:each) { allow(mock_checksums).to receive(:checksum_for) { |arg| arg } }
 
       it_behaves_like "a validator with a valid package"
       it_behaves_like "a validator that returns no messages"
     end
 
     context "when sip files include checksum exempt filenames." do
-      let(:file_list) { %w(foo bar baz) + exempt_filenames }
-      before(:each) { allow(mock_checksums).to receive(:checksum_for) {|arg| arg } }
+      let(:file_list) { %w[foo bar baz] + exempt_filenames }
+      before(:each) { allow(mock_checksums).to receive(:checksum_for) { |arg| arg } }
 
       it_behaves_like "a validator with a valid package"
       it_behaves_like "a validator that returns no messages"
     end
 
     context "when checksums filenames are not in sip files." do
-      let(:file_list) { %w(foo bar baz) + exempt_filenames }
+      let(:file_list) { %w[foo bar baz] + exempt_filenames }
       before(:each) { allow(mock_checksums).to receive(:checksum_for).and_return(nil) }
 
       it_behaves_like "a validator with an invalid package"

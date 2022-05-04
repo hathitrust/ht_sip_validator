@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator/base"
 
 module HathiTrust::Validator::Checksums
@@ -9,7 +10,7 @@ module HathiTrust::Validator::Checksums
         create_error(
           validation_type: :exists,
           human_message: "SIP is missing #{HathiTrust::SIP::CHECKSUM_FILE}",
-          extras: { filename: HathiTrust::SIP::CHECKSUM_FILE }
+          extras: {filename: HathiTrust::SIP::CHECKSUM_FILE}
         )
       end
     end

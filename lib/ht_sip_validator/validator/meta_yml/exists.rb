@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator/base"
 
 module HathiTrust::Validator
@@ -9,7 +10,7 @@ module HathiTrust::Validator
         create_error(
           validation_type: :exists,
           human_message: "SIP is missing meta.yml",
-          extras: { filename: "meta.yml" }
+          extras: {filename: "meta.yml"}
         )
       end
     end

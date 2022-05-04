@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+
+  test:
+    build: .
+    restart: never
+    volumes:
+      - .:/usr/src/app
+      - gem_cache:/gems
+    command: bundle exec rspec
+
+volumes:
+  gem_cache:

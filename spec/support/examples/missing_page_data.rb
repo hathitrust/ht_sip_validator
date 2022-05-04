@@ -8,7 +8,7 @@ shared_examples_for "a validator that can handle missing pagedata" do
     before(:each) do
       allow(mocked_sip).to receive(:metadata).and_return(valid_metadata)
       allow(mocked_sip).to receive(:files)
-        .and_return(%w(meta.yml checksum.md5 00000001.tif))
+        .and_return(%w[meta.yml checksum.md5 00000001.tif])
     end
 
     it_behaves_like "a validator with a valid package"

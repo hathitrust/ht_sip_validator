@@ -1,9 +1,8 @@
 # frozen_string_literal: true
-module HathiTrust::Validator
 
+module HathiTrust::Validator
   # Output of a validator that fails
   class Message
-
     ERROR = :error
     WARNING = :warning
 
@@ -55,7 +54,5 @@ module HathiTrust::Validator
     private
 
     attr_reader :level, :extras
-
   end
-
 end

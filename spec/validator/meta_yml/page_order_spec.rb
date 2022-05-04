@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -11,7 +12,7 @@ module HathiTrust
       context "when meta.yml has scanning and reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return({"scanning_order"=>"left-to-right", "reading_order"=>"right-to-left"}
+            .and_return({"scanning_order" => "left-to-right", "reading_order" => "right-to-left"}
                       .merge(valid_metadata))
         end
 
@@ -37,7 +38,7 @@ module HathiTrust
       context "when meta.yml has only reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return({"reading_order"=>"right-to-left"}
+            .and_return({"reading_order" => "right-to-left"}
                       .merge(valid_metadata))
         end
 
@@ -52,7 +53,7 @@ module HathiTrust
       context "when meta.yml has only scanning order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return({"scanning_order"=>"right-to-left"}
+            .and_return({"scanning_order" => "right-to-left"}
                       .merge(valid_metadata))
         end
 
@@ -67,7 +68,7 @@ module HathiTrust
       context "when meta.yml has invalid scanning or reading order" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return({"scanning_order"=>"top-to-bottom", "reading_order"=>"follows-scanning-order"}
+            .and_return({"scanning_order" => "top-to-bottom", "reading_order" => "follows-scanning-order"}
           .merge(valid_metadata))
         end
 

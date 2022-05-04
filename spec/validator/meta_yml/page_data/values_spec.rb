@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -20,7 +21,7 @@ module HathiTrust
       context "when page data values have unexpected keys" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.tif" => { "aardvark" => "FRONT_COVER" }))
+            .and_return(pagedata_with("00000001.tif" => {"aardvark" => "FRONT_COVER"}))
         end
 
         it_behaves_like "a validator with an invalid package"
