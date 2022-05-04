@@ -1,11 +1,11 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator/base"
 require "digest"
 
 module HathiTrust::Validator::Checksums
   # validates that checksums file values match calculated values
   class ExpectedValue < HathiTrust::Validator::FileValidator
-
     def perform_file_validation(filename, filehandle)
       checksum_from_sip = @sip.checksums.checksum_for(filename)
       if checksum_from_sip.nil?
@@ -30,7 +30,7 @@ module HathiTrust::Validator::Checksums
       create_error(
         validation_type: :expected_checksum_value,
         human_message: "Checksum mismatch for #{filename}",
-        extras: { filename: filename }
+        extras: {filename: filename}
       )
     end
 
@@ -38,9 +38,8 @@ module HathiTrust::Validator::Checksums
       create_error(
         validation_type: :expected_checksum_value,
         human_message: "Checksum missing for #{filename}",
-        extras: { filename: filename }
+        extras: {filename: filename}
       )
     end
-
   end
 end

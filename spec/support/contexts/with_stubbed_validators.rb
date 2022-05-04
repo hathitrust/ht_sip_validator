@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 shared_context "with stubbed validators" do
@@ -12,14 +13,14 @@ shared_context "with stubbed validators" do
   let(:file_validator_instance) { double("a file validator", validate_file: [message]) }
 
   before(:each) do
-    %w(ValidatorOne ValidatorTwo ValidatorThree).each do |validator|
+    %w[ValidatorOne ValidatorTwo ValidatorThree].each do |validator|
       class_double("HathiTrust::Validator::#{validator}",
         new: validator_instance).as_stubbed_const
     end
   end
 
   before(:each) do
-    %w(FileValidatorOne FileValidatorTwo).each do |validator|
+    %w[FileValidatorOne FileValidatorTwo].each do |validator|
       class_double("HathiTrust::Validator::#{validator}",
         new: file_validator_instance).as_stubbed_const
     end

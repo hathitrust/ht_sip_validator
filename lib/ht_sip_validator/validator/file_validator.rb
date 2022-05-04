@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module HathiTrust::Validator
-
   # Interface of per-file validators
   class FileValidator < Base
-
     def validate_file(filename, filehandle)
       if should_validate?(filename)
         [perform_file_validation(filename, filehandle)].flatten.compact
@@ -23,7 +21,5 @@ module HathiTrust::Validator
     def should_validate?(_filename)
       raise NotImplementedError
     end
-
   end
-
 end

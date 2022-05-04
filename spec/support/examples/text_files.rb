@@ -1,5 +1,5 @@
-
 # frozen_string_literal: true
+
 # let(:validator) { SomeValidator.new }
 shared_examples_for "a text file validator" do
   it "validates text files" do

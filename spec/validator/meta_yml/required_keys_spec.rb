@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
-
   describe Validator::MetaYml::RequiredKeys do
     describe "#validate" do
       include_context "with metadata fixtures"
@@ -10,14 +10,14 @@ module HathiTrust
       subject(:validator) { described_class.new(mocked_sip) }
 
       context "when meta.yml has capture_date" do
-        before(:each) { allow(mocked_sip).to receive(:metadata) .and_return(valid_metadata) }
+        before(:each) { allow(mocked_sip).to receive(:metadata).and_return(valid_metadata) }
 
         it_behaves_like "a validator with the correct interface"
         it_behaves_like "a validator with a valid package"
       end
 
       context "when meta.yml does not have capture_date" do
-        before(:each) { allow(mocked_sip).to receive(:metadata) .and_return(invalid_metadata) }
+        before(:each) { allow(mocked_sip).to receive(:metadata).and_return(invalid_metadata) }
 
         it_behaves_like "a validator with an invalid package"
 
@@ -28,5 +28,4 @@ module HathiTrust
       end
     end
   end
-
 end

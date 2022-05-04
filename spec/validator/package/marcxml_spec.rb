@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -9,7 +10,7 @@ module HathiTrust
     describe "#validate" do
       context "when package does not contain marc.xml" do
         let(:file_list) do
-          %w(00000001.tif 00000001.txt checksum.md5 meta.yml)
+          %w[00000001.tif 00000001.txt checksum.md5 meta.yml]
         end
         before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
@@ -18,7 +19,7 @@ module HathiTrust
       end
 
       context "when package contains marc.xml" do
-        let(:file_list) { %w(00000001.tif 00000001.txt checksum.md5 meta.yml marc.xml) }
+        let(:file_list) { %w[00000001.tif 00000001.txt checksum.md5 meta.yml marc.xml] }
         before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
         it_behaves_like "a validator with warnings and only warnings"

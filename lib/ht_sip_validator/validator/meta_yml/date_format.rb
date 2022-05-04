@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "ht_sip_validator/validator/base"
 require "date"
 
@@ -8,7 +9,7 @@ module HathiTrust::Validator
 
   class MetaYml::DateFormat < Base
     FIELDS = ["capture_date", "image_compression_date"].freeze
-    DATE_FORMAT = "%FT%T%:z".freeze
+    DATE_FORMAT = "%FT%T%:z"
 
     # regex from edtfRegularExpressions in https://www.loc.gov/standards/premis/v2/premis-v2-3.xsd
     DATE_REGEX = %r{\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?}
@@ -16,14 +17,11 @@ module HathiTrust::Validator
     def perform_validation
       [].tap do |messages|
         FIELDS.each do |field|
-          begin
-            next if sip.metadata[field].nil?
-            raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
-            DateTime.strptime(sip.metadata[field], DATE_FORMAT)
-
-          rescue ArgumentError
-            messages << error_for(field)
-          end
+          next if sip.metadata[field].nil?
+          raise ArgumentError unless sip.metadata[field].match?(DATE_REGEX)
+          DateTime.strptime(sip.metadata[field], DATE_FORMAT)
+        rescue ArgumentError
+          messages << error_for(field)
         end
       end
     end
@@ -45,6 +43,5 @@ module HathiTrust::Validator
         }
       )
     end
-
   end
 end

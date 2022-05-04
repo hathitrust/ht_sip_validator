@@ -1,5 +1,5 @@
-
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Checksums::MD5SumFormat do
@@ -27,7 +27,7 @@ describe HathiTrust::Validator::Checksums::MD5SumFormat do
       <<~EOT
         66d3b6e55fd94f1752bc8654335d8ff4  foo.txt\r
         c2223b5c324e395fd9f9bb249934ac87 *bar.txt\r
-        EOT
+      EOT
     end
 
     it_behaves_like "a validator with a valid package"
@@ -35,7 +35,7 @@ describe HathiTrust::Validator::Checksums::MD5SumFormat do
   end
 
   context "with UTF-16 checksums" do
-    let(:checksums) { File.open(File.dirname(__FILE__) + "/../../fixtures/powershell_checksum.md5", "rb").read() }
+    let(:checksums) { File.binread(File.dirname(__FILE__) + "/../../fixtures/powershell_checksum.md5") }
 
     it_behaves_like "a validator with warnings and only warnings"
   end

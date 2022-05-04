@@ -6,5 +6,4 @@ $LOAD_PATH.unshift Pathname.new("#{File.dirname(__FILE__)}/../lib").cleanpath.to
 puts Pathname.new("#{File.dirname(__FILE__)}/../lib").cleanpath.to_s
 require "ht_sip_validator"
 
-
 HathiTrust::ValidateSIPCommand.new(ARGV).exec

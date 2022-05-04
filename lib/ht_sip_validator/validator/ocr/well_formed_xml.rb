@@ -1,12 +1,11 @@
 # frozen_string_literal: true
+
 require "nokogiri"
 
 # frozen_string_literal: true
 module HathiTrust::Validator
-
   # Validates that provided coordinate OCR is UTF-8
   class OCR::WellFormedXML < FileValidator
-
     def perform_file_validation(filename, filehandle)
       check_well_formed_xml(filename, filehandle)
     end
@@ -28,12 +27,10 @@ module HathiTrust::Validator
         messages << create_error(
           validation_type: :file_valid,
           human_message: "#{filename} is not well-formed XML: #{e}",
-          extras: { file: filename }
+          extras: {file: filename}
         )
       end
       messages
     end
-
   end
-
 end

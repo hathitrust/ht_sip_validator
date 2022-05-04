@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
+module HathiTrust
   # Representation of configuration for a single Validator
   class ValidatorConfig
     attr_reader :prerequisites
@@ -21,7 +21,7 @@ module HathiTrust # rubocop:disable Style/ClassAndModuleChildren
     def valid_configuration(validator_config)
       validator_config.is_a?(Hash) && (validator_config.size == 1) &&
         validator_config.values.first.is_a?(Array) &&
-        validator_config.values.first.all? {|v| v.is_a?(String) }
+        validator_config.values.first.all? { |v| v.is_a?(String) }
     end
 
     def bad_validator_config(validator_config)

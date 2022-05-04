@@ -1,26 +1,27 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust::Validator
-  describe FileValidator do
-    GOOD_NAME = "good.txt"
-    BAD_NAME = "junk.txt"
+  GOOD_NAME = "good.txt"
+  BAD_NAME = "junk.txt"
 
-    class TestFileValidator < FileValidator
-      def initialize(validator_result)
-        super("")
-        @validator_result = validator_result
-      end
-
-      def perform_file_validation(_name, _handle)
-        @validator_result
-      end
-
-      def should_validate?(name)
-        name == GOOD_NAME
-      end
+  class TestFileValidator < FileValidator
+    def initialize(validator_result)
+      super("")
+      @validator_result = validator_result
     end
 
+    def perform_file_validation(_name, _handle)
+      @validator_result
+    end
+
+    def should_validate?(name)
+      name == GOOD_NAME
+    end
+  end
+
+  describe FileValidator do
     describe "#validate_file" do
       let(:validator) { TestFileValidator.new(validator_result) }
       context "subclass #perform_validation returns Message if file is relevant" do

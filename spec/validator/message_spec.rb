@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust::Validator
@@ -9,7 +10,7 @@ module HathiTrust::Validator
         validation_type: :something,
         human_message: "test fail",
         level: Message::ERROR,
-        extras: { a: 1, b: 2 }
+        extras: {a: 1, b: 2}
       }
     end
 
@@ -63,7 +64,7 @@ module HathiTrust::Validator
     end
     describe "extras" do
       it "keys are accessible via instance method" do
-        message = described_class.new(**args.merge(extras: { a: 1, b: 2 }))
+        message = described_class.new(**args.merge(extras: {a: 1, b: 2}))
         expect(message.a).to eql(1)
         expect(message.b).to eql(2)
       end
@@ -74,5 +75,4 @@ module HathiTrust::Validator
       end
     end
   end
-
 end

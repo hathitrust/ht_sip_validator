@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
-
   describe Validator::MetaYml::Exists do
     let(:mocked_sip) { SIP::SIP.new("") }
 
@@ -27,5 +27,4 @@ module HathiTrust
       end
     end
   end
-
 end

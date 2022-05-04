@@ -1,13 +1,12 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
-
   describe ValidateSIPCommand, integration: true do
     describe "argument parsing" do
       include_context "with minimal config"
       include_context "with default zip"
-      include_context "with test logger"
       let(:logger) { TestLogger.new }
       before(:each) { allow(Logger).to receive(:new).and_return(logger) }
 
@@ -86,5 +85,4 @@ module HathiTrust
       end
     end
   end
-
 end

@@ -52,8 +52,14 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.17.0)
       parser (>= 3.1.1.0)
+    rubocop-performance (1.13.3)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
+    standard (1.11.0)
+      rubocop (= 1.28.2)
+      rubocop-performance (= 1.13.3)
     unicode-display_width (2.1.0)
     webrick (1.7.0)
     yard (0.9.27)
@@ -71,7 +77,7 @@ DEPENDENCIES
   pry
   rake
   rspec (~> 3.4)
-  rubocop
+  standard
   yard
 
 BUNDLED WITH

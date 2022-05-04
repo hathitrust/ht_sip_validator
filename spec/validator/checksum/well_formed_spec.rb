@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Checksums::WellFormed do
@@ -12,9 +13,9 @@ describe HathiTrust::Validator::Checksums::WellFormed do
 
   context "with well formed checksums" do
     let(:checksums_hash) do
-      { 'filename1': "b0ee419150085f64ef8311dc3919d1a3",
-        'filename2': "d2e0dceff9e2e8bce3ec82a9760f4f61",
-        'filename3': "24f9133e5b40ef61a1879df2a6de8a48" }
+      {filename1: "b0ee419150085f64ef8311dc3919d1a3",
+       filename2: "d2e0dceff9e2e8bce3ec82a9760f4f61",
+       filename3: "24f9133e5b40ef61a1879df2a6de8a48"}
     end
 
     it_behaves_like "a validator with a valid package"
@@ -23,10 +24,10 @@ describe HathiTrust::Validator::Checksums::WellFormed do
 
   context "with malformed checksums" do
     let(:checksums_hash) do
-      { 'filename1': "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
-        'filename2': "deadbeefdeadbeefdeadbeef",
-        'filename3': "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
-        'filename4': "-*//$&^fffffffffffffffffffffffff" }
+      {filename1: "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+       filename2: "deadbeefdeadbeefdeadbeef",
+       filename3: "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+       filename4: "-*//$&^fffffffffffffffffffffffff"}
     end
 
     it_behaves_like "a validator with an invalid package"

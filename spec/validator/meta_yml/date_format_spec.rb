@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
-
   describe Validator::MetaYml::DateFormat do
     let(:sip) do
       double(:sip, metadata: {

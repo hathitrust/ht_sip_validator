@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 # Ensure that every file referenced in the page data refers to a file actually
@@ -12,10 +13,10 @@ module HathiTrust
       context "when pagetags are all known" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.tif" => { "orderlabel" => "1", "label" => "IMAGE_ON_PAGE, FRONT_COVER" }))
+            .and_return(pagedata_with("00000001.tif" => {"orderlabel" => "1", "label" => "IMAGE_ON_PAGE, FRONT_COVER"}))
 
           allow(mocked_sip).to receive(:files)
-            .and_return(%w(meta.yml checksum.md5 00000001.tif))
+            .and_return(%w[meta.yml checksum.md5 00000001.tif])
         end
 
         it_behaves_like "a validator with the correct interface"
@@ -25,7 +26,7 @@ module HathiTrust
       context "with one unknown tag" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.tif" => { "label" => "GARBAGE" }))
+            .and_return(pagedata_with("00000001.tif" => {"label" => "GARBAGE"}))
         end
 
         it_behaves_like "a validator with an invalid package"
@@ -39,7 +40,7 @@ module HathiTrust
       context "with one known and one unknown tag" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.tif" => { "label" => "FRONT_COVER, GARBAGE" }))
+            .and_return(pagedata_with("00000001.tif" => {"label" => "FRONT_COVER, GARBAGE"}))
         end
 
         it_behaves_like "a validator with an invalid package"

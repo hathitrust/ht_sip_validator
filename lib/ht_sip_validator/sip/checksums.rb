@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module HathiTrust::SIP
   # Handles MD5 checksums in a checksum.md5 or similar format
   class Checksums
@@ -13,9 +14,8 @@ module HathiTrust::SIP
     def initialize(checksum_file)
       @checksums = {}
 
-      check_for_bom(checksum_file).each_line() do |line|
-
-        if m = line.strip.match(/\b[a-fA-F0-9]{32}\b/) and filename = extract_filename(m)
+      check_for_bom(checksum_file).each_line do |line|
+        if (m = line.strip.match(/\b[a-fA-F0-9]{32}\b/)) && (filename = extract_filename(m))
           checksum = m.to_s.downcase
           @checksums[File.basename(filename)] = checksum
         end
@@ -29,16 +29,16 @@ module HathiTrust::SIP
     private
 
     def check_for_bom(checksum_file)
-      maybe_bom = checksum_file.bytes[0,2]
+      maybe_bom = checksum_file.bytes[0, 2]
 
-      if maybe_bom == [0xFF,0xFE]
-        encoding = 'UTF-16LE'
-      elsif maybe_bom == [0xFE,0xFF]
-        encoding = 'UTF-16BE'
+      if maybe_bom == [0xFF, 0xFE]
+        encoding = "UTF-16LE"
+      elsif maybe_bom == [0xFE, 0xFF]
+        encoding = "UTF-16BE"
       end
 
       if encoding
-        checksum_file.force_encoding(encoding)[1..-1].encode("US-ASCII")
+        checksum_file.force_encoding(encoding)[1..].encode("US-ASCII")
       else
         checksum_file
       end
@@ -48,11 +48,11 @@ module HathiTrust::SIP
       (match.pre_match.strip + match.post_match.strip).
         # Remove delimeters & random asterisks that some md5 programs put in there.
         # Hope nobody has legit filenames with leading or trailing commas or asterisks
-        gsub(/^[*,]/,'').
-        gsub(/[*,]$/,'').
+        gsub(/^[*,]/, "")
+        .gsub(/[*,]$/, "").
         # Handle windows-style paths
-        tr('\\','/').
-        downcase
+        tr("\\", "/")
+        .downcase
     end
   end
 end

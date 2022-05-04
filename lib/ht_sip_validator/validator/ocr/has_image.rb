@@ -2,11 +2,9 @@ require "set"
 
 # frozen_string_literal: true
 module HathiTrust::Validator
-
   # Validates that OCR all has corresponding images and that coordinate OCR has
   # corresponding plain-text OCR
   class OCR::HasImage < Base
-
     include OCR
 
     def perform_validation
@@ -18,7 +16,5 @@ module HathiTrust::Validator
         create_error(missing_image_message.call(ocr_seqs, seq))
       end
     end
-
   end
-
 end

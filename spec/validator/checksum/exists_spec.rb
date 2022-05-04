@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Checksums::Exists do
@@ -23,7 +24,7 @@ describe HathiTrust::Validator::Checksums::Exists do
 
       it "returns an appropriate error" do
         expect(human_messages(validator.validate))
-          .to include(a_string_matching(/missing #{HathiTrust::SIP::CHECKSUM_FILE}/))
+          .to include(a_string_matching(/missing #{HathiTrust::SIP::CHECKSUM_FILE}/o))
       end
     end
   end

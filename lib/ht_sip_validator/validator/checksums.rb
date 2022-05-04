@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module HathiTrust::Validator::Checksums
   # File names that are exempt from having checksums
   EXEMPT_FILENAMES = [HathiTrust::SIP::CHECKSUM_FILE, "Thumbs.db", ".DS_Store"].freeze

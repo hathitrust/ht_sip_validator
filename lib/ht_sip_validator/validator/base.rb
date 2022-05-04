@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module HathiTrust::Validator
-
   # Interface of validators
   class Base
     attr_reader :sip
@@ -36,7 +35,5 @@ module HathiTrust::Validator
     def create_warning(params)
       create_message(params.merge(level: Message::WARNING))
     end
-
   end
-
 end

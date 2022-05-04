@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust
@@ -20,7 +21,7 @@ module HathiTrust
       context "when page data has a sequence number only" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with(1 => { "label" => "FRONT_COVER" }))
+            .and_return(pagedata_with(1 => {"label" => "FRONT_COVER"}))
         end
 
         it_behaves_like "a validator with an invalid package"

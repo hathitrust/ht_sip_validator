@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Package::PDFCount do
@@ -8,7 +9,7 @@ describe HathiTrust::Validator::Package::PDFCount do
   describe "#validate" do
     context "when package contains no pdfs" do
       let(:file_list) do
-        %w(00000001.tif checksum.md5 meta.yml)
+        %w[00000001.tif checksum.md5 meta.yml]
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
@@ -18,7 +19,7 @@ describe HathiTrust::Validator::Package::PDFCount do
 
     context "when package contains one pdf" do
       let(:file_list) do
-        %w(00000001.tif whatever.pdf checksum.md5 meta.yml)
+        %w[00000001.tif whatever.pdf checksum.md5 meta.yml]
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 
@@ -28,7 +29,7 @@ describe HathiTrust::Validator::Package::PDFCount do
 
     context "when package contains two pdfs" do
       let(:file_list) do
-        %w(00000001.tif whatever.pdf someother.pdf checksum.md5 meta.yml)
+        %w[00000001.tif whatever.pdf someother.pdf checksum.md5 meta.yml]
       end
       before(:each) { allow(mocked_sip).to receive(:files).and_return(file_list) }
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 describe HathiTrust::Validator::Package::DuplicateFilenames do
@@ -8,7 +9,7 @@ describe HathiTrust::Validator::Package::DuplicateFilenames do
   describe "#validate" do
     context "when package has unique filenames" do
       let(:path_list) do
-        %w(foo/00000001.tif foo/checksum.md5 foo/meta.yml)
+        %w[foo/00000001.tif foo/checksum.md5 foo/meta.yml]
       end
       before(:each) { allow(mocked_sip).to receive(:paths).and_return(path_list) }
 
@@ -18,7 +19,7 @@ describe HathiTrust::Validator::Package::DuplicateFilenames do
 
     context "when package has duplicate filenames in different paths" do
       let(:path_list) do
-        %w(foo/00000001.tif bar/00000001.tif foo/checksum.md5 foo/meta.yml)
+        %w[foo/00000001.tif bar/00000001.tif foo/checksum.md5 foo/meta.yml]
       end
       before(:each) { allow(mocked_sip).to receive(:paths).and_return(path_list) }
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 # specs for HathiTrust SIP validator service
 module HathiTrust
-
   class Validator::ConfigTestValidator; end
 
   describe Configuration do
@@ -47,5 +47,4 @@ module HathiTrust
       end
     end
   end
-
 end

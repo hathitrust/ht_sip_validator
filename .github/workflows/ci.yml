@@ -17,6 +17,9 @@ jobs:
           docker-compose build
           docker-compose run --rm test bundle install
 
+      - name: Run standardrb
+        run: docker-compose run --rm test bundle exec standardrb
+
       - name: Run tests
         run: docker-compose run --rm test
 

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 # specs for HathiTrust submission package
 module HathiTrust::SIP
-
   describe FILE_GROUP_EXTENSIONS do
     [:image, :coord_ocr, :ocr].each do |group|
       it "stores array of strings in FILE_GROUP_EXTENSIONS[#{group}]" do
@@ -52,10 +52,6 @@ module HathiTrust::SIP
         include_context "with default zip"
         it "parses meta.yml" do
           expect(described_class.new(zip_file).metadata).to eql(zip_meta)
-        end
-
-        it "returns a string for the timestamp" do
-          m= described_class.new(zip_file).metadata
         end
       end
 
@@ -116,7 +112,7 @@ module HathiTrust::SIP
 
       it "cleans up the directory after extraction" do
         dir_saved = nil
-        described_class.new(zip_file).extract {|dir| dir_saved = dir }
+        described_class.new(zip_file).extract { |dir| dir_saved = dir }
         expect(dir_saved).not_to be_empty
         expect(File.exist?(dir_saved)).to be_falsey
       end
@@ -124,8 +120,8 @@ module HathiTrust::SIP
 
     describe "#group_files" do
       let(:file_extensions) { [".bar", ".baz"] }
-      let(:target_files) { %w(00000003.jp2 00000002.tif 00000001.jp2) }
-      let(:other_files) { %w(00000001.txt 00000002.txt 00000003.txt checksum.md5 meta.yml) }
+      let(:target_files) { %w[00000003.jp2 00000002.tif 00000001.jp2] }
+      let(:other_files) { %w[00000001.txt 00000002.txt 00000003.txt checksum.md5 meta.yml] }
       let(:file_list) { other_files + target_files }
       subject { SIP.new("") }
 
@@ -154,8 +150,8 @@ module HathiTrust::SIP
 
       it "yields the filename and a filehandle for each file in the zip" do
         sip = described_class.new(zip_file)
-        expected_args = sip.files.map {|filename| [filename, Zip::InputStream] }
-        expect {|b| sip.each_file(&b) }.to yield_successive_args(*expected_args)
+        expected_args = sip.files.map { |filename| [filename, Zip::InputStream] }
+        expect { |b| sip.each_file(&b) }.to yield_successive_args(*expected_args)
       end
     end
 

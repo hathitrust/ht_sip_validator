@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 Gem::Specification.new do |s|
   s.name = "ht_sip_validator"
   s.version = "0.2.2"
-  s.date = "2017-01-19"
   s.summary = "HathiTrust SIP validator"
 
   s.description = %( Tools to validate submission information packages for

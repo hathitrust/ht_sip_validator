@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 require "zip"
 
@@ -6,8 +7,8 @@ module HathiTrust::SIP
   describe Checksums do
     let(:foo_md5) { "66d3b6e55fd94f1752bc8654335d8ff4" }
     let(:bar_md5) { "c2223b5c324e395fd9f9bb249934ac87" }
-    let(:foo_result) { { "foo" => foo_md5 } }
-    let(:bar_result) { { "bar" => bar_md5 } }
+    let(:foo_result) { {"foo" => foo_md5} }
+    let(:bar_result) { {"bar" => bar_md5} }
     let(:foobar_result) { foo_result.merge(bar_result) }
 
     describe "#initialize" do
@@ -17,9 +18,9 @@ module HathiTrust::SIP
       let(:path_sample) { "#{foo_md5} /home/foo/bar/some/long/path/foo" }
       let(:windows_sample) { foo_md5 + ' *C:\Users\My Name\with\spaces \path\foo' }
       let(:titlecase_sample) { "#{foo_md5} Foo" }
-      let(:powershell_sample) { File.open(File.dirname(__FILE__) + "/../fixtures/powershell_checksum.md5", "rb").read() }
+      let(:powershell_sample) { File.binread(File.dirname(__FILE__) + "/../fixtures/powershell_checksum.md5") }
       let(:backwards_sample) { "foo  #{foo_md5}" }
-      let(:delimited_sample) { "#{foo_md5},foo"}
+      let(:delimited_sample) { "#{foo_md5},foo" }
       let(:uppercase_sample) { "#{foo_md5.upcase}  foo" }
 
       include_context "with default zip"
@@ -64,7 +65,6 @@ module HathiTrust::SIP
       it "accepts checksums formatted as csv" do
         expect(described_class.new(delimited_sample).checksums).to eql(foo_result)
       end
-
     end
 
     describe "#checksum_for" do

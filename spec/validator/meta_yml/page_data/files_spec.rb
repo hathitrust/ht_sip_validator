@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 # Ensure that every file referenced in the page data refers to a file actually
@@ -12,10 +13,10 @@ module HathiTrust
       context "when all files are present for the provided pagedata" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.tif" => { "label" => "FRONT_COVER" }))
+            .and_return(pagedata_with("00000001.tif" => {"label" => "FRONT_COVER"}))
 
           allow(mocked_sip).to receive(:files)
-            .and_return(%w(meta.yml checksum.md5 00000001.tif))
+            .and_return(%w[meta.yml checksum.md5 00000001.tif])
         end
 
         it_behaves_like "a validator with the correct interface"
@@ -25,10 +26,10 @@ module HathiTrust
       context "when a file is missing that is referenced in the pagedata" do
         before(:each) do
           allow(mocked_sip).to receive(:metadata)
-            .and_return(pagedata_with("00000001.jp2" => { "label" => "FRONT_COVER" }))
+            .and_return(pagedata_with("00000001.jp2" => {"label" => "FRONT_COVER"}))
 
           allow(mocked_sip).to receive(:files)
-            .and_return(%w(meta.yml checksum.md5 00000001.tif))
+            .and_return(%w[meta.yml checksum.md5 00000001.tif])
         end
 
         it_behaves_like "a validator with warnings and only warnings"

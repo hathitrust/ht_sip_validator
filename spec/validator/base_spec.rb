@@ -1,25 +1,26 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 
 module HathiTrust::Validator
-  describe Base do
-    class TestBaseValidator < Base
-      def initialize(validator_result)
-        super("")
-        @validator_result = validator_result
-      end
-
-      def perform_validation
-        @validator_result
-      end
+  class TestBaseValidator < Base
+    def initialize(validator_result)
+      super("")
+      @validator_result = validator_result
     end
 
+    def perform_validation
+      @validator_result
+    end
+  end
+
+  describe Base do
     describe "message generation" do
-      let(:params) { { validation_type: :test, human_message: "sdfsdfsda" } }
+      let(:params) { {validation_type: :test, human_message: "sdfsdfsda"} }
       let(:validator) { Base.new(double(:sip)) }
       before(:each) do
         # Override the method class to just return its arguments
-        allow(HathiTrust::Validator::Message).to receive(:new) {|args| args }
+        allow(HathiTrust::Validator::Message).to receive(:new) { |args| args }
       end
 
       it "#create_message creates the correct message" do
