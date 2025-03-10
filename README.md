@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> This tool is not currently developed or maintained and is not recommended for use.
+> The production HathiTrust package validation and ingest code is available as a Docker image: https://github.com/hathitrust/feed/pkgs/container/feed.
+
 # ht_sip_validator [![Build Status](https://travis-ci.org/hathitrust/ht_sip_validator.svg?branch=master)](https://travis-ci.org/hathitrust/ht_sip_validator)
 
 # HathiTrust Submission Ingest Package Validator
